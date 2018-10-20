@@ -1,0 +1,94 @@
+.codelists .kvp{
+	padding: 3px;
+	margin: 2px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.codelists .kvp input.key{
+	background: lightblue;
+	border: 1px solid #333;
+	padding: 3px;
+	float:left;
+}
+
+.codelists .kvp input.value{
+	/*width: 80%;*/
+}
+
+.codelists .kvp label.key{
+  display:inline-block;
+  color:black;
+  text-transform:capitalize;
+  width:8em;
+}
+.codelists .kvp .front, .codelists .kvp .actions{
+	float: left;
+}
+.codelists .kvp a.another, .codelists .kvp a.remove, .codelists .kvp a.configure{
+	cursor: pointer;
+	background: url(../images/plus-small.png) no-repeat;
+	display: block;
+	width: 12px;
+	height: 12px;
+	margin-top:3px;
+	text-indent: -9000px;
+	float: left;
+}
+.codelists .kvp a.remove{
+	background: url(../images/minus-small.png) no-repeat;
+}
+.codelists .kvp a.configure{
+	background: url(../images/gear-small.png) no-repeat;
+}
+.codelists .object{
+	border: 1px dotted #999;
+	margin-left: 15px;
+	clear:both;
+}
+.codelists .array{
+	border: 1px dashed #999;
+	margin-left: 15px;
+}
+
+.left{
+	float: left;
+	width: 48%;
+}
+.right{
+	float: right;
+	width: 48%;
+}
+.handle{
+	cursor: move;
+	background: url(../images/arrow-move.png) 0 5px no-repeat;
+	display:block;
+	float: left;
+	width: 20px;
+	height: 20px;
+	text-indent: -9000px
+}
+.ui-state-highlight { height: 1.5em; line-height: 1.2em; background: #eee}
+
+#input{
+	width: 100%;
+	height: 350px;
+}
+#output{
+	width: 100%;
+	height: 350px;
+}
+#reformed{
+	clear: both;
+	display: block;
+	margin: 15px 0;
+}
+
+#reformforjson{
+	font-weight: bold;
+}
+#jsonthis{
+	font-weight: bold;
+}
+#prettythis{
+	color: #333;
+}

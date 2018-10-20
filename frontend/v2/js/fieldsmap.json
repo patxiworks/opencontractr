@@ -1,0 +1,41 @@
+{
+    "for-who": {
+        "tab": "For Who?",
+        "title": "Who is purchasing?",
+        "icon": "fa-github",
+        "description": "This field takes in the buyer and the procuring entity",
+        "fields": ["buyer"],
+        "formfields": [
+            {         
+                "id": "organisation-name",
+                "label": "Organisation name",
+                "placeholder": "What's the name of the organisation?",
+                "visible": true,
+                "multiple": false,
+                "ocdsfields": ["buyer/name","tender/procuringEntity/name"]
+            },
+            {         
+                "id": "organisation-id",
+                "label": "Organisation ID",
+                "placeholder": false,
+                "visible": false,
+                "multiple": false,
+                "ocdsfields": ["buyer/id","tender/procuringEntity/id"]
+            }
+        ]
+    },
+    "what": {
+        "tab": "What?",
+        "title": "What is to be purchased?",
+        "description": "",
+        "formfields": [
+            {         
+                "id": "organisation-name",
+                "visible": true,
+                "multiple": false,
+                "placeholder": "What's the name of the organisation?",
+                "ocdsfields": ["buyer/name","tender/procuringEntity/name"]
+            }
+        ]
+    }
+}

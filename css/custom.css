@@ -1,0 +1,286 @@
+/* schema and data textboxes */
+div#data {
+    display: none;
+}
+
+/* tabs */
+.tab.vis {
+    display: inline-block;
+}
+
+.tab.invis {
+    display: none;
+}
+
+#previewcontrols {
+    float: right;
+}
+
+
+
+/* validation */
+label.mandatory {
+    color: #ff0000 !important;
+}
+.validation-error {
+    border: 1px solid #ff0000 !important;
+}
+
+/* edit text in tooltip */
+a.editdesc:hover {
+    color: #ff7e7c !important;
+    cursor: pointer;
+}
+
+/* ssi-modal window */
+.ssi-modalWindow .ssi-modalTitle {
+    font-style: normal !important;
+    font-size: 16px !important;
+    border-bottom: none !important;
+}
+
+.ssi-modalWindow input {
+    border-color: #999 !important;
+    color: #333 !important;
+}
+
+/* suggestion box */
+#searchbox {
+    border: 2px solid #323238;
+    background: #323238;
+}
+.suggestions {
+    z-index: 999;
+}
+.suggestions .suggest_item.last {
+    border-bottom: 1px solid #666;
+    /*border-radius: 0px 0px 5px 5px;*/
+    padding-right: inherit !important;
+}
+.suggestions .suggest_item.first {
+    border-top: 1px solid #666;
+    margin-top: 0.5em;
+}
+.suggestions .suggest_item {
+    background: #Fff;
+    border: 1px solid #666;
+    border-top: 0px;
+    padding: 5px 0 10px 10px;
+    font-size: 1em;
+    font-weight: 300;
+    text-align: left;
+    color: #333;
+    margin: 0px;
+    cursor: pointer;
+}
+.suggestions .suggest_item .description {
+    color: #ccc;
+}
+.suggestions .suggest_item:hover {
+    opacity: 1;
+}
+.suggestions .suggest_item.selected {
+    background: #eee;
+}
+.suggestions .suggestion_title {
+    font-weight: bold;
+}
+
+/* publish buttons */
+div#publishbuttons {
+    text-align: center
+}
+#publishbuttons button {
+    margin: 0 10px 0 0;
+}
+#publishbuttons .publishall {
+    display: block !important;
+    line-height: normal !important;
+    margin: 0 auto;
+}
+#publishbuttons .input {
+    margin:0 auto;
+    display: inline-block;
+}
+#publishbuttons .publishall:active {
+    background-color: #fff !important;
+}
+
+
+span .data-title {
+    font-size: 0.5em !important;
+}
+
+
+
+
+/**** Meta Boxes *****/
+
+#sections_meta_box > .inside h2 {
+    font-weight: bold;
+}
+
+#sections_meta_box > .inside .postbox {
+    background: #FFFBF6   ;
+}
+
+#sections_meta_box > .inside .postbox h2 span .desc {
+    font-weight: normal !important;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
+.postbox span.step {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 10px;
+    color: #ff701b;
+}
+
+.postbox .stageflag {
+    margin-left: 5px;
+}
+
+table.releasetaglist {
+    margin: 0 0 20px 0;
+}
+
+table.releasetaglist td {
+    font-weight: bold;
+}
+
+.extra_services {
+    padding: 10px 0 0;
+    clear: both;
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    text-align: right;
+}
+
+/**** Validation *****/
+
+#validatemessage {
+    float: left;
+    color: #0f93ff;
+}
+
+.validation-error-table {
+    border-collapse: collapse;
+}
+
+.validation-error-table thead  {
+    background-color: #1a93ff;
+    color: #fff;
+}
+
+.validation-error-table th, .validation-error-table td {
+    padding: 10px;
+}
+
+
+/**** RenderJSON *****/
+
+.renderjson a { text-decoration: none; }
+.renderjson .disclosure { color: crimson; font-size: 150%; }
+.renderjson .syntax { color: grey; }
+.renderjson .string { color: darkred; }
+.renderjson .number { color: darkcyan; }
+.renderjson .boolean { color: blueviolet; }
+.renderjson .key    { color: darkblue; }
+.renderjson .keyword { color: blue; }
+.renderjson .object.syntax { color: lightseagreen; }
+.renderjson .array.syntax  { color: orange; }
+
+
+/**** Common ******/
+
+hr.divider {
+    margin: 30px 0 20px;
+    height: 1px;
+    border-style: dashed;
+}
+
+.errormessage {
+    color: #ff0000;
+}
+
+
+/****** tooltipster ******/
+
+.tooltipster-noir {
+	border-radius: 3px; 
+	border: 1px solid #fff;
+	background: #000;
+	color: #eee;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+.tooltipster-noir .tooltipster-content {
+	font-family: 'Georgia', serif;
+	font-size: 12px;
+	line-height: 16px;
+	padding: 8px 10px;
+}
+
+
+/******** Advanced Search ********/
+
+#filters {
+    margin: 30px 0;
+    padding: 10px 10px;
+    border: 1px dashed #666;
+    /*border-left: none;
+    border-right: none;*/
+    background: #fafafa;
+}
+
+#filters .button-primary {
+    float: right;
+}
+
+#filters .filtervalue, #ocds_search_query .filtervalue {
+    padding: 4px;
+    border-radius: 5px;
+    width: 200px;
+}
+
+table#filteritems {
+    margin-bottom: 10px;
+}
+
+table#filteritems td.fieldname {
+    text-align: right;
+}
+
+table#filteritems .stages, table#filteritems .fields {
+    width: 100%;
+}
+
+#ocds_search_container {
+    padding: 5px;
+}
+
+#ocds_search_query {
+    padding: 0 15px;
+}
+
+#ocds_search_query .button {
+    float: right;
+}
+
+#ocds_search_query .operator {
+    margin-top: -2px;
+}
+
+#ocds_search_query .filtervalue {
+    height: 28px;
+}
+
+.VS-search .VS-search-box {
+    border: 1px solid #999 !important;
+    border-radius: 5px !important;
+}
+
+th.dynatable-head a {
+    color: #333;
+    font-weight: bold;
+}

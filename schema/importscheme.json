@@ -1,0 +1,24 @@
+{
+          "documents": {
+                    "id":"id",
+                    "title":"title",
+                    "url":"url",
+                    "datePublished":"created",
+                    "dateModified":"modified",
+                    "format":"format",
+                    "language":"language"
+          },
+          "parties": {
+                    "parties-name":"organisation.name",
+                    "parties-address-streetAddress":"organisation.address.streetAddress",
+                    "parties-address-locality":"organisation.address.locality",
+                    "parties-address-region":"organisation.address.region",
+                    "parties-address-postalCode":"organisation.address.postalCode",
+                    "parties-address-countryName":"organisation.address.countryName",
+                    "parties-contactPoint-name":"organisation.contactPoint.name",
+                    "parties-contactPoint-email":"organisation.contactPoint.email",
+                    "parties-contactPoint-telephone":"organisation.contactPoint.telephone",
+                    "parties-contactPoint-faxNumber":"organisation.contactPoint.faxNumber",
+                    "parties-contactPoint-url":"organisation.contactPoint.url"
+          }
+}

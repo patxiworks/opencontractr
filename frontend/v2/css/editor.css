@@ -1,0 +1,488 @@
+/* defaults */
+
+input,
+select,
+textarea {
+    outline: none;
+}
+
+/* main content */
+
+#header {
+    padding-bottom: 6rem !important;
+}
+
+#header li.subtitle h4 .edit-info {
+	text-transform: none;
+	color: #504f4f;
+	font-weight: 400;
+}
+
+#header li.subtitle h4 .create-info {
+	text-transform: none;
+	color: #eee;
+}
+
+#header li.subtitle h4 .score {
+    color: #cdcfd5;
+}
+
+#subheader {
+	color: #fff;
+    line-height: 4rem;
+    margin: -4rem auto 0 auto;
+    overflow: hidden;
+    padding: 0 2rem 0 0;
+    position: relative;
+    width: calc(100% - 4rem);
+    max-width: 72rem;
+    z-index: 3;
+}
+
+#subheader h4 {
+	display: inline;
+}
+
+#subheader h4,
+#subheader h4 a {
+	color: #eee;
+	font-weight: normal
+}
+
+#subheader h4 select {
+    width: 400px;
+    height: 2rem;
+    line-height: 24px;
+    display: inline;
+	font-size: 12px;
+    border: none;
+}
+
+#subheader span.releasetags {
+	position: absolute;
+	right: 0;
+    width: 250px;
+}
+
+#subheader span.releasetags select {
+	border-color: #000;
+    background: #e8e7e7;
+    color: #000;
+    height: 2rem;
+    line-height: 24px;
+    display: inline;
+	font-size: 12px;
+}
+
+#subheader span.tooltip {
+	position: absolute;
+    right: 255px;
+}
+
+#nav {
+	margin-top: 0;
+	padding: 0;
+}
+
+#subnav {
+    /*height: 4rem;*/
+    line-height: 3rem;
+    margin: 0rem auto 0 auto;
+    overflow: hidden;
+    padding: 0px 2rem 0 0;
+    position: relative;
+    width: calc(100% - 4rem);
+    max-width: 72rem;
+    z-index: 2;
+	margin-top: -60px;
+	display: none;
+}
+
+#nav span.open {
+	cursor: pointer;
+    position: absolute;
+    right: 10px;
+	margin-top: 20px;
+}
+
+#nav ul.links li.action {
+	display: none;
+}
+
+#subnav span.close {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    margin-top: -65px;
+}
+
+#subnav #stickysubnav {
+    width: 72rem;
+	padding: 10px 2rem 10px 0;
+	background: #f1eded;
+}
+
+#subnav #stickysubnav.submenutop {
+	top: 59px;
+    z-index: 3;
+    overflow: hidden;
+    position: fixed;
+    max-width: 72rem;
+	box-shadow: 0 6px 6px -6px #333;
+}
+
+#subnav ul {
+	display: flex;
+	list-style: none;
+	margin-bottom: 0px;
+}
+
+#subnav li div {
+	padding: 0 2rem;
+	position: absolute;
+	right: 0;
+}
+
+#subnav #jumplinks {
+	display: flex;
+}
+
+#subnav #jumplinks .label {
+	width: 70px;
+}
+
+#subnav #jumplinks .select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 10px !important;
+}
+
+#subnav #jumplinks .select2-container .select2-selection--single {
+	height: 44px !important;
+	padding: 8px;
+}
+
+#subnav input[type="checkbox"] {
+    appearance: none;
+    display: inline;
+    /* float: left; */
+    /* margin-right: -2rem; */
+    opacity: 1;
+    width: 1rem;
+}
+
+#main .wrap {
+	padding: 0rem 4rem 4rem 4rem;
+}
+
+#main .edit-intro, #main .edit-intro p {
+	text-align: center;
+}
+
+#main .edit-intro p {
+	margin-bottom: 0;
+}
+
+#main .edit-intro h2 a.edit {
+	color: #008751;
+}
+
+#main .edit-intro h2 a.edit:hover {
+	color: #17b26e !important;
+}
+
+#subfooter {
+	color: #fff;
+    line-height: 4rem;
+    margin: 0rem auto 0 auto;
+    overflow: hidden;
+    padding: 0 2rem 0 0;
+    position: relative;
+    width: calc(100% - 4rem);
+    max-width: 72rem;
+    z-index: 3;
+}
+
+#nav input.button.save {
+	position: absolute;
+	right: 30px;
+	background-color: #fff;
+	border: 1px solid #000;
+	margin: 8px 10px 0 0;
+}
+
+/* Form elements */
+form,
+form fieldset.object,
+form fieldset.array {
+	width: 100% !important;
+	margin: 0 !important;
+}
+
+form div.kvp {
+	border: 0px solid #000;
+    padding: 0 0px 0px 50px;
+    margin: 20px 0;
+}
+
+form > .object > .front > .kvp,
+form > .object > .front > .kvp > .front {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+form > .object > .front > .kvp > .front > .prop-value > .object > .front > .kvp {
+	padding: 0;
+	margin: 0;
+}
+
+form > .object > .front > .kvp > .front > .prop-name > label {
+	display: none;
+}
+
+form fieldset.object {
+	border: 0px solid #eee;
+}
+
+form .kvp div.front,
+#TB_window .kvp div.front {
+	margin: 30px 0 0 !important;
+}
+
+form label,
+form label.withInput,
+#TB_window label.withInput {
+    margin: 0;
+    border: 1px solid #eee;
+    padding: 5px 20px 5px 5px;
+    background: #eee;
+    color: #fff;
+}
+
+form label.mandatory {
+    color: #f58080 !important;
+}
+
+form label {
+	color: #333;
+}
+
+#TB_window label.buyer {
+	display: none;
+}
+
+form label.withInput a,
+#TB_window label.withInput a {
+    color: #008751 !important;
+}
+
+form label.focus,
+#TB_window label.focus {
+    border: 1px solid #333;
+    background: #333;
+    color: #1ff38f;
+}
+
+form input.sidefocus,
+#TB_window input.sidefocus {
+	border: 2px solid #008751;
+	border-bottom: none;
+	border-top: none;
+	border-radius: 0px;
+}
+
+form .shadow,
+#TB_window .shadow {
+	box-shadow: 0 5px 10px rgba(0,0,0,.2) !important;
+	background: #fffcd4 !important;
+	border: 2px solid #008751;
+	border-top: none;
+}
+
+form input, form select, form textarea,
+#TB_window input, #TB_window select, #TB_window textarea {
+	border-top: 0px !important;
+	border-radius: 0 0 5px 5px;
+    background: #fff !important;
+}
+
+form table.array td.item-value {
+	width: 100%;
+}
+
+/**** Select2 dropdown ******/
+
+form .select2-container--default .select2-selection--single,
+#TB_window .select2-container--default .select2-selection--single {
+    background-color: transparent;
+    border: 2px solid #eee;
+	border-top: none;
+    border-radius: 0 0 5px 5px;
+    padding: 0 1rem;
+}
+
+form .select2-container .select2-selection--single,
+#TB_window .select2-container .select2-selection--single {
+    height: 3rem;
+}
+
+form .select2-container--default .select2-selection--single .select2-selection__rendered,
+#TB_window .select2-container--default .select2-selection--single .select2-selection__rendered {
+	line-height: 40px;
+	padding-left: 0;
+}
+
+form .select2-selection.shadow,
+#TB_window .select2-selection.shadow {
+	border: 1px solid #999;
+	border-top: none;
+}
+
+.select2-dropdown {
+    background-color: blue;
+    /*border: 2px solid #eee !important;*/
+	box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #008751 !important;
+    color: white;
+}
+
+/******/
+
+.nav-tab-wrapper,
+#imported-items,
+#party-items {
+	display: none;
+}
+
+.add-new, .help {
+	float: right;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.ui-autocomplete {
+	float: left;
+	position: absolute;
+	border-radius: 5px;
+	padding: 0;
+	border: 1px solid #000;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+	min-width: 100px;
+	max-width: 100%;
+	max-height: 400px;
+	background: #fff;
+	color: #000;
+	z-index: 2 !important;
+	overflow-y: auto;
+	overflow-x: hidden;
+	box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.select2-dropdown {
+	z-index: 2 !important;
+}
+
+.select2-dropdown.buyer-name {
+	z-index: 100051 !important;
+}
+
+.select2-dropdown.fieldpaths {
+	z-index: 3 !important;
+}
+
+.ui-autocomplete.buyer-name { /* specific to this dropdown */
+	z-index: 100051 !important;
+	position: fixed;
+}
+
+.ui-menu-item {
+	list-style-type: none;
+	padding: 10px;
+}
+ 
+.ui-menu-item:hover {
+	background: #333;
+	color: #fff;
+}
+
+#TB_window #TB_ajaxContent {
+	padding-top: 20px !important;
+}
+
+#TB_window .screen-reader-text {
+	display: none;
+}
+
+#TB_window input.organisation-title {
+	border: 1px solid #000 !important;
+	margin: 5px 0 0;
+	background: #fff;
+	border-radius: 0;
+}
+
+#TB_window table.organisation-info {
+	margin: 30px 0 !important;
+}
+
+#TB_window .organisation-info-title {
+	color: #008751;
+	font-weight: bold;
+}
+
+#TB_window .organisation-info td.label {
+	width: 30%;
+}
+
+#TB_window .organisation-info input {
+	border: 1px solid #ccc !important;
+    background: #fff;
+    border-radius: 0;
+}
+   
+#TB_window .org-error {
+	margin-left: 20px;
+	color: #ff0000;
+}
+
+
+
+#subheader .select2-container--default .select2-selection--single {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+#subheader .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #eee;
+    line-height: 26px;
+}
+
+#subheader .contract-selected {
+    border: 1px solid #aaa !important;
+    color: #999;
+}
+
+.contract-dropdown {
+    z-index: 4 !important;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.contract-dropdown .select2-search__field {
+    line-height: 0;
+    font-size: 12px;
+    outline: none;
+}
+
+.contract-dropdown .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #000 !important;
+    color: white;
+}
+
+#subheader .select2-selection__arrow {
+    display: none;
+}

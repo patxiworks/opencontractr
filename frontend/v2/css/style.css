@@ -1,0 +1,225 @@
+#main {
+    
+}
+#header li.subtitle h4 .create {
+	text-transform: none;
+	color: #666;
+}
+#fieldsource {
+    visibility: hidden;
+    height: 0;
+}
+#subheader {
+    margin: -5rem auto 0 auto;
+}
+#subheader h4 {
+    color: #e4e3e3;
+    font-weight: bold;
+}
+nav {
+    background: none !important;
+}
+nav h2 {
+    font-weight: normal;
+}
+nav#title input {
+    color: #008751;
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    -moz-transition: -moz-transform 1s ease, opacity 1s ease;
+    -webkit-transition: -webkit-transform 1s ease, opacity 1s ease;
+    -ms-transition: -ms-transform 1s ease, opacity 1s ease;
+    transition: transform 1s ease, opacity 1s ease;
+    height: 4rem;
+    line-height: 4rem;
+    margin: 0rem auto 3rem auto;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    width: calc(100% - 4rem);
+    max-width: 72rem;
+    border: none;
+    z-index: 3;
+    font-size: 2rem;
+}
+#steps{
+    overflow:hidden;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.step{
+    float:left;
+    width:1020px;
+}
+#nav input.button.save {
+    background: #008751;
+    color: #fff !important;
+    border: none;
+    right: 0;
+    margin-right: 0;
+}
+
+#nav .buttons.active {
+    background: none !important;
+}
+#nav ul.links li a {
+    padding: 0 1.5rem !important;
+}
+#nav ul.links li.buttons {
+    position: absolute;
+    right: 0;
+}
+#navigation{
+    
+}
+#navigation ul{
+    list-style:none;
+	float:left;
+}
+#navigation ul li{
+	float:left;
+    position:relative;
+	margin:0px 5px;
+}
+#navigation ul li a{
+    display:block;
+    color:#fff;
+    outline:none;
+    font-weight:bold;
+    text-decoration:none;
+    padding:0px 20px;
+}
+#navigation ul li a:hover,
+#navigation ul li.selected a{
+    background: #fff;
+    color:#008751 !important;
+}
+#navigation span.icon {
+    color: #008751;
+}
+span.checked{
+    background:transparent url(../images/checked.png) no-repeat top left;
+    position:absolute;
+    top:0px;
+    width:20px;
+    height:20px;
+}
+span.error{
+    background:transparent url(../images/error.png) no-repeat top left;
+    position:absolute;
+    top:0px;
+    width:20px;
+    height:20px;
+}
+#steps form fieldset{
+    border:none;
+    padding-bottom:20px;
+    width: auto;
+}
+#steps form legend{
+    text-align:left;
+    color:#333;
+    font-size:24px;
+    text-shadow:1px 1px 1px #fff;
+    font-weight:bold;
+    padding:5px 0px 5px 10px;
+    margin:10px 0px;
+    margin-left: 100px;
+}
+#steps form p{
+    /*float:left;*/
+    clear:both;
+    margin:10px 0px;
+    background-color:#f4f4f4;
+    border:1px solid #fff;
+    width:75%;
+    padding:10px;
+    margin-left:100px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow:0px 0px 3px #aaa;
+    -webkit-box-shadow:0px 0px 3px #aaa;
+    box-shadow:0px 0px 3px #aaa;
+}
+#steps form p.description {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 0;
+    color: #bdbcbc;
+}
+#steps form p label{
+    float:left;
+    text-align:right;
+    margin-right:15px;
+    line-height:26px;
+    color:#333;
+    text-shadow:1px 1px 1px #fff;
+    font-weight:bold;
+}
+#steps form input,
+#steps form textarea,
+#steps form select {
+    background: #ffffff;
+    outline: none;
+    color: #008751;
+    font-weight: bold;
+}
+#steps form select {
+    padding-left: 15px;
+}
+#steps form .select2-selection__rendered {
+    font-weight: bold;
+    color: #008751;
+}
+#steps form input::placeholder {
+    font-weight: normal;
+    color: #eee;
+}
+#steps form input:focus{
+    -moz-box-shadow:0px 0px 3px #aaa;
+    -webkit-box-shadow:0px 0px 3px #aaa;
+    box-shadow:0px 0px 3px #aaa;
+    background-color:#FFFEEF;
+}
+#steps form p.submit{
+    background:none;
+    border:none;
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+    box-shadow:none;
+}
+#steps form button:hover {
+    background:#d8d8d8;
+    color:#666;
+    text-shadow:1px 1px 1px #fff;
+}
+
+#steps form fieldset.object {
+	width: auto !important;
+}
+
+#steps fieldset.step > .widget > .kvp > .front {
+	width: 85%;
+}
+
+#steps .kvp {
+	padding: 0;
+}
+
+#steps .kvp.widget {
+    margin-left: 100px;
+}
+
+legend .title {
+    padding-left: 15px;
+    color: #008751;
+}
+
+.ui-autocomplete.buyer-name {
+    position: relative !important;
+}

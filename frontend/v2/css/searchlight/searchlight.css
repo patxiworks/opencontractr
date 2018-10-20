@@ -1,0 +1,168 @@
+
+
+#header .logo:hover {
+    color: #fff !important;
+}
+#countrylist {
+	height: auto !important;
+	width: auto !important;
+	margin-bottom: 25px;
+}
+#searchbox {
+	float:left;
+	width:600px;
+	background: rgba(255,255,255,0.9);
+	color: #000 !important;
+}
+#searcharea {
+	margin: 0 0 10rem 0;
+}
+#searcharea .button {
+	float: right;
+	width: 3rem;
+    height: 3rem;
+    line-height: 3rem;
+	box-shadow: inset 0 0 0 2px #fff !important;
+    color: #000 !important;
+	background-color: #fff !important;
+	border-radius: 0 !important;
+}
+#searchby {
+	clear: both;
+	padding-top: 20px;
+	text-align: right;
+	color: #999;
+}
+#searchby select {
+	width: auto !important;
+	float: right;
+	margin-left: 10px;
+	border-color: #999;
+	color: #999 !important;
+}
+#resulthead {
+	height: 1rem !important;
+	padding: 5rem 0 0 0 !important;
+	display: none;
+}
+#resulthead li .result {
+	text-transform: none;
+    padding-left: 20px;
+    color: #666;
+}
+#resulthead li .right-tab {
+	position: absolute;
+    right: 0;
+    margin-right: 20px;
+    text-transform: none;
+    color: #999;
+}
+#resultwrap {
+	padding: 3rem 4rem 4rem 4rem !important;
+}
+#resultwrap, #visualwrap {
+	display: none;
+}
+#resultwrap select {
+	width: auto;
+	display: inline !important;
+}
+#resultwrap select.colselect {
+	float: right;
+}
+
+#resultwrap select,
+#resultwrap select.colselect,
+#resultwrap input[type='search'] {
+	border: 1px solid #999;
+    box-shadow: 0 1px 0px rgba(0,0,0,.2);
+}
+
+#resultwrap .dynatable-pagination-links {
+    width: 70% !important;
+}
+
+/***** Chart ******/
+#visualwrap .chart {
+  height: 700px !important;
+  width: 100%;
+}
+#visualwrap .chart svg {
+  margin: 0;
+}
+
+/***** DynaTable ******/
+#contractslist td {
+	line-height: 25px !important;
+	padding: 30px 10px;
+}
+#contractslist td.main-title {
+	width: 85%;
+}
+#contractslist td.extra {
+	font-size: 0.9em;
+	text-align: right;
+}
+#contractslist a.title {
+	border: none !important;
+	font-weight: bold;
+	color: #008751;
+}
+#contractslist a:hover {
+	text-decoration: underline;
+}
+#contractslist small {
+	/*font-size: 0.8em !important;*/
+}
+#contractslist small .label {
+	font-weight: bold;
+}
+#dynatable-search-contractslist.dynatable-search {
+	display: block;
+    text-align: center;
+	float: none !important;
+	margin-bottom: -35px;
+}
+#dynatable-search-contractslist.dynatable-search input {
+	padding: 0 10px;
+	width: 30%
+}
+
+table#contractslist {
+	margin-top: 3rem;
+}
+
+table#contractslist  tbody tr:nth-child(2n + 1) {
+    background-color: rgba(220, 220, 220, 0.25);
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #999;
+    border-right: 1px solid #ccc;
+}
+
+form#contract_edit_form {
+	margin: 1rem 0 0 0 !important;
+}
+
+form#contract_edit_form button, form#contract_edit_form input {
+	margin: 0 0.3rem;
+    padding: 0;
+    box-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: normal;
+}
+
+span.action a {
+	margin: 0 0.3rem;
+}
+
+
+.searchlight #header {
+	padding: 8rem 0 0 0;
+}
+.searchlight #header span {
+    margin-left: 20px;
+}
+.searchlight #copyright {
+	margin: 2rem auto 2rem auto !important;
+}

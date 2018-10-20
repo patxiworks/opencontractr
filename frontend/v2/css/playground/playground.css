@@ -1,0 +1,70 @@
+
+#nav.playground {
+  z-index: 2 !important;
+}
+#nav.playground li.active {
+  background: none !important;
+}
+#nav.playground li select {
+  border: none !important;
+}
+
+#main.playground {
+  overflow: visible !important;
+}
+#main.playground .top {
+  padding: 0px !important;
+  height: 700px !important;
+}
+#main.playground .top .topslider {
+  margin-bottom: 70px;
+  height: 5px;
+}
+#main.playground .top .leftslider {
+  float: left;
+  height: 600px;
+  width: 5px;
+}
+#main.playground .top .chart {
+  height: 700px !important;
+  width: 98%;
+  float: right;
+}
+#main.playground .top svg {
+  margin: 0;
+}
+
+#header.playground {
+  height: auto !important;
+}
+#header.playground .subheader ul.icons {
+  text-align: center;
+  margin: 0 !important;
+  font-size: 0.5em;
+  letter-spacing: 0.5em;
+  text-transform: none;
+  line-height: 32px;
+}
+#header.playground .logo {
+  padding: 0;
+}
+
+.noUi-tooltip {
+  padding: 0px 5px !important;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+.noUi-horizontal .noUi-handle-upper .noUi-tooltip,
+.noUi-horizontal .noUi-handle-lower .noUi-tooltip {
+  top: 30px !important;
+}
+
+.noUi-vertical .noUi-handle-lower .noUi-tooltip,
+.noUi-vertical .noUi-handle-upper .noUi-tooltip {
+  right: 120%;
+}
+
+.noUi-connect {
+  background: #008751 !important;
+}

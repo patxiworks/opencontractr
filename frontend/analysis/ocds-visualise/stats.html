@@ -1,0 +1,1519 @@
+
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title> </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link href="css/main.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/custom.css">
+
+    </head>
+    <body>
+      <nav class="navbar navbar-inverse">
+        <div class="container">
+          <a class="navbar-brand" href="#">OCDS Show</a>
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group">
+                  <label class="btn btn-danger btn-file ">
+                    Upload File <input id="upload" type="file" class="form-control" style="display:none"/>
+                  </label>
+                  <button id="text-input" class="btn btn-danger">Text Input</button>
+            </div>
+          </form>
+        </div>
+      </nav>
+      </div>
+      <div class="container">
+
+        <div id="input-json-container" class="hide">
+          <h3> Input a valid OCDS record/release 
+          <button id="hide-input-button" class="pull-right btn btn-primary btn-sm">Hide Input</button>
+          </h3>
+          <textarea id="input-json" name="input-json">
+			{ "awards": [
+                   {
+                        "contractPeriod": {
+                            "endDate": "2011-08-01T23:59:00Z",
+                            "startDate": "2010-07-01T00:00:00Z"
+                        },
+                        "date": "2010-05-10T10:30:00Z",
+                        "description": "AnyCorp Ltd has been awarded the contract to build new cycle lanes in the centre of town.",
+                        "documents": [
+                           {
+                                "datePublished": "2010-05-10T10:30:00Z",
+                                "description": "Award of contract to build new cycle lanes in the centre of town to AnyCorp Ltd.",
+                                "documentType": "notice",
+                                "format": "text/html",
+                                "id": "0007",
+                                "language": "en",
+                                "title": "Award notice",
+                                "url": "http://example.com/tender-notices/ocds-213czf-000-00001-04.html"
+                            }
+                        ],
+                        "id": "ocds-213czf-000-00001-award-01",
+                        "items": [
+                           {
+                                "additionalClassifications": [
+                                   {
+                                        "description": "Cycle path construction work",
+                                        "id": "45233162-2",
+                                        "scheme": "CPV",
+                                        "uri": "http://cpv.data.ac.uk/code-45233162.html"
+                                    }
+                                ],
+                                "classification": {
+                                    "description": "Construction work for highways",
+                                    "id": "45233130",
+                                    "scheme": "CPV",
+                                    "uri": "http://cpv.data.ac.uk/code-45233130"
+                                },
+                                "description": "string",
+                                "id": "0001",
+                                "quantity": 8,
+                                "unit": {
+                                    "name": "Miles",
+                                    "value": {
+                                        "amount": 137000,
+                                        "currency": "GBP"
+                                    }
+                                }
+                            }
+                        ],
+                        "status": "active",
+                        "suppliers": [
+                           {
+                                "id": "GB-COH-1234567844",
+                                "name": "AnyCorp Cycle Provision"
+                            }
+                        ],
+                        "title": "Award of contract to build new cycle lanes in the centre of town.",
+                        "value": {
+                            "amount": 11000000,
+                            "currency": "GBP"
+                        }
+                    }
+                ],
+                "buyer": {
+                    "id": "GB-LAC-E09000003",
+                    "name": "London Borough of Barnet"
+                },
+                "contracts": [
+                   {
+                        "awardID": "ocds-213czf-000-00001-award-01",
+                        "dateSigned": "2015-06-10T14:23:12Z",
+                        "description": "Contract monitoring for cycle lane construction.",
+                        "documents": [
+                           {
+                                "datePublished": "2015-06-10T16:43:12Z",
+                                "description": "The Signed Contract for Cycle Path Construction",
+                                "documentType": "contractSigned",
+                                "format": "application/pdf",
+                                "id": "0008",
+                                "language": "en",
+                                "title": "Signed Contract",
+                                "url": "http://example.com/contracts/ocds-213czf-000-00001"
+                            },
+                           {
+                                "datePublished": "2010-12-15T15:34:02Z",
+                                "description": "Physical progress report for cycle path construction",
+                                "documentType": "physicalProcessReport",
+                                "format": "application/pdf",
+                                "id": "0009",
+                                "language": "en",
+                                "title": "Progress report",
+                                "url": "http://example.com/reports/ocds-213czf-000-00001/cycle-path-01.pdf"
+                            }
+                        ],
+                        "id": "ocds-213czf-000-00001-contract-01",
+                        "implementation": {
+                            "transactions": [
+                               {
+                                    "date": "2010-08-01T00:00:00Z",
+                                    "id": "ocds-213czf-000-00001-1",
+                                    "payee": {
+                                        "id": "GB-COH-1234567844",
+                                        "name": "AnyCorp Ltd"
+                                    },
+                                    "payer": {
+                                        "id": "GB-LAC-E09000003",
+                                        "name": "London Borough of Barnet"
+                                    },
+                                    "source": "https://openspending.org/uk-barnet-spending/",
+                                    "uri": "https://openspending.org/uk-barnet-spending/transaction/asd9235qaghvs1059620ywhgai",
+                                    "value": {
+                                        "amount": 500000,
+                                        "currency": "GBP"
+                                    }
+                                },
+                               {
+                                    "date": "2010-10-01T00:00:00Z",
+                                    "id": "ocds-213czf-000-00001-2",
+                                    "payee": {
+                                        "id": "GB-COH-1234567844",
+                                        "name": "AnyCorp Ltd"
+                                    },
+                                    "payer": {
+                                        "id": "GB-LAC-E09000003",
+                                        "name": "London Borough of Barnet"
+                                    },
+                                    "source": "https://openspending.org/uk-barnet-spending/",
+                                    "uri": "https://openspending.org/uk-barnet-spending/transaction/asd9235qaghvs105962as0012",
+                                    "value": {
+                                        "amount": 100000,
+                                        "currency": "GBP"
+                                    }
+                                }
+                            ]
+                        },
+                        "items": [
+                           {
+                                "additionalClassifications": [
+                                   {
+                                        "description": "Cycle path construction work",
+                                        "id": "45233162-2",
+                                        "scheme": "CPV",
+                                        "uri": "http://cpv.data.ac.uk/code-45233162.html"
+                                    }
+                                ],
+                                "classification": {
+                                    "description": "Construction work for highways",
+                                    "id": "45233130",
+                                    "scheme": "CPV",
+                                    "uri": "http://cpv.data.ac.uk/code-45233130"
+                                },
+                                "description": "string",
+                                "id": "0001",
+                                "quantity": 8,
+                                "unit": {
+                                    "name": "Miles",
+                                    "value": {
+                                        "amount": 137000,
+                                        "currency": "GBP"
+                                    }
+                                }
+                            }
+                        ],
+                        "period": {
+                            "endDate": "2011-08-01T23:59:00Z",
+                            "startDate": "2010-07-01T00:00:00Z"
+                        },
+                        "status": "active",
+                        "title": "Contract to build new cycle lanes in the centre of town.",
+                        "value": {
+                            "amount": 11000000,
+                            "currency": "GBP"
+                        }
+                    }
+                ],
+                "date": "2011-01-10T09:30:00Z",
+                "id": "ocds-213czf-000-00001-06-implementation",
+                "initiationType": "tender",
+                "language": "en",
+                "ocid": "ocds-213czf-000-00001",
+                "parties": [
+                   {
+                        "address": {
+                            "countryName": "United Kingdom",
+                            "locality": "London",
+                            "postalCode": "N11 1NP",
+                            "region": "London",
+                            "streetAddress": "4, North London Business Park, Oakleigh Rd S"
+                        },
+                        "contactPoint": {
+                            "email": "procurement-team@example.com",
+                            "faxNumber": "01234 345 345",
+                            "name": "Procurement Team",
+                            "telephone": "01234 345 346",
+                            "url": "http://example.com/contact/"
+                        },
+                        "id": "GB-LAC-E09000003",
+                        "identifier": {
+                            "id": "E09000003",
+                            "legalName": "London Borough of Barnet",
+                            "scheme": "GB-LAC",
+                            "uri": "http://www.barnet.gov.uk/"
+                        },
+                        "name": "London Borough of Barnet",
+                        "roles": [
+                            "buyer",
+                            "buyer"
+                        ]
+                    },
+                   {
+                        "additionalIdentifiers": [
+                           {
+                                "id": "987654321",
+                                "scheme": "GB-VAT"
+                            }
+                        ],
+                        "address": {
+                            "countryName": "United Kingdom",
+                            "locality": "Anytown",
+                            "postalCode": "AN1 1TN",
+                            "region": "AnyCounty",
+                            "streetAddress": "100 Anytown Lane"
+                        },
+                        "contactPoint": {
+                            "email": "contracts@anycorp.example",
+                            "faxNumber": "12345 456 343",
+                            "name": "Contracts Team",
+                            "telephone": "12345 456 343"
+                        },
+                        "id": "GB-COH-1234567844",
+                        "identifier": {
+                            "id": "1234567844",
+                            "legalName": "AnyCorp Ltd",
+                            "scheme": "GB-COH",
+                            "uri": "http://www.anycorp.example"
+                        },
+                        "name": "AnyCorp Cycle Provision",
+                        "roles": [
+                            "supplier"
+                        ]
+                    }
+                ],
+                "planning": {
+                    "budget": {
+                        "amount": {
+                            "amount": 6700000,
+                            "currency": "GBP"
+                        },
+                        "description": "Budget allocation for highway maintenance, aligned with 2015 strategic plan. ",
+                        "id": "6801ad388f3a38b7740dde20108c58b35984ee91",
+                        "project": "Central Junction Cycle Scheme",
+                        "projectID": "SP001",
+                        "source": "https://openspending.org/uk-barnet-budget/entries/6801ad388f3a38b7740dde20108c58b35984ee91",
+                        "uri": "https://openspending.org/uk-barnet-budget/entries/6801ad388f3a38b7740dde20108c58b35984ee91"
+                    },
+                    "documents": [
+                       {
+                            "datePublished": "2009-01-05T00:00:00Z",
+                            "description": "The overall strategic framework for procurement to enhance cycle provision.",
+                            "documentType": "procurementPlan",
+                            "format": "application/pdf",
+                            "id": "0001",
+                            "language": "en",
+                            "title": "Area Wide Cycle Improvements - Procurement Plan",
+                            "url": "http://example.com/opencontracting/documents/planning/highways/procurementPlan.pdf"
+                        },
+                       {
+                            "datePublished": "2009-01-15T00:00:00Z",
+                            "description": "Needs assessment for provision for cyclists in the centre of town.",
+                            "documentType": "needsAssessment",
+                            "format": "application/pdf",
+                            "id": "0002",
+                            "language": "en",
+                            "title": "Cycle provision - Needs Assessment",
+                            "url": "http://example.com/opencontracting/documents/ocds-213czf-000-00001/needsAssessment.pdf"
+                        }
+                    ],
+                    "rationale": "The 2009 Strategic Plan identifies a need for an improved cycle route in the centre of town."
+                },
+                "tag": [
+                    "compiled"
+                ],
+                "tender": {
+                    "amendments": [
+                       {
+                            "amendsReleaseID": "ocds-213czf-000-00001-02-tender",
+                            "date": "2010-03-20T09:45:00Z",
+                            "description": "Following the enquiry period, enquiries were received and responses to questions asked have been published. No changes to the overall tender details were made.",
+                            "id": "update-1",
+                            "rationale": "Update following enquiries.",
+                            "releaseID": "ocds-213czf-000-00001-03-tenderUpdate"
+                        },
+                       {
+                            "amendsReleaseID": "ocds-213czf-000-00001-02-tender",
+                            "date": "2010-03-20T10:45:00Z",
+                            "description": "Following the enquiry period, a decision was made to increase the maximum value by 10%.",
+                            "id": "amendment-1",
+                            "rationale": "Revised value",
+                            "releaseID": "ocds-213czf-000-00001-03-tenderAmendment"
+                        }
+                    ],
+                    "awardCriteria": "bestProposal",
+                    "awardCriteriaDetails": "The best proposal, subject to value for money requirements, will be accepted.",
+                    "awardPeriod": {
+                        "endDate": "2011-08-01T23:59:59Z",
+                        "startDate": "2010-06-01T00:00:00Z"
+                    },
+                    "description": "Tenders solicited for work to build new cycle lanes in the centre of town.",
+                    "documents": [
+                       {
+                            "dateModified": "2015-02-15T00:00:00Z",
+                            "datePublished": "2015-02-15T00:00:00Z",
+                            "description": "A consultation document inviting citizen input into cycle provision.",
+                            "documentType": "x_consultationDocument",
+                            "format": "text/html",
+                            "id": "0003",
+                            "language": "en",
+                            "title": "Consultation on cycle provision",
+                            "url": "http://example.com/consultations/cycle-provision/"
+                        },
+                       {
+                            "datePublished": "2015-02-15T00:00:00Z",
+                            "description": "A map showing areas affected by the planned highway updates. Available from local libraries.",
+                            "documentType": "x_map",
+                            "format": "offline/print",
+                            "id": "0004",
+                            "language": "en",
+                            "title": "Map of affected areas"
+                        },
+                       {
+                            "datePublished": "2010-03-01T09:00:00Z",
+                            "description": "Official tender notice.",
+                            "documentType": "notice",
+                            "format": "text/html",
+                            "id": "0005",
+                            "language": "en",
+                            "title": "Tender Notice",
+                            "url": "http://example.com/tender-notices/ocds-213czf-000-00001-01.html"
+                        },
+                       {
+                            "datePublished": "2010-03-20T11:30:15Z",
+                            "description": "Responses to enquiries asked by interested parties.",
+                            "documentType": "enquiryResponses",
+                            "format": "text/html",
+                            "id": "0006",
+                            "language": "en",
+                            "title": "Enquiry Responses",
+                            "url": "http://example.com/enquiry-response/ocds-213czf-000-00001-01.html"
+                        }
+                    ],
+                    "enquiryPeriod": {
+                        "endDate": "2010-03-14T17:30:00Z",
+                        "startDate": "2010-03-01T09:00:00Z"
+                    },
+                    "hasEnquiries": true,
+                    "id": "ocds-213czf-000-00001-01-tender",
+                    "items": [
+                       {
+                            "additionalClassifications": [
+                               {
+                                    "description": "Cycle path construction work",
+                                    "id": "45233162-2",
+                                    "scheme": "CPV",
+                                    "uri": "http://cpv.data.ac.uk/code-45233162.html"
+                                }
+                            ],
+                            "classification": {
+                                "description": "Construction work for highways",
+                                "id": "45233130",
+                                "scheme": "CPV",
+                                "uri": "http://cpv.data.ac.uk/code-45233130"
+                            },
+                            "description": "string",
+                            "id": "0001",
+                            "quantity": 8,
+                            "unit": {
+                                "name": "Miles",
+                                "value": {
+                                    "amount": 120000,
+                                    "currency": "GBP"
+                                }
+                            }
+                        }
+                    ],
+                    "milestones": [
+                       {
+                            "description": "A consultation period is open for citizen input to shape the final plans.",
+                            "dueDate": "2015-04-15T17:00:00Z",
+                            "id": "0001",
+                            "title": "Consultation Period"
+                        }
+                    ],
+                    "minValue": {
+                        "amount": 600000,
+                        "currency": "GBP"
+                    },
+                    "procurementMethod": "open",
+                    "procurementMethodRationale": "An open competitive tender is required by EU Rules",
+                    "procuringEntity": {
+                        "id": "GB-LAC-E09000003",
+                        "name": "London Borough of Barnet"
+                    },
+                    "status": "active",
+                    "submissionMethod": [
+                        "electronicSubmission"
+                    ],
+                    "submissionMethodDetails": "Submit through the online portal at http://example.com/submissions/ocds-213czf-000-00001-01/",
+                    "tenderPeriod": {
+                        "endDate": "2011-04-01T18:00:00Z",
+                        "startDate": "2010-03-01T09:00:00Z"
+                    },
+                    "title": "Planned cycle lane improvements",
+                    "value": {
+                        "amount": 1210000,
+                        "currency": "GBP"
+                    }
+                }
+            }
+
+		</textarea>
+		<textarea id="old-ocds">
+			{
+            "date": "2017-01-31T15:11:24Z", 
+            "language": "en", 
+            "contracts": [
+                {
+                    "status": "active", 
+                    "amendment": {
+                        "date": "", 
+                        "changes": [], 
+                        "rationale": ""
+                    }, 
+                    "documents": [
+                        {
+                            "description": "", 
+                            "language": "", 
+                            "format": "", 
+                            "url": "https://www.dropbox.com/s/e232pngbtaq0ngj/Claudio%20Mendonca%20FY16-03-08.pdf?dl=0", 
+                            "title": "Contract Claudio Mendonca", 
+                            "datePublished": "2016-10-01T23:00:00-05:00", 
+                            "documentType": "", 
+                            "id": "", 
+                            "dateModified": ""
+                        }
+                    ], 
+                    "description": "", 
+                    "title": "Contract Claudio Mendonca", 
+                    "implementation": {
+                        "milestones": [
+                            {
+                                "status": "", 
+                                "documents": [
+                                    {
+                                        "description": "", 
+                                        "language": "", 
+                                        "format": "", 
+                                        "url": "", 
+                                        "title": "", 
+                                        "datePublished": "", 
+                                        "documentType": "", 
+                                        "id": "", 
+                                        "dateModified": ""
+                                    }
+                                ], 
+                                "description": "", 
+                                "title": "", 
+                                "id": "", 
+                                "dueDate": "", 
+                                "dateModified": ""
+                            }
+                        ], 
+                        "documents": [
+                            {
+                                "description": "", 
+                                "language": "EN", 
+                                "format": "", 
+                                "url": "", 
+                                "title": "", 
+                                "datePublished": "", 
+                                "documentType": "", 
+                                "id": "", 
+                                "dateModified": ""
+                            }
+                        ], 
+                        "transactions": [
+                            {
+                                "amount": {
+                                    "currency": "", 
+                                    "amount": ""
+                                }, 
+                                "receiverOrganization": {
+                                    "scheme": "", 
+                                    "legalName": "", 
+                                    "id": "", 
+                                    "uri": ""
+                                }, 
+                                "uri": "", 
+                                "source": "", 
+                                "providerOrganization": {
+                                    "scheme": "", 
+                                    "legalName": "", 
+                                    "id": "", 
+                                    "uri": ""
+                                }, 
+                                "date": "", 
+                                "id": ""
+                            }
+                        ]
+                    }, 
+                    "items": [
+                        {
+                            "description": "Lump sum", 
+                            "classification": {
+                                "description": "", 
+                                "scheme": "", 
+                                "id": "", 
+                                "uri": ""
+                            }, 
+                            "additionalClassifications": [
+                                {
+                                    "description": "", 
+                                    "scheme": "", 
+                                    "id": "", 
+                                    "uri": ""
+                                }
+                            ], 
+                            "id": "", 
+                            "unit": {
+                                "name": "", 
+                                "value": {
+                                    "currency": "", 
+                                    "amount": ""
+                                }
+                            }, 
+                            "quantity": "lump sum"
+                        }
+                    ], 
+                    "period": {
+                        "startDate": "2016-03-09T23:00:00-05:00", 
+                        "endDate": "2016-03-31T23:00:00-05:00"
+                    }, 
+                    "value": {
+                        "currency": "USD", 
+                        "amount": 2000
+                    }, 
+                    "dateSigned": "2016-03-09T23:00:00-05:00", 
+                    "awardID": "", 
+                    "id": ""
+                }
+            ], 
+            "ocid": "ocds-azam7x-4w26wzdc-ubec", 
+            "tag": [
+                "planning", 
+                "tender", 
+                "buyer", 
+                "contracts", 
+                "awards"
+            ], 
+            "initiationType": "tender", 
+            "buyer": {
+                "additionalIdentifiers": [
+                    {
+                        "scheme": "", 
+                        "legalName": "", 
+                        "id": "", 
+                        "uri": ""
+                    }
+                ], 
+                "contactPoint": {
+                    "url": "", 
+                    "email": "gneumann@open-contracting.org", 
+                    "telephone": "", 
+                    "name": "Georg Neumann", 
+                    "faxNumber": ""
+                }, 
+                "identifier": {
+                    "scheme": "", 
+                    "legalName": "", 
+                    "id": "", 
+                    "uri": ""
+                }, 
+                "name": "Fund for the City of New York", 
+                "address": {
+                    "postalCode": 10013, 
+                    "countryName": "USA", 
+                    "streetAddress": "128 6th Ave # 6", 
+                    "region": "NY", 
+                    "locality": "New York"
+                }
+            }, 
+            "planning": {
+                "documents": [
+                    {
+                        "description": "", 
+                        "language": "", 
+                        "format": "", 
+                        "url": "", 
+                        "title": "Title 1", 
+                        "datePublished": "", 
+                        "documentType": "", 
+                        "id": "", 
+                        "dateModified": ""
+                    },
+                    {
+                        "description": "", 
+                        "language": "", 
+                        "format": "", 
+                        "url": "", 
+                        "title": "Title 2", 
+                        "datePublished": "", 
+                        "documentType": "", 
+                        "id": "", 
+                        "dateModified": ""
+                    }
+                ], 
+                "budget": {
+                    "description": "", 
+                    "projectID": "", 
+                    "uri": "", 
+                    "project": "", 
+                    "source": "", 
+                    "amount": {
+                        "currency": "USD", 
+                        "amount": 2000
+                    }, 
+                    "id": ""
+                }, 
+                "rationale": "Web design. Maintenance and update of current website"
+            }, 
+            "awards": [
+                {
+                    "status": "", 
+                    "amendment": {
+                        "date": "", 
+                        "changes": [], 
+                        "rationale": ""
+                    }, 
+                    "documents": [
+                        {
+                            "description": "", 
+                            "language": "", 
+                            "format": "", 
+                            "url": "", 
+                            "title": "", 
+                            "datePublished": "", 
+                            "documentType": "", 
+                            "id": "", 
+                            "dateModified": ""
+                        }
+                    ], 
+                    "description": "", 
+                    "title": "", 
+                    "items": [
+                        {
+                            "description": "Lump sum", 
+                            "classification": {
+                                "description": "", 
+                                "scheme": "", 
+                                "id": "", 
+                                "uri": ""
+                            }, 
+                            "additionalClassifications": [
+                                {
+                                    "description": "", 
+                                    "scheme": "", 
+                                    "id": "", 
+                                    "uri": ""
+                                }
+                            ], 
+                            "id": "", 
+                            "unit": {
+                                "name": "", 
+                                "value": {
+                                    "currency": "", 
+                                    "amount": ""
+                                }
+                            }, 
+                            "quantity": "lump sum"
+                        }
+                    ], 
+                    "suppliers": [
+                        {
+                            "additionalIdentifiers": [
+                                {
+                                    "scheme": "", 
+                                    "legalName": "Mendoca", 
+                                    "id": "", 
+                                    "uri": ""
+                                }
+                            ], 
+                            "contactPoint": {
+                                "url": "", 
+                                "email": "", 
+                                "telephone": "", 
+                                "name": "", 
+                                "faxNumber": ""
+                            }, 
+                            "identifier": {
+                                "scheme": "", 
+                                "legalName": "", 
+                                "id": "", 
+                                "uri": ""
+                            }, 
+                            "name": "Claudio Mendonca", 
+                            "address": {
+                                "postalCode": "", 
+                                "countryName": "", 
+                                "streetAddress": "", 
+                                "region": "", 
+                                "locality": ""
+                            }
+                        }
+                    ], 
+                    "value": {
+                        "currency": "", 
+                        "amount": ""
+                    }, 
+                    "date": "", 
+                    "id": "", 
+                    "contractPeriod": {
+                        "startDate": "", 
+                        "endDate": ""
+                    }
+                }
+            ], 
+            "tender": {
+                "procurementMethod": "direct", 
+                "amendment": {
+                    "date": "", 
+                    "changes": [
+                        ""
+                    ], 
+                    "rationale": ""
+                }, 
+                "awardPeriod": {
+                    "startDate": "", 
+                    "endDate": ""
+                }, 
+                "enquiryPeriod": {
+                    "startDate": "", 
+                    "endDate": ""
+                }, 
+                "minValue": {
+                    "currency": "", 
+                    "amount": ""
+                }, 
+                "eligibilityCriteria": "", 
+                "value": {
+                    "currency": "", 
+                    "amount": ""
+                }, 
+                "tenderers": [
+                    {
+                        "additionalIdentifiers": [
+                            {
+                                "scheme": "", 
+                                "legalName": "", 
+                                "id": "", 
+                                "uri": ""
+                            }
+                        ], 
+                        "contactPoint": {
+                            "url": "", 
+                            "email": "", 
+                            "telephone": "", 
+                            "name": "", 
+                            "faxNumber": ""
+                        }, 
+                        "identifier": {
+                            "scheme": "", 
+                            "legalName": "", 
+                            "id": "", 
+                            "uri": ""
+                        }, 
+                        "name": "", 
+                        "address": {
+                            "postalCode": "", 
+                            "countryName": "", 
+                            "streetAddress": "", 
+                            "region": "", 
+                            "locality": ""
+                        }
+                    },
+					{
+                        "additionalIdentifiers": [
+                            {
+                                "scheme": "", 
+                                "legalName": "", 
+                                "id": "", 
+                                "uri": ""
+                            }
+                        ], 
+                        "contactPoint": {
+                            "url": "", 
+                            "email": "", 
+                            "telephone": "", 
+                            "name": "", 
+                            "faxNumber": ""
+                        }, 
+                        "identifier": {
+                            "scheme": "", 
+                            "legalName": "", 
+                            "id": "", 
+                            "uri": ""
+                        }, 
+                        "name": "Tenderer2", 
+                        "address": {
+                            "postalCode": "", 
+                            "countryName": "", 
+                            "streetAddress": "", 
+                            "region": "", 
+                            "locality": ""
+                        }
+                    }
+                ], 
+                "id": "", 
+                "description": "Ancillary services related to web design", 
+                "documents": [
+                    {
+                        "description": "", 
+                        "language": "", 
+                        "format": "", 
+                        "url": "", 
+                        "title": "", 
+                        "datePublished": "", 
+                        "documentType": "", 
+                        "id": "", 
+                        "dateModified": ""
+                    }
+                ], 
+                "title": "Web design", 
+                "procuringEntity": {
+                    "additionalIdentifiers": [
+                        {
+                            "scheme": "", 
+                            "legalName": "", 
+                            "id": "", 
+                            "uri": ""
+                        }
+                    ], 
+                    "contactPoint": {
+                        "url": "", 
+                        "email": "", 
+                        "telephone": "", 
+                        "name": "", 
+                        "faxNumber": ""
+                    }, 
+                    "identifier": {
+                        "scheme": "", 
+                        "legalName": "", 
+                        "id": "", 
+                        "uri": ""
+                    }, 
+                    "name": "", 
+                    "address": {
+                        "postalCode": "", 
+                        "countryName": "", 
+                        "streetAddress": "", 
+                        "region": "", 
+                        "locality": ""
+                    }
+                }, 
+                "procurementMethodRationale": "Prior work experience", 
+                "status": "complete", 
+                "numberOfTenderers": "", 
+                "tenderPeriod": {
+                    "startDate": "", 
+                    "endDate": ""
+                }, 
+                "submissionMethod": "electronicSubmission", 
+                "milestones": [
+                    {
+                        "status": "", 
+                        "documents": [
+                            {
+                                "description": "", 
+                                "language": "", 
+                                "format": "", 
+                                "url": "", 
+                                "title": "", 
+                                "datePublished": "", 
+                                "documentType": "", 
+                                "id": "", 
+                                "dateModified": ""
+                            }
+                        ], 
+                        "description": "", 
+                        "title": "", 
+                        "id": "", 
+                        "dueDate": "", 
+                        "dateModified": ""
+                    }
+                ], 
+                "submissionMethodDetails": "", 
+                "items": [
+                    {
+                        "description": "", 
+                        "classification": {
+                            "description": "", 
+                            "scheme": "", 
+                            "id": "", 
+                            "uri": ""
+                        }, 
+                        "additionalClassifications": [
+                            {
+                                "description": "", 
+                                "scheme": "", 
+                                "id": "", 
+                                "uri": ""
+                            }
+                        ], 
+                        "id": "", 
+                        "unit": {
+                            "name": "", 
+                            "value": {
+                                "currency": "", 
+                                "amount": ""
+                            }
+                        }, 
+                        "quantity": "lump sum"
+                    }
+                ], 
+                "awardCriteriaDetails": "", 
+                "hasEnquiries": "", 
+                "awardCriteria": "singleBidOnly"
+            }, 
+            "id": "ocds-azam7x-4w26wzdc-ubec-awards-001"
+        }
+		</textarea>
+		<textarea id="datatypes">
+			{
+    "ocid": "string",
+    "id": "string",
+    "date": "string",
+    "tag": "array",
+    "initiationType": "tender",
+    "planning": {
+        "budget": {
+            "source": "string",
+            "id": "string",
+            "description": "string",
+            "amount": {
+                "amount": "number",
+                "currency": "string"
+            },
+            "project": "string",
+            "projectID": "string",
+            "uri": "string"
+        },
+        "rationale": "string",
+        "documents": [
+            {
+                "id": "string",
+                "documentType": "string",
+                "title": "string",
+                "description": "string",
+                "url": "string",
+                "datePublished": "string",
+                "dateModified": "string",
+                "format": "string",
+                "language": "string"
+            }
+        ]
+    },
+    "tender": {
+        "id": "string",
+        "title": "string",
+        "description": "string",
+        "status": "planned",
+        "items": [
+            {
+                "id": "string",
+                "description": "string",
+                "classification": {
+                    "scheme": "string",
+                    "id": "string",
+                    "description": "string",
+                    "uri": "string"
+                },
+                "additionalClassifications": [
+                    {
+                        "scheme": "string",
+                        "id": "string",
+                        "description": "string",
+                        "uri": "string"
+                    }
+                ],
+                "quantity": "integer",
+                "unit": {
+                    "name": "string",
+                    "value": {
+                        "amount": "number",
+                        "currency": "string"
+                    }
+                }
+            }
+        ],
+        "minValue": {
+            "amount": "number",
+            "currency": "string"
+        },
+        "value": {
+            "amount": "number",
+            "currency": "string"
+        },
+        "procurementMethod": "open",
+        "procurementMethodRationale": "string",
+        "awardCriteria": "string",
+        "awardCriteriaDetails": "string",
+        "submissionMethod": "array",
+        "submissionMethodDetails": "string",
+        "tenderPeriod": {
+            "startDate": "string",
+            "endDate": "string"
+        },
+        "enquiryPeriod": {
+            "startDate": "string",
+            "endDate": "string"
+        },
+        "hasEnquiries": "boolean",
+        "eligibilityCriteria": "string",
+        "awardPeriod": {
+            "startDate": "string",
+            "endDate": "string"
+        },
+        "numberOfTenderers": "integer",
+        "tenderers": [
+            {
+                "identifier": {
+                    "scheme": "string",
+                    "id": "string",
+                    "legalName": "string",
+                    "uri": "string"
+                },
+                "additionalIdentifiers": [
+                    {
+                        "scheme": "string",
+                        "id": "string",
+                        "legalName": "string",
+                        "uri": "string"
+                    }
+                ],
+                "name": "string",
+                "address": {
+                    "streetAddress": "string",
+                    "locality": "string",
+                    "region": "string",
+                    "postalCode": "string",
+                    "countryName": "string"
+                },
+                "contactPoint": {
+                    "name": "string",
+                    "email": "string",
+                    "telephone": "string",
+                    "faxNumber": "string",
+                    "url": "string"
+                }
+            }
+        ],
+        "procuringEntity": {
+            "identifier": {
+                "scheme": "string",
+                "id": "string",
+                "legalName": "string",
+                "uri": "string"
+            },
+            "additionalIdentifiers": [
+                {
+                    "scheme": "string",
+                    "id": "string",
+                    "legalName": "string",
+                    "uri": "string"
+                }
+            ],
+            "name": "string",
+            "address": {
+                "streetAddress": "string",
+                "locality": "string",
+                "region": "string",
+                "postalCode": "string",
+                "countryName": "string"
+            },
+            "contactPoint": {
+                "name": "string",
+                "email": "string",
+                "telephone": "string",
+                "faxNumber": "string",
+                "url": "string"
+            }
+        },
+        "documents": [
+            {
+                "id": "string",
+                "documentType": "string",
+                "title": "string",
+                "description": "string",
+                "url": "string",
+                "datePublished": "string",
+                "dateModified": "string",
+                "format": "string",
+                "language": "string"
+            }
+        ],
+        "milestones": [
+            {
+                "id": "string",
+                "title": "string",
+                "description": "string",
+                "dueDate": "string",
+                "dateModified": "string",
+                "status": "met",
+                "documents": [
+                    {
+                        "id": "string",
+                        "documentType": "string",
+                        "title": "string",
+                        "description": "string",
+                        "url": "string",
+                        "datePublished": "string",
+                        "dateModified": "string",
+                        "format": "string",
+                        "language": "string"
+                    }
+                ]
+            }
+        ],
+        "amendment": {
+            "date": "string",
+            "changes": [],
+            "rationale": "string"
+        }
+    },
+    "buyer": {
+        "identifier": {
+            "scheme": "string",
+            "id": "string",
+            "legalName": "string",
+            "uri": "string"
+        },
+        "additionalIdentifiers": [
+            {
+                "scheme": "string",
+                "id": "string",
+                "legalName": "string",
+                "uri": "string"
+            }
+        ],
+        "name": "string",
+        "address": {
+            "streetAddress": "string",
+            "locality": "string",
+            "region": "string",
+            "postalCode": "string",
+            "countryName": "string"
+        },
+        "contactPoint": {
+            "name": "string",
+            "email": "string",
+            "telephone": "string",
+            "faxNumber": "string",
+            "url": "string"
+        }
+    },
+    "awards": [
+        {
+            "id": "string",
+            "title": "string",
+            "description": "string",
+            "status": "pending",
+            "date": "string",
+            "value": {
+                "amount": "number",
+                "currency": "string"
+            },
+            "suppliers": [
+                {
+                    "identifier": {
+                        "scheme": "string",
+                        "id": "string",
+                        "legalName": "string",
+                        "uri": "string"
+                    },
+                    "additionalIdentifiers": [
+                        {
+                            "scheme": "string",
+                            "id": "string",
+                            "legalName": "string",
+                            "uri": "string"
+                        }
+                    ],
+                    "name": "string",
+                    "address": {
+                        "streetAddress": "string",
+                        "locality": "string",
+                        "region": "string",
+                        "postalCode": "string",
+                        "countryName": "string"
+                    },
+                    "contactPoint": {
+                        "name": "string",
+                        "email": "string",
+                        "telephone": "string",
+                        "faxNumber": "string",
+                        "url": "string"
+                    }
+                }
+            ],
+            "items": [
+                {
+                    "id": "string",
+                    "description": "string",
+                    "classification": {
+                        "scheme": "string",
+                        "id": "string",
+                        "description": "string",
+                        "uri": "string"
+                    },
+                    "additionalClassifications": [
+                        {
+                            "scheme": "string",
+                            "id": "string",
+                            "description": "string",
+                            "uri": "string"
+                        }
+                    ],
+                    "quantity": "integer",
+                    "unit": {
+                        "name": "string",
+                        "value": {
+                            "amount": "number",
+                            "currency": "string"
+                        }
+                    }
+                }
+            ],
+            "contractPeriod": {
+                "startDate": "string",
+                "endDate": "string"
+            },
+            "documents": [
+                {
+                    "id": "string",
+                    "documentType": "string",
+                    "title": "string",
+                    "description": "string",
+                    "url": "string",
+                    "datePublished": "string",
+                    "dateModified": "string",
+                    "format": "string",
+                    "language": "string"
+                }
+            ],
+            "amendment": {
+                "date": "string",
+                "changes": [],
+                "rationale": "string"
+            }
+        }
+    ],
+    "contracts": [
+        {
+            "id": "string",
+            "awardID": "string",
+            "title": "string",
+            "description": "string",
+            "status": "pending",
+            "period": {
+                "startDate": "string",
+                "endDate": "string"
+            },
+            "value": {
+                "amount": "number",
+                "currency": "string"
+            },
+            "items": [
+                {
+                    "id": "string",
+                    "description": "string",
+                    "classification": {
+                        "scheme": "string",
+                        "id": "string",
+                        "description": "string",
+                        "uri": "string"
+                    },
+                    "additionalClassifications": [
+                        {
+                            "scheme": "string",
+                            "id": "string",
+                            "description": "string",
+                            "uri": "string"
+                        }
+                    ],
+                    "quantity": "integer",
+                    "unit": {
+                        "name": "string",
+                        "value": {
+                            "amount": "number",
+                            "currency": "string"
+                        }
+                    }
+                }
+            ],
+            "dateSigned": "string",
+            "documents": [
+                {
+                    "id": "string",
+                    "documentType": "string",
+                    "title": "string",
+                    "description": "string",
+                    "url": "string",
+                    "datePublished": "string",
+                    "dateModified": "string",
+                    "format": "string",
+                    "language": "string"
+                }
+            ],
+            "amendment": {
+                "date": "string",
+                "changes": [],
+                "rationale": "string"
+            },
+            "implementation": {
+                "transactions": [
+                    {
+                        "id": "string",
+                        "source": "string",
+                        "date": "string",
+                        "amount": {
+                            "amount": "number",
+                            "currency": "string"
+                        },
+                        "providerOrganization": {
+                            "scheme": "string",
+                            "id": "string",
+                            "legalName": "string",
+                            "uri": "string"
+                        },
+                        "receiverOrganization": {
+                            "scheme": "string",
+                            "id": "string",
+                            "legalName": "string",
+                            "uri": "string"
+                        },
+                        "uri": "string"
+                    }
+                ],
+                "milestones": [
+                    {
+                        "id": "string",
+                        "title": "string",
+                        "description": "string",
+                        "dueDate": "string",
+                        "dateModified": "string",
+                        "status": "met",
+                        "documents": [
+                            {
+                                "id": "string",
+                                "documentType": "string",
+                                "title": "string",
+                                "description": "string",
+                                "url": "string",
+                                "datePublished": "string",
+                                "dateModified": "string",
+                                "format": "string",
+                                "language": "string"
+                            }
+                        ]
+                    }
+                ],
+                "documents": [
+                    {
+                        "id": "string",
+                        "documentType": "string",
+                        "title": "string",
+                        "description": "string",
+                        "url": "string",
+                        "datePublished": "string",
+                        "dateModified": "string",
+                        "format": "string",
+                        "language": "string"
+                    }
+                ]
+            }
+        }
+    ],
+    "language": "string"
+}
+
+		</textarea>
+        </div>
+
+        <div id="container">
+        </div>
+      </div>
+    </body>
+    
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+	JSON.flatten = function (data) {
+		var result = {};
+	
+		function recurse(cur, prop) {
+			if (Object(cur) !== cur) {
+				result[prop] = cur;
+			} else if (Array.isArray(cur)) {
+				for (var i = 0, l = cur.length; i < l; i++)
+				recurse(cur[i], prop + "[" + i + "]");
+				if (l == 0) result[prop] = [];
+			} else {
+				var isEmpty = true;
+				for (var p in cur) {
+					isEmpty = false;
+					recurse(cur[p], prop ? prop + "." + p : p);
+				}
+				if (isEmpty && prop) result[prop] = {};
+			}
+		}
+		recurse(data, "");
+		return result;
+	};
+	JSON.unflatten = function (data) {
+		"use strict";
+		if (Object(data) !== data || Array.isArray(data)) return data;
+		var regex = /\.?([^.\[\]]+)|\[(\d+)\]/g,
+			resultholder = {};
+		for (var p in data) {
+			var cur = resultholder,
+				prop = "",
+				m;
+			while (m = regex.exec(p)) {
+				cur = cur[prop] || (cur[prop] = (m[2] ? [] : {}));
+				prop = m[2] || m[1];
+			}
+			cur[prop] = data[p];
+		}
+		return resultholder[""] || resultholder;
+	};
+	
+	
+	i=0; k=0; s=0; o=0;
+	scheme = JSON.flatten(JSON.parse(document.getElementById('datatypes').innerHTML), null, "\t")
+	
+	function showStats(scheme) {
+		for (var key in scheme) {
+			k++;
+			if (scheme[key] == 'number' || scheme[key] == 'integer') {
+				i++;
+				document.write(i+' '+JSON.stringify(key)+'<br>');
+			}
+		}
+		document.write('<br>'+i+' out of '+k)
+		document.write('<p>Strings</p>')
+		for (var key in scheme) {
+			if (scheme[key] == 'string') {
+				s++;
+				document.write(s+' '+JSON.stringify(key)+'<br>');
+			}
+		}
+		document.write('<br>'+s+' out of '+k)
+		document.write('<p>Others</p>')
+		for (var key in scheme) {
+			if (scheme[key] != 'string' && scheme[key] != 'number' && scheme[key] != 'integer') {
+				o++;
+				document.write(o+' '+JSON.stringify(key)+': '+scheme[key]+'<br>');
+			}
+		}
+		document.write('<br>'+o+' out of '+k)
+		document.write('<br>Total: '+i+' + '+s+' + '+o+' = '+ (i+s+o))
+	}
+	
+	showStats(scheme);
+	//$("#process").click(function () {
+		//var flatten = $("#flatten").is(":checked");
+	
+		//var result = flatten ? JSON.stringify(JSON.flatten(JSON.parse($("#input").val())), null, "\t") : JSON.stringify(JSON.unflatten(JSON.parse($("#input").val())), null, "\t")
+	
+		//$("#output").val(result);
+		//$("#formatted").text(result);
+	//});
+  </script>
+</html>
