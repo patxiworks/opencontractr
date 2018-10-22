@@ -32,58 +32,58 @@ function opencontractr_frontend_scripts() {
 		
 		///// Add opencontractr styles and scripts
 		///// common
-		wp_enqueue_style( 'opencontractr-custom', plugin_dir_url() . 'opencontractr/frontend/v2/css/font-awesome.min.css' );
-		wp_enqueue_style( 'opencontractr-main', plugin_dir_url() . 'opencontractr/frontend/v2/css/main.css' );
+		wp_enqueue_style( 'opencontractr-custom', OPENCONTRACTR_FRONTEND_URL . 'v2/css/font-awesome.min.css' );
+		wp_enqueue_style( 'opencontractr-main', OPENCONTRACTR_FRONTEND_URL . 'v2/css/main.css' );
 		
-		wp_enqueue_script( 'opencontractr-scrollex', plugin_dir_url() . 'opencontractr/frontend/v2/js/jquery.scrollex.min.js', array( 'jquery' ), '', true);
-		wp_enqueue_script( 'opencontractr-scrolly', plugin_dir_url() . 'opencontractr/frontend/v2/js/jquery.scrolly.min.js', array( 'jquery' ), '', true);
-		wp_enqueue_script( 'opencontractr-skel', plugin_dir_url() . 'opencontractr/frontend/v2/js/skel.min.js', array( 'jquery' ), '', true);
-		wp_enqueue_script( 'opencontractr-util', plugin_dir_url() . 'opencontractr/frontend/v2/js/util.js', array( 'jquery' ), '', true);
-		wp_enqueue_script( 'opencontractr-main', plugin_dir_url() . 'opencontractr/frontend/v2/js/main.js', array( 'jquery' ), '', true);
+		wp_enqueue_script( 'opencontractr-scrollex', OPENCONTRACTR_FRONTEND_URL . 'v2/js/jquery.scrollex.min.js', array( 'jquery' ), '', true);
+		wp_enqueue_script( 'opencontractr-scrolly', OPENCONTRACTR_FRONTEND_URL . 'v2/js/jquery.scrolly.min.js', array( 'jquery' ), '', true);
+		wp_enqueue_script( 'opencontractr-skel', OPENCONTRACTR_FRONTEND_URL . 'v2/js/skel.min.js', array( 'jquery' ), '', true);
+		wp_enqueue_script( 'opencontractr-util', OPENCONTRACTR_FRONTEND_URL . 'v2/js/util.js', array( 'jquery' ), '', true);
+		wp_enqueue_script( 'opencontractr-main', OPENCONTRACTR_FRONTEND_URL . 'v2/js/main.js', array( 'jquery' ), '', true);
 		
 		//if (is_page('searchlight')) {
 		if ( $_REQUEST['do'] == 'search' ) {
 			///// searchlight styles
-			wp_enqueue_style( 'opencontractr-searchlight', plugin_dir_url() . 'opencontractr/frontend/v2/css/searchlight/searchlight.css' );
-			wp_enqueue_style( 'opencontractr-dynatable', plugin_dir_url() . 'opencontractr/frontend/v2/css/searchlight/jquery.dynatable.css' );
+			wp_enqueue_style( 'opencontractr-searchlight', OPENCONTRACTR_FRONTEND_URL . 'v2/css/searchlight/searchlight.css' );
+			wp_enqueue_style( 'opencontractr-dynatable', OPENCONTRACTR_FRONTEND_URL . 'v2/css/searchlight/jquery.dynatable.css' );
 			
 			///// searchlight scripts
 			//wp_enqueue_script( 'custom', get_theme_file_uri( 'assets/js/custom.js' ), array( 'jquery' ), '', true);
-			wp_enqueue_script( 'json-query', plugin_dir_url() . 'opencontractr/js/common/json_query.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'json-query', OPENCONTRACTR_ABS_URL . 'js/common/json_query.js', array( 'jquery' ), '', true);
 			
-			wp_enqueue_script( 'opencontractr-ocdsdata', plugin_dir_url() . 'opencontractr/frontend/v2/js/searchlight/data/ocds.js', array( 'jquery' ), '', true);
-			wp_enqueue_script( 'opencontractr-services', plugin_dir_url() . 'opencontractr/frontend/v2/js/searchlight/data/services.js', array( 'jquery' ), '', true);
-			wp_enqueue_script( 'opencontractr-dynatable', plugin_dir_url() . 'opencontractr/frontend/v2/js/searchlight/jquery.dynatable.js', array( 'jquery' ), '', true);
-			wp_enqueue_script( 'opencontractr-searchlight', plugin_dir_url() . 'opencontractr/frontend/v2/js/searchlight/searchlight.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'opencontractr-ocdsdata', OPENCONTRACTR_FRONTEND_URL . 'v2/js/searchlight/data/ocds.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'opencontractr-services', OPENCONTRACTR_FRONTEND_URL . 'v2/js/searchlight/data/services.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'opencontractr-dynatable', OPENCONTRACTR_FRONTEND_URL . 'v2/js/searchlight/jquery.dynatable.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'opencontractr-searchlight', OPENCONTRACTR_FRONTEND_URL . 'v2/js/searchlight/searchlight.js', array( 'jquery' ), '', true);
 		}
 		
 		//if (is_page('editor')) {
 		if ( isset($_REQUEST['id']) || $_REQUEST['do'] == 'create' ) {
 			///// editor styles
-			wp_enqueue_style( 'opencontractr-editor', plugin_dir_url() . 'opencontractr/frontend/v2/css/editor.css' );
-			wp_enqueue_style( 'opencontractr-datetime-picker-standalone', plugin_dir_url() . 'opencontractr/frontend/v2/css/bootstrap-datetimepicker-standalone.css');
-			wp_enqueue_style( 'opencontractr-datetime-picker', plugin_dir_url() . 'opencontractr/frontend/v2/css/bootstrap-datetimepicker.css');
-			wp_enqueue_style( 'opencontractr-select2', plugin_dir_url() . 'opencontractr/frontend/v2/css/select2.min.css');
-			wp_enqueue_style( 'opencontractr-tooltipster', plugin_dir_url() . 'opencontractr/frontend/v2/css/tooltipster.min.css');
+			wp_enqueue_style( 'opencontractr-editor', OPENCONTRACTR_FRONTEND_URL . 'v2/css/editor.css' );
+			wp_enqueue_style( 'opencontractr-datetime-picker-standalone', OPENCONTRACTR_FRONTEND_URL . 'v2/css/bootstrap-datetimepicker-standalone.css');
+			wp_enqueue_style( 'opencontractr-datetime-picker', OPENCONTRACTR_FRONTEND_URL . 'v2/css/bootstrap-datetimepicker.css');
+			wp_enqueue_style( 'opencontractr-select2', OPENCONTRACTR_FRONTEND_URL . 'v2/css/select2.min.css');
+			wp_enqueue_style( 'opencontractr-tooltipster', OPENCONTRACTR_FRONTEND_URL . 'v2/css/tooltipster.min.css');
 			
 			///// editor scripts
 			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_script( 'jquery-ui-autocomplete' ); // Enqueue jQuery UI and autocomplete
-			wp_enqueue_script( 'opencontractr-fieldfinder', plugin_dir_url() . 'opencontractr/frontend/v2/js/jquery.fieldfinder.js', array( 'jquery' ), '', true);
-			wp_enqueue_script( 'opencontractr-select2', plugin_dir_url() . 'opencontractr/frontend/v2/js/select2.full.min.js', array( 'jquery' ), '', true);
-			wp_enqueue_script( 'opencontractr-editor', plugin_dir_url() . 'opencontractr/frontend/v2/js/editor.js', array( 'jquery' ), '', true);
-			wp_enqueue_script( 'opencontractr-brutusin', plugin_dir_url() . 'opencontractr/js/common/brutusin-json-forms.js', '', '', false);
-			wp_enqueue_script( 'opencontractr-moment', plugin_dir_url() . 'opencontractr/frontend/v2/js/moment-with-locales.min.js', '', '', false);
-			wp_enqueue_script( 'opencontractr-datetime-picker', plugin_dir_url() . 'opencontractr/frontend/v2/js/bootstrap-datetimepicker.min.js', '', '', false);
-			wp_enqueue_script( 'opencontractr-inputmask', plugin_dir_url() . 'opencontractr/frontend/v2/js/jquery.inputmask.bundle.js', '', '', false);
-			wp_enqueue_script( 'opencontractr-tooltipster', plugin_dir_url() . 'opencontractr/frontend/v2/js/tooltipster.min.js', '', '', false);
-			wp_enqueue_script( 'opencontractr-qualitycheck', plugin_dir_url() . 'opencontractr/js/common/qualitycheck.js', '', '', false);
+			wp_enqueue_script( 'opencontractr-fieldfinder', OPENCONTRACTR_FRONTEND_URL . 'v2/js/jquery.fieldfinder.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'opencontractr-select2', OPENCONTRACTR_FRONTEND_URL . 'v2/js/select2.full.min.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'opencontractr-editor', OPENCONTRACTR_FRONTEND_URL . 'v2/js/editor.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'opencontractr-brutusin', OPENCONTRACTR_ABS_URL . 'js/common/brutusin-json-forms.js', '', '', false);
+			wp_enqueue_script( 'opencontractr-moment', OPENCONTRACTR_FRONTEND_URL . 'v2/js/moment-with-locales.min.js', '', '', false);
+			wp_enqueue_script( 'opencontractr-datetime-picker', OPENCONTRACTR_FRONTEND_URL . 'v2/js/bootstrap-datetimepicker.min.js', '', '', false);
+			wp_enqueue_script( 'opencontractr-inputmask', OPENCONTRACTR_FRONTEND_URL . 'v2/js/jquery.inputmask.bundle.js', '', '', false);
+			wp_enqueue_script( 'opencontractr-tooltipster', OPENCONTRACTR_FRONTEND_URL . 'v2/js/tooltipster.min.js', '', '', false);
+			wp_enqueue_script( 'opencontractr-qualitycheck', OPENCONTRACTR_ABS_URL . 'js/common/qualitycheck.js', '', '', false);
 		}
 		
 		if ($_REQUEST['do'] == 'create') {
-			wp_enqueue_style( 'opencontractr-createCss', plugin_dir_url() . 'opencontractr/frontend/v2/css/style.css');
+			wp_enqueue_style( 'opencontractr-createCss', OPENCONTRACTR_FRONTEND_URL . 'v2/css/style.css');
 			
-			wp_enqueue_script( 'opencontractr-slidingform', plugin_dir_url() . 'opencontractr/frontend/v2/js/sliding.form.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'opencontractr-slidingform', OPENCONTRACTR_FRONTEND_URL . 'v2/js/sliding.form.js', array( 'jquery' ), '', true);
 		}
 	
 	}
