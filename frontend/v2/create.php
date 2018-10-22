@@ -33,7 +33,7 @@ if ( !is_user_logged_in() ){
 	}
 		
 	$ocid = generate_ocid();
-	$fieldsjson = file_get_contents(WP_CONTENT_DIR . '/plugins/opencontractr/schema/fieldsmap.json');
+	$fieldsjson = file_get_contents(OPENCONTRACTR_SCHEMA_PATH . 'fieldsmap.json');
 	$fields = json_decode($fieldsjson, true);
 		
 	//get_header();

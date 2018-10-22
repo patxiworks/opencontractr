@@ -13,6 +13,14 @@
  * Domain Path: 
  */
 
+ define('OPENCONTRACTR_ABS_PATH', WP_PLUGIN_DIR.'/opencontractr/opencontractr/');
+ define('OPENCONTRACTR_ABS_URL', WP_PLUGIN_URL.'/opencontractr/opencontractr/');
+ define('OPENCONTRACTR_FRONTEND_PATH', OPENCONTRACTR_ABS_PATH.'frontend/');
+ define('OPENCONTRACTR_FRONTEND_URL', OPENCONTRACTR_ABS_URL.'frontend/');
+ define('OPENCONTRACTR_SCHEMA_PATH', OPENCONTRACTR_ABS_PATH.'schema/');
+ define('OPENCONTRACTR_SCHEMA_URL', OPENCONTRACTR_ABS_URL.'schema/');
+ define('OPENCONTRACTR_REL_PATH', '/opencontractr/opencontractr/');
+
 require_once('php/simple-search.php');
 require_once('php/advanced-search.php');
 require_once('php/settings.php');
@@ -1701,9 +1709,9 @@ function include_template_function( $template_path ) {
             } else {
 				if ($_REQUEST['action'] == 'download' || $_REQUEST['action'] == 'validate') {
 					$template_path = plugin_dir_path( __FILE__ ) . 'src/actions.php';
-				} else {
-					$template_path = plugin_dir_path( __FILE__ ) . 'frontend/analysis/ocds-show/index.php';
-				}
+				} /*else {
+					$template_path = plugin_dir_path( __FILE__ ) . 'frontend/analysis/ocds-show/index2.php';
+				}*/
             }
         } elseif (is_archive() ) {
             if ( $theme_file = locate_template( array ( 'archive-open_contract.php' ) ) ) {
@@ -1711,17 +1719,17 @@ function include_template_function( $template_path ) {
             } else {
 				if ($_REQUEST['action'] == 'downloadall' || $_REQUEST['action'] == 'search') {
 					$template_path = plugin_dir_path( __FILE__ ) . 'src/actions.php';
-				} else {
-					$template_path = plugin_dir_path( __FILE__ ) . 'frontend/analysis/ocds-visualise/index.php';
-				}
+				} /*else {
+					$template_path = plugin_dir_path( __FILE__ ) . 'frontend/analysis/ocds-visualise/index2.php';
+				}*/
             }
 		}
 		if ( isset($_REQUEST['id']) || isset($_REQUEST['data']) ) {
-			$template_path = plugin_dir_path( __FILE__ ) . 'frontend/v2/edit.php';
+			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'v2/edit.php';
 		} elseif ($_REQUEST['do'] == 'create') {
-			$template_path = plugin_dir_path( __FILE__ ) . 'frontend/v2/create.php';
+			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'v2/create.php';
 		} elseif ($_REQUEST['do'] == 'search' ) {
-			$template_path = plugin_dir_path( __FILE__ ) . 'frontend/v2/search.php';
+			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'v2/search.php';
 		}
     }
 	

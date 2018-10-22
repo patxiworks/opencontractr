@@ -21,7 +21,7 @@
 		<?php wp_head(); ?>
 	</head>
 	<body class="is-loading" <?php body_class(); ?>>
-
+	
 		<!-- Wrapper -->
 			<div id="wrapper" class="fade-in">
 				
