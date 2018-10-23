@@ -13,13 +13,18 @@
  * Domain Path: 
  */
 
- define('OPENCONTRACTR_ABS_PATH', WP_PLUGIN_DIR.'/opencontractr/opencontractr/');
- define('OPENCONTRACTR_ABS_URL', WP_PLUGIN_URL.'/opencontractr/opencontractr/');
+if (defined('OPENCONTRACTR_PLUGIN_DIR')) {
+	$opencontractr_dir = '/opencontractr/'.OPENCONTRACTR_PLUGIN_DIR.'/';
+} else {
+	$opencontractr_dir = '/opencontractr/';
+}
+ define('OPENCONTRACTR_ABS_PATH', WP_PLUGIN_DIR.$opencontractr_dir);
+ define('OPENCONTRACTR_ABS_URL', WP_PLUGIN_URL.$opencontractr_dir.'/');
  define('OPENCONTRACTR_FRONTEND_PATH', OPENCONTRACTR_ABS_PATH.'frontend/');
  define('OPENCONTRACTR_FRONTEND_URL', OPENCONTRACTR_ABS_URL.'frontend/');
  define('OPENCONTRACTR_SCHEMA_PATH', OPENCONTRACTR_ABS_PATH.'schema/');
  define('OPENCONTRACTR_SCHEMA_URL', OPENCONTRACTR_ABS_URL.'schema/');
- define('OPENCONTRACTR_REL_PATH', '/opencontractr/opencontractr/');
+ define('OPENCONTRACTR_REL_PATH', $opencontractr_dir);
 
 require_once('php/simple-search.php');
 require_once('php/advanced-search.php');
