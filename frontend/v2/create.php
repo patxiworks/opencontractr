@@ -31,8 +31,9 @@ if ( !is_user_logged_in() ){
 		wp_redirect( '?id='.$post_id );
 		exit;
 	}
-		
-	$ocid = generate_ocid();
+	
+	global $prefix, $publisher, $datapath;
+	$ocid = generate_ocid($prefix, $post_id, 8, $publisher);
 	$fieldsjson = file_get_contents(OPENCONTRACTR_SCHEMA_PATH . 'fieldsmap.json');
 	$fields = json_decode($fieldsjson, true);
 		
