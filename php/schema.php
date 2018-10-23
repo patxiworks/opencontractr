@@ -9,8 +9,8 @@
             readfile(plugin_dir_url(__FILE__) . '../schema/fieldscheme.json');
             
         } elseif ($_GET['ocds_data'] == 'schema') {
-            //$ch =  curl_init('http://standard.open-contracting.org/latest/en/release-schema.json');
-            $ch =  curl_init('http://localhost:8888/release-schema.json');
+            $ch =  curl_init('http://standard.open-contracting.org/latest/en/release-schema.json');
+            //$ch =  curl_init('http://localhost:8888/release-schema.json');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
                 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
