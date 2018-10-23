@@ -1708,7 +1708,7 @@ function include_template_function( $template_path ) {
                 $template_path = $theme_file;
             } else {
 				if ($_REQUEST['action'] == 'download' || $_REQUEST['action'] == 'validate') {
-					$template_path = plugin_dir_path( __FILE__ ) . 'src/actions.php';
+					$template_path = OPENCONTRACTR_ABS_PATH . 'src/actions.php';
 				} /*else {
 					$template_path = plugin_dir_path( __FILE__ ) . 'frontend/analysis/ocds-show/index2.php';
 				}*/
@@ -1718,7 +1718,7 @@ function include_template_function( $template_path ) {
                 $template_path = $theme_file;
             } else {
 				if ($_REQUEST['action'] == 'downloadall' || $_REQUEST['action'] == 'search') {
-					$template_path = plugin_dir_path( __FILE__ ) . 'src/actions.php';
+					$template_path = OPENCONTRACTR_ABS_PATH . 'src/actions.php';
 				} /*else {
 					$template_path = plugin_dir_path( __FILE__ ) . 'frontend/analysis/ocds-visualise/index2.php';
 				}*/
