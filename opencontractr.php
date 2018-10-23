@@ -15,7 +15,6 @@
 
 if (defined('OPENCONTRACTR_PLUGIN_DIR')) {
 	$opencontractr_dir = '/opencontractr/'.OPENCONTRACTR_PLUGIN_DIR.'/';
-	echo opencontractr_dir;
 } else {
 	$opencontractr_dir = '/opencontractr/';
 }
