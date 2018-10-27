@@ -31,7 +31,7 @@ require_once('php/advanced-search.php');
 require_once('php/settings.php');
 require_once('php/tools.php');
 require_once('php/schema.php');
-require_once('frontend/v2/functions.php');
+require_once('frontend/functions.php');
 
  // Exit if accessed directly.
 if( !defined( 'ABSPATH' ) ) exit;
@@ -831,7 +831,7 @@ function display_import_meta_box( $post ) {
 			var formdata = new FormData();
 			formdata.append('file', filedata);
 			$.ajax({
-				url: '<?php echo plugin_dir_url(__FILE__) ?>src/import.php',
+				url: '<?php echo plugin_dir_url(__FILE__) ?>php/import.php',
 				type: 'POST',
 				data: formdata,
 				processData: false,
@@ -1713,7 +1713,7 @@ function include_template_function( $template_path ) {
                 $template_path = $theme_file;
             } else {
 				if ($_REQUEST['action'] == 'download' || $_REQUEST['action'] == 'validate') {
-					$template_path = OPENCONTRACTR_ABS_PATH . 'src/actions.php';
+					$template_path = OPENCONTRACTR_ABS_PATH . 'php/actions.php';
 				} /*else {
 					$template_path = plugin_dir_path( __FILE__ ) . 'frontend/analysis/ocds-show/index2.php';
 				}*/
@@ -1723,18 +1723,18 @@ function include_template_function( $template_path ) {
                 $template_path = $theme_file;
             } else {
 				if ($_REQUEST['action'] == 'downloadall' || $_REQUEST['action'] == 'search') {
-					$template_path = OPENCONTRACTR_ABS_PATH . 'src/actions.php';
+					$template_path = OPENCONTRACTR_ABS_PATH . 'php/actions.php';
 				} /*else {
 					$template_path = plugin_dir_path( __FILE__ ) . 'frontend/analysis/ocds-visualise/index2.php';
 				}*/
             }
 		}
 		if ( isset($_REQUEST['id']) || isset($_REQUEST['data']) ) {
-			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'v2/edit.php';
+			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'edit.php';
 		} elseif ($_REQUEST['do'] == 'create') {
-			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'v2/create.php';
+			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'create.php';
 		} elseif ($_REQUEST['do'] == 'search' ) {
-			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'v2/search.php';
+			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'search.php';
 		}
     }
 	
