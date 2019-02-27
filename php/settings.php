@@ -72,7 +72,7 @@ class OpenContractrSettings
         $this->publisher_options = get_option( 'publisher_options' );
 		$this->organisation_options = get_option( 'organisation_options' );
 		$this->field_options = get_option( 'field_options' );
-		print_r($this->new_fields);
+		
         ?>
         <div class="wrap">
             <h1>OpenContractr Settings</h1>

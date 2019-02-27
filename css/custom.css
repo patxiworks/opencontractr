@@ -284,3 +284,32 @@ th.dynatable-head a {
     color: #333;
     font-weight: bold;
 }
+
+
+/******** Field List ********/
+
+th.title {
+    font-weight: bold;
+}
+th.first {
+    min-width: 300px;
+}
+.Basic, .Advanced, .Intermediate, .Type {
+    display: none;
+}
+small.mandatory {
+    color: #bd3838;
+}
+
+span.fieldinfo {
+    color: #bf0f0f;
+}
+
+.field-table th {
+    width: 0px;
+}
+.field-table textarea {
+    width: 352px;
+    height: 140px;
+    resize: both;
+}

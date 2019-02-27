@@ -1491,6 +1491,27 @@ function reset_codelists($action) {
   FIELD MANAGER
  *******************/
 
+if ($_POST['savefield']) {
+	$field_options = get_option( 'field_options' );
+	foreach($_POST['field_options'] as $key => $value) {
+		$field_options[$key] = $value;
+	}
+	update_option( 'field_options', $field_options );
+}
+//print_r($_POST);
+//print_r(get_option( 'field_options' ));
+
+if ($_POST['action'] == 'reset-fields') {
+	reset_fields();
+}
+
+//print_r(get_option('field_options'));
+
+function reset_fields() {
+	// clear the array
+	update_option('field_options', []);
+}
+
 add_action( 'admin_menu', 'register_field_manager' );
 function register_field_manager() {
     $fieldlist_page = add_submenu_page( 
@@ -1535,7 +1556,7 @@ function fields_settings_page() {
 		<p style="float:left"><?php echo __('These are the fields according to OCDS specification','opencontractr'); ?></p>
 		<div style="float:right">
 			<form method="POST" name="savefields" id="savefields" action="">
-				<!--<input type="button" id="reload-fields" name="reload-fields" class="button" value="Reload Fields">-->
+				<input type="button" id="reset-fields" name="reset-fields" class="button" value="Reset Fields">
 				<input type="button" id="save-fields" name="save-fields" class="button-primary" value="Save Selected Fields">
 				<input type="hidden" id="action" name="action">
 				<textarea id="selected-fields" name="selected-fields" style="display: none"></textarea>
@@ -1570,32 +1591,70 @@ function fields_settings_page() {
 				echo '<td><strong><a href="options-general.php?page=opencontractr_settings&tab='.$key.'_field_options">'.join( "/", $keyparts ).'</a></strong></td>';
 				for ($i=0; $i<count($value); $i++) {
 					$option = get_option('field_options')[$key.'_'.$field_keys[$i][0]];
-					echo '<td>';
+					echo '<td id="'.$key.'_'.$field_keys[$i][0].'">';
 					if ( $option ) {
-						if ($field_keys[$i][0] == 'mandatory') {
-							echo ($option == '1') ? 'Yes' : 'No';
-						} else {
+						//if ($field_keys[$i][0] == 'mandatory') {
+							//echo ($option == '1') ? 'Yes' : 'No';
+						//} else {
 							echo $option;
-						}
+						//}
 					} else {
-						echo $value[$i];
+						echo ($option ? $value[$i] : '');
 					}
 					echo '</td>';
 				}
 				echo '</tr>';
 			}
+			add_thickbox();
 			?>
 		</table>
 		
-		<table class="wp-list-table widefat" id="fieldlist" border=1>
+		<div id="field-edit-box" style="display:none">
+			<form method="post" action="">
+				<input type="hidden" name="option_page" value="tender-description_field_option_group">
+				<input type="hidden" name="action" value="update">
+				<input type="hidden" id="_wpnonce" name="_wpnonce" value="3fea12d4dc">
+				<input type="hidden" name="_wp_http_referer" value="/opencontractr/wp-admin/edit.php?post_type=open_contract&amp;page=fields#tender">
+				<h2 class="title">Change field information for <span class="fieldinfo"></span></h2>
+				<span>Fill the form below</span>
+				<div>
+				<table class="field-table form-table">
+					<tbody>
+						<tr>
+							<th scope="row">Mandatory?</th>
+							<td>
+								<select class="fieldval" id="mandatory" name=""><option value="1">Yes</option><option value="0">No</option></select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Label</th>
+							<td>
+								<input type="text" class="fieldval" id="label" name="" class="regular-text" value="">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Description</th>
+							<td>
+								<textarea type="text" class="fieldval" id="description" name=""></textarea>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+				<p class="submit">
+					<input type="submit" name="savefield" id="submit" class="button button-primary" value="Save Changes">
+				</p>            
+			</form>
+		</div>
+		<table class="wp-list-table widefat" id="fieldlist" border="1">
 			<tr class="title">
 				<td><input type="checkbox" id="checkall"></td>
-				<th>Field</th>
-				<th>Basic</th>
-				<th>Intermediate</th>
-				<th>Advanced</th>
-				<th>Description</th>
-				<th>Type</th>
+				<th class="first title">Field</th>
+				<th class="Basic">Basic</th>
+				<th class="Intermediate">Intermediate</th>
+				<th class="Advanced">Advanced</th>
+				<th class="title">Description</th>
+				<th class="Type">Type</th>
 			</tr>			
 		</table>
 	</div>
@@ -1605,7 +1664,16 @@ function fields_settings_page() {
 				qualitycheck.writeoutput( $('#fieldlist'), scheme );
 				$('.field').each(function(i,el) {
 					fieldtab = $(this).html().split('/').join('-');
-					$(this).html('<strong><a href="options-general.php?page=opencontractr_settings&tab='+fieldtab+'_field_options">'+$(this).html()+'</a></strong>');
+					var html = '';
+					//html += '<strong><a href="options-general.php?page=opencontractr_settings&tab='+fieldtab+'_field_options">'+$(this).html()+'</a></strong>';
+					html += '<strong><a href="#TB_inline?width=600&height=550&title=New&inlineId=field-edit-box" class="thickbox fields">'+$(this).html()+'</a></strong>';
+					html += '<br><small class="userdefined '+($('#'+fieldtab+'_mandatory').html() == '1' ? 'mandatory' : '')+'">'+$('#'+fieldtab+'_label').html()+'</small>';
+					$(this).html(html);
+					// description text
+					var deshtml = '';
+					deshtml += $(this).siblings('.Description').html();
+					deshtml += '<br><small class="userdefined '+($('#'+fieldtab+'_mandatory').html() == '1' ? 'mandatory' : '')+'">'+$('#'+fieldtab+'_description').html()+'</small>';
+					$(this).siblings('.Description').html(deshtml);
 				});
 				$.getJSON( "<?php echo $selectedfieldspath ?>", function( selectedfields ) {
 					defaultfields = ['ocid','id','language','date','tag','initiationType','parties/id','buyer/id','tender/id','awards/id','contracts/id']
@@ -1633,10 +1701,24 @@ function fields_settings_page() {
 					})
 					
 					output = qualitycheck.calculatescores(scheme, selectedfields);
-					console.log(output);
-					
-					$('#fieldscore').text( output['fieldscore'].toFixed(2) )
+					//console.log(output);
+					$('#fieldscore').text( output['fieldscore'].toFixed(2) );
 				});
+				
+				// click action for field names
+				$('.wp-list-table').on('click', '.fields', function() {
+					$('.fieldinfo').html($(this).html());
+					var fielditem = $(this).closest('.field').data('field');
+					var fieldtable = $('.field-table');
+					fieldtable.find('tr').show();
+					fieldtable.find('.fieldval').each(function() {
+						var fieldid = $(this).attr('id').split('_')[1] ? fielditem + '_' + $(this).attr('id').split('_')[1] : fielditem + '_' + $(this).attr('id');
+						$(this).attr('id', fieldid);
+						$(this).attr('name', 'field_options['+fieldid+']');
+						$(this).val($('#'+fieldid).html());
+					});
+					fieldtable.find('input').attr('id', );
+				})
 				
 				// tab navigation
 				$('.nav-tab').click(function() {
@@ -1666,8 +1748,16 @@ function fields_settings_page() {
                         }
 					});
 					$('#selected-fields').html(JSON.stringify(selectedfields));
-					$('#savefields #action').val('save-fields')
+					$('#savefields #action').val('save-fields');
 					$('#savefields').submit();
+				});
+				
+				// reset fields
+				$('#reset-fields').click(function() {
+					if ( confirm('Do you really want to reset ALL the fields?') ) {
+						$('#savefields #action').val('reset-fields')
+						$('#savefields').submit();
+					}
 				})
 			});
 		});
