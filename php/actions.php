@@ -44,7 +44,8 @@ switch ($_REQUEST['action']) {
     
     case 'downloadall':
         // get all releases
-        $posts = get_posts( array( 'numberposts' => -1, 'post_type'   => 'open_contract') );
+        $count = isset($_REQUEST['count']) ? $_REQUEST['count'] : -1;
+        $posts = get_posts( array( 'numberposts' => $count, 'post_type'   => 'open_contract') );
         $json = get_releases($posts);
         if ($_REQUEST['type']) {
             $type = ($_REQUEST['type']) ? $_REQUEST['type'] : 'txt';

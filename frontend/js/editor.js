@@ -645,7 +645,11 @@ function runEditor() {
 					$('#contract-title').focus();
 				}
 			}
-		})
+		});
+
+		$('#importData').click(function() {
+			$('a.thickbox.import').click();
+		});
 		
 		if ($('#steps').length) mapFields($);
 		
@@ -655,13 +659,14 @@ function runEditor() {
 				$this = $(this);
 				thisfield = $this.attr('id');
 				fieldlist = fields[thisfield]['fields'];
-				$.each(fieldlist, function(field, description) {
-					fieldparent = field.split('-')[0];
-					elements = $('.kvp[data-path='+field+']');
+				$.each(fieldlist, function(i, item) {
+					fieldparent = item.field.split('-')[0];
+					var elements = $('.kvp[data-path='+item.field+']');
 					$this.append(elements);
-					elements.wrap("<div data-path='"+fieldparent+"' class='kvp widget'></div>");
+					var parent = $("<div data-path='"+fieldparent+"' class='kvp widget'></div>");
+					elements.wrap(parent);
 					//if (elements.hasClass('hasitems')) {
-						elements.find('label:first').text(description);
+						elements.find('label:first').text(item.description);
 					//}
 				});
 			})
@@ -720,7 +725,7 @@ function runEditor() {
 		$.getJSON( '?ocds_data=field-scheme', function( scheme, status, xhr ) {
 			$.getJSON( '?ocds_data=selected-fields', function( selectedfields, status, xhr ) {
 				$.getJSON( json_download_url, function( ocds, status, xhr ) {
-					console.log(ocds)
+					//console.log(ocds)
 					output = qualitycheck.calculatescores(scheme, selectedfields, ocds);
 					$('#dcs').text(output['completionscore'].toFixed(2))
 				});
@@ -730,3 +735,31 @@ function runEditor() {
 	})
 	
 }
+
+function validate(url) {
+	var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+	if (pattern.test(url)) {
+		return true;
+	} 
+		return false;
+}
+var inputs = document.querySelectorAll( '.importfile' );
+Array.prototype.forEach.call( inputs, function( input )
+{
+	var label	 = input.nextElementSibling,
+		labelVal = label.innerHTML;
+
+	input.addEventListener( 'change', function( e )
+	{
+		var fileName = '';
+		if( this.files && this.files.length > 1 )
+			fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+		else
+			fileName = e.target.value.split( '\\' ).pop();
+
+		if( fileName )
+			label.innerHTML = fileName;
+		else
+			label.innerHTML = labelVal;
+	});
+});

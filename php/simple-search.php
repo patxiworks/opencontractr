@@ -47,7 +47,7 @@ function populate_contracts_columns( $column_name, $post_id ) {
 	}
 	if ( $column_name == 'downloads') {
 		$postinfo = get_post($post_id);
-		echo '<form></form><form method="POST" action="'.get_permalink($post_id).'?action=download" id="downloadsform">';
+		echo '<form></form><form method="POST" action="'.get_permalink($post_id).(strpos(get_permalink($post_id), '?') ? '&' : '?').'action=download" id="downloadsform">';
         printf( '<input type="button" class="button contractbtn" data-type="json" onclick="download(this)" value="%s" />&nbsp;', esc_attr( __( 'JSON' ) ) );
 		printf( '<input type="button" class="button contractbtn" data-type="csv" onclick="download(this)" value="%s" />&nbsp;', esc_attr( __( 'CSV' ) ) );
 		printf( '<input type="button" class="button contractbtn" data-type="raw" onclick="download(this)" value="%s" />', esc_attr( __( 'Raw' ) ) );

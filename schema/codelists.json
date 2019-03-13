@@ -25,7 +25,8 @@
                     "values": {
                               "open":"Open",
                               "selective":"Selective",
-                              "limited":"Limited"
+                              "limited":"Limited",
+                              "direct":"Direct"
                               }
           },
           "roles": {
@@ -40,7 +41,23 @@
                               "funder":"Funder"
                               }
           },
-          "scheme": [{
+          "role": {
+                    "name": "Role",
+                    "type": "open",
+                    "tag": "select",
+                    "values": {
+                            "buyer":"Buyer",
+                            "procuringEntity":"Procuring Entity",
+                            "supplier":"Supplier",
+                            "tenderer":"Tenderer",
+                            "funder":"Funder",
+                            "enquirer":"Enquirer",
+                            "payer":"Payer",
+                            "payee":"Payee",
+                            "reviewBody":"Review Body"
+                            }
+            },
+            "scheme": [{
                     "name": "Item Classification Scheme",
                     "type": "open",
                     "tag": "select",
@@ -48,7 +65,10 @@
                               "CPV":"EC Common Procurement Vocabulary",
                               "CPVS":"EC Common Procurement Vocabulary - Supplementary Codelists",
                               "GSIN":"Goods and Services Identification Number",
-                              "UNSPSC":"United Nations Standard Products and Services Code®"
+                              "UNSPSC":"United Nations Standard Products and Services Code®",
+                              "CPC":"Central Product Classification",
+                              "OKDP":"Russian National Classification of Products by Economic Activity (1994)",
+                              "OKPD":"Russian National Classification of Products by Economic Activity (2014)"
                     },
                     "alias": [
                               "tender-items-classification-scheme",
@@ -58,6 +78,19 @@
                               "contracts-items-classification-scheme",
                               "contracts-items-additionalClassifications-scheme"
                               ]
+                    },{
+                        "name": "Unit Classification Scheme",
+                        "type": "open",
+                        "tag": "select",
+                        "values": {
+                                "UNCEFACT":"UN/CEFACT Recommendation 20",
+                                "QUDT":"Quantities, Units, Dimensions and Data Types Ontologies"
+                        },
+                        "alias": [
+                                "tender-items-unit-scheme",
+                                "awards-items-unit-scheme",
+                                "contracts-items-unit-scheme"
+                                ]
                     },{
                     "name": "Organization Identifier Scheme",
                     "type": "open",
@@ -137,7 +170,74 @@
                               "contracts-implementation-transactions-providerOrganization-scheme"
                     ]
           }],
-          "awardCriteria": {
+          "documentType": {
+                    "name": "Document Type",
+                    "type": "open",
+                    "tag": "select",
+                    "values": {
+                            "tenderNotice":"Tender Notice",
+                            "awardNotice":"Award Notice",
+                            "contractNotice":"Contract Notice",
+                            "completionCertificate":"Completion certificate",
+                            "procurementPlan":"Procurement Plan",
+                            "biddingDocuments":"Bidding Documents",
+                            "technicalSpecifications":"Technical Specifications",
+                            "evaluationCriteria":"Evaluation Criteria",
+                            "evaluationReports":"Evaluation report",
+                            "contractDraft":"Contract draft",
+                            "contractSigned":"Signed Contract",
+                            "contractArrangements":"Arrangements for ending contract",
+                            "contractSchedule":"Contract schedules",
+                            "physicalProgressReport":"Physical progress reports",
+                            "financialProgressReport":"Financial progress reports",
+                            "finalAudit":"Final Audit",
+                            "hearingNotice":"Public Hearing Notice",
+                            "marketStudies":"Market Studies",
+                            "eligibilityCriteria":"Eligibility Criteria",
+                            "clarifications":"Clarifications to bidders questions",
+                            "shortlistedFirms":"Shortlisted Firms",
+                            "environmentalImpact":"Environmental Impact",
+                            "assetAndLiabilityAssessment":"Assessment of government’s assets and liabilities",
+                            "riskProvisions":"Provisions for management of risks and liabilities",
+                            "winningBid":"Winning Bid",
+                            "complaints":"Complaints and decisions",
+                            "contractAnnexe":"Annexes to the Contract",
+                            "contractGuarantees":"Guarantees",
+                            "subContract":"Subcontracts",
+                            "needsAssessment":"Needs Assessment",
+                            "feasibilityStudy":"Feasibility study",
+                            "projectPlan":"Project plan",
+                            "billOfQuantity":"Bill Of Quantity",
+                            "bidders":"Information on bidders",
+                            "conflictOfInterest":"Conflict of Interest",
+                            "debarments":"Debarments",
+                            "illustration":"Illustrations",
+                            "submissionDocuments":"Bid Submission Documents",
+                            "contractSummary":"Contract Summary",
+                            "cancellationDetails":"Cancellation Details"
+                    }
+            },
+            "type": [{
+                    "name": "Milestone Type",
+                    "type": "open",
+                    "tag": "select",
+                    "values": {
+                            "preProcurement":"Pre-procurement milestones",
+                            "approval":"Approval",
+                            "engagement":"Engagement milestones",
+                            "assessment":"Assessment milestones",
+                            "delivery":"Delivery milestones",
+                            "reporting":"Reporting milestones",
+                            "financing":"Financing milestones"
+                    },
+                    "alias": [
+                            "planning-milestones-type",
+                            "tender-milestones-type",
+                            "contracts-implementation-milestones-type",
+                            "contracts-milestones-type"
+                            ]
+            }],
+            "awardCriteria": {
                     "name": "Award Criteria",
                     "type": "open",
                     "tag": "select",
@@ -151,8 +251,8 @@
                               "bestValueToGovernment":"Best Value to Government",
                               "singleBidOnly":"Single Bid Only"
                     }
-          },
-          "submissionMethod": {
+            },
+            "submissionMethod": {
                     "name": "Submission Method",
                     "type": "open",
                     "tag": "select",
@@ -162,56 +262,94 @@
                               "written":"Written",
                               "inPerson":"In Person"
                     }
-          },
-          "status": [{
-                    "name": "Tender Staus",
-                    "type": "closed",
-                    "tag": "select",
-                    "values": {
-                              "planning":"Planning",
-                              "planned":"Planned",
-                              "active":"Active",
-                              "cancelled":"Cancelled",
-                              "unsuccessful":"Unsuccessful",
-                              "complete":"Complete",
-                              "withdrawn":"Withdrawn"
-                    },
-                    "alias": ["tender-status"]
+            },
+            "procurementCategory": {
+                "name": "Procurement Category",
+                "type": "closed",
+                "tag": "select",
+                "values": {
+                          "goods":"Goods and supplies",
+                          "works":"Works",
+                          "services":"Services"
+                }
+            },
+            "tag": {
+                "name": "Release Tag",
+                "type": "closed",
+                "tag": "select",
+                "values": {
+                        "planning":"Planning",
+                        "planningUpdate":"Planning Update",
+                        "tender":"Tender",
+                        "tenderAmendment":"Tender Amendment",
+                        "tenderUpdate":"Tender Update",
+                        "tenderCancellation":"Tender Cancellation",
+                        "award":"Award",
+                        "awardUpdate":"Award Update",
+                        "awardCancellation":"Award Cancellation",
+                        "contract":"Contract",
+                        "contractUpdate":"Contract Update",
+                        "contractAmendment":"Contract Amendment",
+                        "implementation":"Implementation",
+                        "implementationUpdate":"Implementation Update",
+                        "contractTermination":"Contract Termination",
+                        "compiled":"Compiled record"
+                }
+            },
+            "status": [{
+                        "name": "Tender Status",
+                        "type": "closed",
+                        "tag": "select",
+                        "values": {
+                                "planning":"Planning",
+                                "planned":"Planned",
+                                "active":"Active",
+                                "cancelled":"Cancelled",
+                                "unsuccessful":"Unsuccessful",
+                                "complete":"Complete",
+                                "withdrawn":"Withdrawn"
+                        },
+                        "alias": ["tender-status"]
                     },{
-                    "name": "Award Status",
-                    "type": "closed",
-                    "tag": "select",
-                    "values": {
-                              "pending":"Pending",
-                              "active":"Active",
-                              "cancelled":"Cancelled",
-                              "unsuccessful":"Unsuccessful"
-                    },
-                    "alias": ["awards-status"]
+                        "name": "Award Status",
+                        "type": "closed",
+                        "tag": "select",
+                        "values": {
+                                "pending":"Pending",
+                                "active":"Active",
+                                "cancelled":"Cancelled",
+                                "unsuccessful":"Unsuccessful"
+                        },
+                        "alias": ["awards-status"]
                     },{
-                    "name": "Contract Status",
-                    "type": "closed",
-                    "tag": "select",
-                    "values": {
-                              "pending":"Pending",
-                              "active":"Active",
-                              "cancelled":"Cancelled",
-                              "terminated":"Terminated"
-                    },
-                    "alias": ["contracts-status"]
+                        "name": "Contract Status",
+                        "type": "closed",
+                        "tag": "select",
+                        "values": {
+                                "pending":"Pending",
+                                "active":"Active",
+                                "cancelled":"Cancelled",
+                                "terminated":"Terminated"
+                        },
+                        "alias": ["contracts-status"]
                     },{
-                    "name": "Milestone Status",
-                    "type": "closed",
-                    "tag": "select",
-                    "values": {
-                              "scheduled":"Scheduled",
-                              "met":"Met",
-                              "notMet":"Not Met",
-                              "partiallyMet":"Partially Met"
-                    },
-                    "alias": ["contracts-implementation-milestones-status"]
-          }],
-          "id": [{
+                        "name": "Milestone Status",
+                        "type": "closed",
+                        "tag": "select",
+                        "values": {
+                                "scheduled":"Scheduled",
+                                "met":"Met",
+                                "notMet":"Not Met",
+                                "partiallyMet":"Partially Met"
+                        },
+                        "alias": [
+                            "planning/milestones/status",
+                            "tender/milestones/status",
+                            "contracts-implementation-milestones-status",
+                            "contracts/milestones/status"
+                        ]
+            }],
+            "id": [{
                     "name": "Procuring Entity",
                     "tag": "button",
                     "values": "Get Party ID",

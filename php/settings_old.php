@@ -7,7 +7,6 @@ class OpenContractrSettings
 	private $general_options;
     private $publisher_options;
 	private $organisation_options;
-	private $custom_frontend_options;
 	private $field_options;
 	private $organisation_props = Array(
 				array("organisation.name","Organisation Name"),
@@ -59,7 +58,7 @@ class OpenContractrSettings
 			'OpenContractr',
 			'manage_options',
 			'opencontractr_settings',
-			array( $this,'create_admin_page' )
+			array( $this, 'create_admin_page' )
 		);
     }
 
@@ -72,9 +71,8 @@ class OpenContractrSettings
 		$this->general_options = get_option( 'general_options' );
         $this->publisher_options = get_option( 'publisher_options' );
 		$this->organisation_options = get_option( 'organisation_options' );
-		$this->custom_frontend_options= get_option('custom_frontend_options');
 		$this->field_options = get_option( 'field_options' );
-		print_r($this->new_fields);
+		
         ?>
         <div class="wrap">
             <h1>OpenContractr Settings</h1>
@@ -92,7 +90,6 @@ class OpenContractrSettings
 				<a href="?page=opencontractr_settings&tab=general_options" class="nav-tab <?php echo $active_tab == 'general_options' ? 'nav-tab-active' : ''; ?>">General Settings</a>
 				<a href="?page=opencontractr_settings&tab=publisher_options" class="nav-tab <?php echo $active_tab == 'publisher_options' ? 'nav-tab-active' : ''; ?>">Publisher Settings</a>
 				<a href="?page=opencontractr_settings&tab=organisation_options" class="nav-tab <?php echo $active_tab == 'organisation_options' ? 'nav-tab-active' : ''; ?>">Default Organisation Settings</a>
-				<a href="?page=opencontractr_settings&tab=custom_frontend_options" class="nav-tab <?php echo $active_tab == 'custom_frontend_options' ? 'nav-tab-active' : ''; ?>">Default Custom Settings</a>
 				<!--<a href="?page=opencontractr_settings&tab=field_options" class="nav-tab <?php echo $active_tab == 'field_options' ? 'nav-tab-active' : ''; ?>">Default Field Settings</a>-->
 			</h2>
 			
@@ -107,9 +104,6 @@ class OpenContractrSettings
 				} elseif ( $active_tab == 'organisation_options' ) {
 					settings_fields( 'organisation_option_group' );
 					do_settings_sections( 'opencontractr_organisation_options' );
-				}elseif ( $active_tab == 'custom_frontend_options' ) {
-					settings_fields( 'custom_frontend_options' );
-					do_settings_sections( 'opencontractr_custom_frontend_options' );
 				}
 				
 				for ($i=0; $i<count($this->fields); $i++) {
@@ -139,9 +133,6 @@ class OpenContractrSettings
 		}
 		if( false == get_option( 'opencontractr_organisation_options' ) ) {   
 			add_option( 'opencontractr_organisation_options' );
-		}
-		if( false == get_option( 'opencontractr_custom_frontend_options' ) ) {   
-			add_option( 'opencontractr_custom_frontend_options' );
 		}
 		for ($i=0; $i<count($this->fields); $i++) {
 			if( false == get_option( 'opencontractr_field_options_'.$this->fields[$i][0] ) ) {   
@@ -229,8 +220,7 @@ class OpenContractrSettings
             'Default Organisation Settings', // Title
             function(){ print 'Fill default organisation settings below. This will serve as the default information for the buyer of every contract.'; }, // Callback
             'opencontractr_organisation_options' // Page
-		);		
-
+        );
 		
 		for ($i=0; $i<count($this->organisation_props); $i++) {
 			add_settings_field(
@@ -242,7 +232,7 @@ class OpenContractrSettings
 				array('organisation_info' => $this->organisation_props[$i][0])
 			);
 		}
-
+		
 		// FIELDS
 		for ($j=0; $j<count($this->fields); $j++) {
 			register_setting(
@@ -269,39 +259,6 @@ class OpenContractrSettings
 				);
 			}
 		}
-		 //custom_frontend settings
-		register_setting(
-			'custom_frontend_options', // Option group
-			'custom_frontend_options', // Option name
-			array( $this, 'sanitize' ) // Sanitize
-		);
-		add_settings_field(
-            'custom_frontend_color_code', // ID
-            'custom_frontend Color Code', // Title 
-            array( $this, 'custom_frontend_color_uri_callback' ), // Callback
-            'opencontractr_custom_frontend_options', // Page
-            'custom_frontend_section' // Section           
-		);
-		add_settings_field(
-            'custom_frontend_footer', // ID
-            'Custom Footer', // Title 
-            array( $this, 'custom_frontend_footer_uri_callback' ), // Callback
-            'opencontractr_custom_frontend_options', // Page
-            'custom_frontend_section' // Section           
-        );	
-		add_settings_field(
-            'custom_frontend_logo', // ID
-            'Custom Logo', // Title 
-            array( $this, 'custom_frontend_logo_uri_callback' ), // Callback
-            'opencontractr_custom_frontend_options', // Page
-            'custom_frontend_section' // Section           
-        );		
-		add_settings_section(
-			'custom_frontend_section', // ID
-			'Default custom_frontend Settings', // Title
-			function(){ print 'Fill default custom_frontend settings below. This will serve as the default custom settings.'; }, // Callback
-			'opencontractr_custom_frontend_options' // Page
-			);
       
     }
 
@@ -312,8 +269,7 @@ class OpenContractrSettings
      */
     public function sanitize( $input )
     {
-		$new_input = array();
-		
+        $new_input = array();
 		if( isset( $input['ocds_prefix'] ) )
             $new_input['ocds_prefix'] = sanitize_text_field( $input['ocds_prefix'] );
 			
@@ -327,16 +283,7 @@ class OpenContractrSettings
             $new_input['publisher_uid'] = sanitize_text_field( $input['publisher_uid'] );
 			
 		if( isset( $input['publisher_uri'] ) )
-			$new_input['publisher_uri'] = esc_url( $input['publisher_uri'] );
-			
-		if( isset( $input['custom_frontend_color_code'] ) )
-            $new_input['custom_frontend_color_code'] = sanitize_text_field( $input['custom_frontend_color_code'] );
-		
-		if( isset( $input['custom_frontend_footer'] ) )
-            $new_input['custom_frontend_footer'] = sanitize_text_field( $input['custom_frontend_footer'] );
-		
-		if( isset( $input['custom_frontend_logo'] ) )
-            $new_input['custom_frontend_logo'] = sanitize_text_field( $input['custom_frontend_logo'] );
+            $new_input['publisher_uri'] = esc_url( $input['publisher_uri'] );
 			
 		for ($i=0; $i<count($this->organisation_props); $i++) {
 			$organisation_prop = $this->organisation_props[$i][0];
@@ -456,28 +403,6 @@ class OpenContractrSettings
 			isset( $this->organisation_options[$organisation['organisation_info']] ) ? esc_attr( $this->organisation_options[$organisation['organisation_info']]) : ''
 		);
 	}
-
-	public function custom_frontend_color_uri_callback()
-    {
-        printf(
-            '<input type="text" id="custom_frontend_color_code" name="custom_frontend_options[custom_frontend_color_code]" class="regular-text" value="%s" />',
-            isset( $this->custom_frontend_options['custom_frontend_color_code'] ) ? esc_attr( $this->custom_frontend_options['custom_frontend_color_code']) : ''
-        );
-    }
-	public function custom_frontend_logo_uri_callback()
-    {
-        printf(
-            '<input type="text" id="custom_frontend_logo" name="custom_frontend_options[custom_frontend_logo]" class="regular-text" value="%s" />',
-            isset( $this->custom_frontend_options['custom_frontend_logo'] ) ? esc_attr( $this->custom_frontend_options['custom_frontend_logo']) : ''
-        );
-	}
-	public function custom_frontend_footer_uri_callback()
-    {
-        printf(
-            '<input type="text" id="custom_frontend_footer" name="custom_frontend_options[custom_frontend_footer]" class="regular-text" value="%s" />',
-            isset( $this->custom_frontend_options['custom_frontend_footer'] ) ? esc_attr( $this->custom_frontend_options['custom_frontend_footer']) : ''
-        );
-    }
 	
 	
 	/** 
