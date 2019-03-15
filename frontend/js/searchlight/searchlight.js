@@ -50,6 +50,62 @@ jQuery(document).ready(function($) {
 	/********* Tab navigation ***********/
 
 	var filtered = [];
+	var filterfields = {
+		"title": [ 
+		  "planning/budget/project",
+		  "tender/title",
+		  "awards/title",
+		  "contracts/title"
+		],
+		"description": [
+		  "planning/budget/description",
+		  "tender/description",
+		  "awards/description",
+		  "contracts/description"
+		],
+		"procuringentity": [
+		  "buyer/name"
+		],
+		"contractor": [
+		  "awards/suppliers/name"
+		],
+		"amount": [
+		  "contracts/value/amount"
+		],
+		"status": [
+		  "contracts/status",
+		  "awards/status",
+		  "tender/status"
+		],
+		"awarddate": [
+		  "awards/date",
+		],
+		"contractdate": [
+		  "contracts/period/startDate",
+		  "contracts/dateSigned"
+		  //"contracts/period/endDate",
+		]
+	};
+	var amountscheme = {
+		'planning-amount': 'planning/budget/value/amount',
+		'awards-amount': 'awards/value/amount',
+		'contracts-amount': 'contracts/value/amount'
+	};
+	var datescheme = {
+		'tender-start': 'tender/tenderPeriod/startDate',
+		'tender-end': 'tender/tenderPeriod/endDate',
+		'awards-date': 'awards/date',
+		'contract-start': 'contracts/period/startDate',
+		'contract-end': 'contracts/period/endDate',
+		'contract-signed': 'contracts/dateSigned'
+	};
+	var supplierscheme = {
+		'supplier-name': 'awards/suppliers/name'
+	};
+	var singlefields = {
+		'tender-title':'tender/title',
+		'tender-status': 'tender/status'
+	}
 
 	$('.links li.tab').click(function() {
 		if ( !$(this).hasClass('action') ){
@@ -64,48 +120,14 @@ jQuery(document).ready(function($) {
 		}
 		if ($(this).hasClass('charts')) {
 			// prepare chart
-			var amountscheme = {
-				'planning-amount': 'planning/budget/value/amount',
-				'awards-amount': 'awards/value/amount',
-				'contracts-amount': 'contracts/value/amount'
-			}
 			var amountfields = getfields(amountscheme, filtered);
 			var amountkeys = getKeyArray(amountfields);
 			
-			var datescheme = {
-				'tender-start': 'tender/tenderPeriod/startDate',
-				'tender-end': 'tender/tenderPeriod/endDate',
-				'awards-date': 'awards/date',
-				'contract-start': 'contracts/period/startDate',
-				'contract-end': 'contracts/period/endDate',
-				'contract-signed': 'contracts/dateSigned'
-			}
 			var datefields = getfields(datescheme, filtered);
 			var datekeys = getKeyArray(datefields);
 			
-			// Create a list of day and monthnames.
-			var weekdays = [
-					"Sunday", "Monday", "Tuesday",
-					"Wednesday", "Thursday", "Friday",
-					"Saturday"
-				],
-				months = [
-					"January", "February", "March",
-					"April", "May", "June", "July",
-					"August", "September", "October",
-					"November", "December"
-				];
-			
-			var supplierscheme = {
-				'supplier-name': 'awards/suppliers/name'
-			}
 			var supplierfields = getfields(supplierscheme, filtered);
 			var supplierkeys = getKeyArray(supplierfields);
-
-			var singlefields = {
-				'tender-title':'tender/title',
-				'tender-status': 'tender/status'
-			}
 			
 			chartdata = getfieldvalues(amountscheme, filtered, singlefields);
 			//console.log(JSON.stringify(flattened));
@@ -404,10 +426,14 @@ jQuery(document).ready(function($) {
                 $.each(contracts['releases'], function(index, item) {
 					flattened.push(JSON.flatten(item))
 				});
+				// update notice
+				var formated_json = JSON.stringify(flattened, undefined, 2);
+				updateResult("Found a total of " + flattened.length +  ' contracts ', formated_json);
 				function isNullOrWhiteSpace(str) {
 					return (!str || str.length === 0 || /^\s*$/.test(str))
 				}
 				table = $('#contractslist').DataTable({
+					destroy: true,
 					data: flattened,
 					columns: [{
 						data: 'main',
@@ -445,11 +471,17 @@ jQuery(document).ready(function($) {
 					filtered = [];
 					for (i=1; i<filteredcount; i++) {
 						filtered.push(allfiltered[i])
-					}                 
+					}
+					$('#result-sub-title').html('(filtered: '+filtered.length+')')
 				});
 
-				var formated_json = JSON.stringify(flattened, undefined, 2);
-				updateResult("Found a total of " + flattened.length +  ' contracts ', formated_json);
+				var tableData = filtered.length ? filtered : flattened;
+
+				// datatables error reporting
+				$.fn.dataTable.ext.errMode = 'none';
+				table.on( 'error.dt', function (e, settings, techNote, message) {
+					console.log( 'An error has been reported by DataTables: ', message );
+				});
 				
 				$('#scrollbtn').click();
 				$('#resulthead, #resultwrap, #visualwrap').show(); 
@@ -458,9 +490,6 @@ jQuery(document).ready(function($) {
 		}); // end ajax
 
 	}); // end searchbtn click
-	
-	
-	//Pie chart example data. Note how there is only a single array of key-value pairs.
 	
 	function getKeyVal(filteritem, record) {
 		var allkeys = [], keyval = [], keyExists = false;
@@ -657,15 +686,14 @@ jQuery(document).ready(function($) {
 	}
 	
 	
-	function updateResult(title, result, error) {
+	function updateResult(title, inner, result, error) {
 		var $ele = $("#result");
 	  
-		if(!error){
-		  $ele.find('#result-title').text(title);
-		  //$ele.find('pre').text(result);
-		}else{
-		  $ele.find('#result-title').text('');
-		  $ele.find('pre').html("<div class='alert alert-danger'> ERROR:" + error.message + "</div>");
+		if (!error) {
+		  	$ele.find('#result-title').text(title);
+		} else {
+		  	$ele.find('#result-title').text('');
+		  	$ele.find('pre').html("<div class='alert alert-danger'> ERROR:" + error.message + "</div>");
 		}
 	  
 		$ele.fadeOut().fadeIn();

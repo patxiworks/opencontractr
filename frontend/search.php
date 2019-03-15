@@ -80,7 +80,7 @@
 									<li class="tab charts"><a href="#title_header" data-page="charts" class="scrolly">Charts</a></li>
 									<li>
 										<div id="result" class='result'>
-											<span id="result-title"></span>
+											<span id="result-title"></span><span id="result-sub-title"></span>
 										</div>
 									</li>
 									<li>

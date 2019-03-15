@@ -45,17 +45,11 @@ function opencontractr_frontend_scripts() {
 		if ( $_REQUEST['do'] == 'search' ) {
 			///// searchlight styles
 			wp_enqueue_style( 'opencontractr-searchlight', OPENCONTRACTR_FRONTEND_URL . 'css/searchlight/searchlight.css' );
-			wp_enqueue_style( 'opencontractr-dynatable', OPENCONTRACTR_FRONTEND_URL . 'css/searchlight/jquery.dynatable.css' );
+			//wp_enqueue_style( 'opencontractr-dynatable', OPENCONTRACTR_FRONTEND_URL . 'css/searchlight/jquery.dynatable.css' );
 			wp_enqueue_style( 'opencontractr-datatable', OPENCONTRACTR_FRONTEND_URL . 'css/searchlight/datatables.min.css' );
-			wp_enqueue_style( 'opencontractr-nv', OPENCONTRACTR_ABS_URL . 'charts/js/d3js/nv.d3.css' );
 			
 			///// searchlight scripts
-			//wp_enqueue_script( 'custom', get_theme_file_uri( 'assets/js/custom.js' ), array( 'jquery' ), '', true);
-			wp_enqueue_script( 'json-query', OPENCONTRACTR_ABS_URL . 'js/common/json_query.js', array( 'jquery' ), '', true);
-			
-			wp_enqueue_script( 'opencontractr-ocdsdata', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/data/ocds.js', array( 'jquery' ), '', true);
-			wp_enqueue_script( 'opencontractr-services', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/data/services.js', array( 'jquery' ), '', true);
-			wp_enqueue_script( 'opencontractr-dynatable', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/jquery.dynatable.js', array( 'jquery' ), '', true);
+			//wp_enqueue_script( 'opencontractr-dynatable', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/jquery.dynatable.js', array( 'jquery' ), '', true);
 			wp_enqueue_script( 'opencontractr-datatable', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/datatables.min.js', array( 'jquery' ), '', true);
 			wp_enqueue_script( 'opencontractr-searchlight', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/searchlight.js', array( 'jquery' ), '', true);
 		}

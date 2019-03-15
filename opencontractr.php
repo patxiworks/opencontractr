@@ -4,7 +4,7 @@
  * Plugin Name: OpenContractr
  * Plugin URI: 
  * Description: Plugin to manage OCDS records
- * Version: 0.1.0
+ * Version: 0.1.2
  * Author: Patrick Enaholo
  * Author URI: http://opendata.smc.edu.ng
  * License: GPL v2+
@@ -19,7 +19,7 @@ if (defined('OPENCONTRACTR_PLUGIN_DIR')) {
 	$opencontractr_dir = '/opencontractr/';
 }
  define('OPENCONTRACTR_ABS_PATH', WP_PLUGIN_DIR.$opencontractr_dir);
- define('OPENCONTRACTR_ABS_URL', WP_PLUGIN_URL.$opencontractr_dir.'/');
+ define('OPENCONTRACTR_ABS_URL', WP_PLUGIN_URL.$opencontractr_dir);
  define('OPENCONTRACTR_FRONTEND_PATH', OPENCONTRACTR_ABS_PATH.'frontend/');
  define('OPENCONTRACTR_FRONTEND_URL', OPENCONTRACTR_ABS_URL.'frontend/');
  define('OPENCONTRACTR_SCHEMA_PATH', OPENCONTRACTR_ABS_PATH.'schema/');
@@ -226,11 +226,10 @@ function remove_row_actions( $actions )
   PLUGIN ACTIVATION
  *******************/
 
-//global $opencontractr;
-//$opencontractr = new OpenContractr_Activation();
+register_activation_hook( __FILE__, 'opencontractr_activated' );
+register_deactivation_hook( __FILE__, 'opencontractr_deactivated' );
 
-class OpenContractr_Activation {
-    public function plugin_activated(){
+function opencontractr_activated(){
 		global $datapath;
 		//  When the plugin is activated...
         // ...create the data directory
@@ -244,14 +243,24 @@ class OpenContractr_Activation {
 			);
 			$post_id = wp_insert_post( $newpost );
 		}
+		// add required options
+		if (!get_option('_opencontractr_codelists')) {
+			add_option('_opencontractr_codelists', get_scheme('codelists.json'));
+		}
+		if (!get_option('_opencontractr_fields')) {
+			add_option('_opencontractr_fields', get_scheme('fields.json'));
+		}
+		if (!get_option('_opencontractr_frontpage_tabs')) {
+			add_option('_opencontractr_frontpage_tabs', get_scheme('fieldsmap.json'));
+		}
     }
 
-    public function plugin_deactivated(){
-         // This will run when the plugin is deactivated, e.g. use to delete from the database
-    }
+function opencontractr_deactivated(){
+		 // This will run when the plugin is deactivated, e.g. use to delete from the database
+		 delete_option('_opencontractr_codelists');
+		 delete_option('_opencontractr_fields');
+		 delete_option('_opencontractr_frontpage_tabs');
 }
-
-register_activation_hook( __FILE__, array('OpenContractr_Activation', 'plugin_activated' ));
     
 
 /*******************
@@ -1636,7 +1645,6 @@ function fields_settings_page() {
 			<form method="post" action="">
 				<input type="hidden" name="option_page" value="tender-description_field_option_group">
 				<input type="hidden" name="action" value="update">
-				<input type="hidden" id="_wpnonce" name="_wpnonce" value="3fea12d4dc">
 				<input type="hidden" name="_wp_http_referer" value="/opencontractr/wp-admin/edit.php?post_type=open_contract&amp;page=fields#tender">
 				<h2 class="title">Change field information for <span class="fieldinfo"></span></h2>
 				<span>Fill the form below</span>
