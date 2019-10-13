@@ -4,7 +4,7 @@
  * Plugin Name: OpenContractr
  * Plugin URI: 
  * Description: Plugin to manage OCDS records
- * Version: 0.1.0
+ * Version: 0.1.2
  * Author: Patrick Enaholo
  * Author URI: http://opendata.smc.edu.ng
  * License: GPL v2+
@@ -19,7 +19,7 @@ if (defined('OPENCONTRACTR_PLUGIN_DIR')) {
 	$opencontractr_dir = '/opencontractr/';
 }
  define('OPENCONTRACTR_ABS_PATH', WP_PLUGIN_DIR.$opencontractr_dir);
- define('OPENCONTRACTR_ABS_URL', WP_PLUGIN_URL.$opencontractr_dir.'/');
+ define('OPENCONTRACTR_ABS_URL', WP_PLUGIN_URL.$opencontractr_dir);
  define('OPENCONTRACTR_FRONTEND_PATH', OPENCONTRACTR_ABS_PATH.'frontend/');
  define('OPENCONTRACTR_FRONTEND_URL', OPENCONTRACTR_ABS_URL.'frontend/');
  define('OPENCONTRACTR_SCHEMA_PATH', OPENCONTRACTR_ABS_PATH.'schema/');
@@ -31,6 +31,7 @@ require_once('php/advanced-search.php');
 require_once('php/settings.php');
 require_once('php/tools.php');
 require_once('php/schema.php');
+require_once('charts/blazing-charts.php');
 require_once('frontend/functions.php');
 
  // Exit if accessed directly.
@@ -85,7 +86,21 @@ if( !defined( 'ABSPATH' ) ) exit;
 		"contracttimeleft"=> array("Time left for Completion", 'contracts/period/endDate', false, __("The time left for the completion of the contract","opencontractr"))
     );
 	
-	
+/*******************
+ * GLOBAL FUNCTIONS
+*******************/
+
+function get_scheme($filename) {
+	$filepath = OPENCONTRACTR_SCHEMA_PATH . $filename;
+    $fh = fopen($filepath, "r");
+	return fread($fh, filesize($filepath));
+}
+
+function reset_option($option, $source, $hasfile=true) {
+	$content = $hasfile ? get_scheme($source) : $source;
+	update_option($option, $content);
+}
+
 	
 add_action( 'admin_enqueue_scripts', 'load_renderjson' );
 function load_renderjson() {
@@ -95,6 +110,8 @@ function load_renderjson() {
 	wp_enqueue_script( 'lodash-js', plugin_dir_url(__FILE__) . 'js/common/lodash.min.js', '', '', false);
 	wp_enqueue_script( 'convert-js', plugin_dir_url(__FILE__) . 'js/common/ocds_convert.js', '', '', false);
 	wp_enqueue_script( 'qualitycheck', plugin_dir_url(__FILE__) . 'js/common/qualitycheck.js', '', '', false);
+	wp_enqueue_script( 'json-editor', plugin_dir_url(__FILE__) . 'js/common/json-editor.js', '', '', false);
+
 }
 	
 
@@ -113,8 +130,8 @@ function oc_register_post_type() {
         'parent_item_colon'     => _x( 'Parent Contract', 'opencontractr' ),
 		'all_items'             => _x( 'All Contracts', 'opencontractr' ),
 		'view_item'             => _x( 'View Contract', 'opencontractr' ),
-		'add_new_item'          => _x( 'Add New Contract', 'opencontractr' ),
-		'add_new'               => _x( 'Add New Contract', 'opencontractr' ),
+		//'add_new_item'          => _x( 'Add New Contract', 'opencontractr' ),
+		//'add_new'               => _x( 'Add New Contract', 'opencontractr' ),
 		'edit_item'             => _x( 'Edit Contract', 'opencontractr' ),
 		'update_item'           => _x( 'Update Contract', 'opencontractr' ),
 		'search_items'          => _x( 'Search Contract', 'opencontractr' ),
@@ -126,16 +143,20 @@ function oc_register_post_type() {
         'label'              => __( 'contracts', 'opencontractr' ),
         'description'        => __( 'Available contracts', 'opencontractr' ),
 	    'labels'             => $labels,
-	    'public'             => true,
-	    'publicly_queryable' => true,
+	    'public'             => false,
+	    'publicly_queryable' => false,
 	    'show_ui'            => true,
 	    'show_in_menu'       => true,
         'show_in_nav_menus'  => true,
-		'show_in_admin_bar'  => true,
+		'show_in_admin_bar'  => false,
 		'can_export'         => true,
 	    'query_var'          => true,
 	    'rewrite'            => array( 'slug' => 'contract' ),
-	    'capability_type'    => 'post',
+		'capability_type'    => 'post',
+		'capabilities'    	 => array(
+			'create_posts' 	 => 'do_not_allow', // prevent adding new posts
+		),
+		'map_meta_cap'    	 => true,
 	    'has_archive'        => true,
 	    'hierarchical'       => false,
 	    'menu_position'      => null,
@@ -188,17 +209,27 @@ function hide_customfield_metabox( $hidden, $screen )
     return $hidden;
 }
 
+// TEMP: remove view and edit context menus from open_contract post type list
+add_filter( 'post_row_actions', 'remove_row_actions', 10, 1 );
+function remove_row_actions( $actions )
+{
+    if( get_post_type() === 'open_contract' )
+        unset( $actions['edit'] );
+        unset( $actions['view'] );
+        unset( $actions['inline hide-if-no-js'] );
+    return $actions;
+}
+
 
 
 /*******************
   PLUGIN ACTIVATION
  *******************/
 
-//global $opencontractr;
-//$opencontractr = new OpenContractr_Activation();
+register_activation_hook( __FILE__, 'opencontractr_activated' );
+register_deactivation_hook( __FILE__, 'opencontractr_deactivated' );
 
-class OpenContractr_Activation {
-    public function plugin_activated(){
+function opencontractr_activated(){
 		global $datapath;
 		//  When the plugin is activated...
         // ...create the data directory
@@ -212,14 +243,24 @@ class OpenContractr_Activation {
 			);
 			$post_id = wp_insert_post( $newpost );
 		}
+		// add required options
+		if (!get_option('_opencontractr_codelists')) {
+			add_option('_opencontractr_codelists', get_scheme('codelists.json'));
+		}
+		if (!get_option('_opencontractr_fields')) {
+			add_option('_opencontractr_fields', get_scheme('fields.json'));
+		}
+		if (!get_option('_opencontractr_frontpage_tabs')) {
+			add_option('_opencontractr_frontpage_tabs', get_scheme('fieldsmap.json'));
+		}
     }
 
-    public function plugin_deactivated(){
-         // This will run when the plugin is deactivated, e.g. use to delete from the database
-    }
+function opencontractr_deactivated(){
+		 // This will run when the plugin is deactivated, e.g. use to delete from the database
+		 delete_option('_opencontractr_codelists');
+		 delete_option('_opencontractr_fields');
+		 delete_option('_opencontractr_frontpage_tabs');
 }
-
-register_activation_hook( __FILE__, array('OpenContractr_Activation', 'plugin_activated' ));
     
 
 /*******************
@@ -317,7 +358,8 @@ function ocds_meta_boxes() {
 		add_meta_box( 'downloads_meta_box', __('Downloads','opencontractr'), 'display_downloads_meta_box', 'open_contract', 'normal', 'low');
 		// side boxes – for extra services
 		add_meta_box( 'validate_meta_box', __('Validate','opencontractr'), 'display_validate_meta_box', 'open_contract', 'side', 'low');
-		add_meta_box( 'import_meta_box', __('Import','opencontractr'), 'display_import_meta_box', 'open_contract', 'side', 'low');
+		// only for the frontend
+		//add_meta_box( 'import_meta_box', __('Import','opencontractr'), 'display_import_meta_box', 'open_contract', 'side', 'low');
     }
 }
 
@@ -672,7 +714,8 @@ function display_validate_meta_box( $post ) {
 			<span class="icon"></span>
 			<a href="#TB_inline?width=800&height=550&inlineId=validatebox" class="thickbox validate"></a>
 		</span>
-		<input type="button" id="validatebtn" value="Validate" class="button button-primary button-large">
+		<span>Coming soon!</span>
+		<!--<input type="button" id="validatebtn" value="Validate" class="button button-primary button-large">-->
 	</div>
 	<div id="validatebox" style="display: none">
 			<table class="validation-error-table" border="1">
@@ -805,7 +848,7 @@ function display_import_meta_box( $post ) {
 		}
 	}
 	?>
-	<div>Import OCDS Record Packages from other sources. Data to be imported could be OCDS v1.0 or v1.1</div>
+	<div>Import OCDS data from other sources</div>
 	<div class="extra_services">
 		<input type="button" id="importview" value="Import" class="button button-primary button-large">
 	</div>
@@ -826,6 +869,7 @@ function display_import_meta_box( $post ) {
 	</div>
 	<a href="#TB_inline?width=600&height=550&inlineId=import-form" class="thickbox import"></a>
 	<script>
+	jQuery(document).ready(function($) {
 		$('#importbtn').click(function() {
 			var filedata = $('#importfile').prop('files')[0]
 			var formdata = new FormData();
@@ -897,19 +941,19 @@ function display_import_meta_box( $post ) {
 								}
 							} catch(e) {
 								$('.uploaderror').html('Error reading data: 001');
-								console.log(e)
+								//console.log(e)
 							}
 						
 						} else if ($('.targetimport:checked').val() == 'existingpost') {
 							try {
-								console.log(response);
+								//console.log(response);
 								var ocds = JSON.parse(data[1]);
 								// might want to do something here later...
 								$('#importedjson').html(JSON.stringify(ocds))
 								$('#importform').submit();
 							} catch(e) {
 								$('.uploaderror').html('Error reading data: 002');
-								console.log(e)
+								//console.log(e)
 							}
                             
                         }
@@ -919,8 +963,14 @@ function display_import_meta_box( $post ) {
 		});
 		
 		$('#importview').click(function() {
-			$('.thickbox.import').click();
+			if ($('#import-controle').length) {
+				$('#import-control').html( $('#import-form').html() );
+				$('#import-control').find('#import-form').show();
+			} else {
+				$('.thickbox.import').click();
+			}
 		});
+	});
 	</script>
 	<?php
 	add_thickbox();
@@ -932,12 +982,13 @@ function import_to_new_post() {
 		// for multiple releases + new post
 		$ocds = $ocds['releases'];
 		for ($i=0; $i<count($ocds); $i++) {
-			set_new_contract($ocds[$i]);
+			$newpost[] = set_new_contract($ocds[$i]);
 		}
 	} else {
 		// for single release + new post
-		set_new_contract($ocds);
+		$newpost = set_new_contract($ocds);
 	}
+	return count($newpost);
 }
 
 function set_new_contract($release) {
@@ -955,8 +1006,9 @@ function set_new_contract($release) {
 	
 	$post_id = wp_insert_post($args);
 	save_new_opencontract($post_id);
-	
 	update_meta_values($post_id, $release);
+
+	return $post_id;
 }
 
 function import_to_existing_post() {
@@ -1187,8 +1239,10 @@ function data_entry_form() {
 			<input type="hidden" name="ocid" id="ocid" value="<?php echo get_post_meta( $_REQUEST['id'], 'ocid', true ); ?>">
 			<input type="hidden" name="savedtag" id="savedtag" value="<?php echo $_POST['releasetag']; ?>">
 			<input type="hidden" name="partydata" id="partydata" value="">
+			<input type="hidden" name="importsections" id="importsections" value="">
             <textarea id="savedsections" name="savedsections" style="display:none"><?php echo $_POST['editsections']; ?></textarea>
-            <textarea id="savedjson" name="savedjson" style="display:none"></textarea>
+			<textarea id="savedjson" name="savedjson" style="display:none"></textarea>
+			<textarea id="importedjson" name="importedjson" style="display:none"></textarea>
         </form>
 		<?php add_thickbox(); ?>
 		<div id="organisation-selection-box" style="display:none">
@@ -1218,7 +1272,8 @@ function data_entry_form() {
 				var bf = BrutusinForms.create(schema);
 				
 				var container = document.getElementById('container');
-				var data = document.getElementById('jsoninput').value ? document.getElementById('jsoninput').value: '{}';
+				var content = document.getElementById('jsoninput').value;
+				var data =  content ? content : '{}';
 				//console.log(data)
 				var ocid = $('#ocid').val()
 				bf.render(container, JSON.parse(data));
@@ -1240,7 +1295,7 @@ function data_entry_form() {
 					output['tag'] = [$('#releasetaglist').val()];
 					timestamp = Date.now() / 1000 | 0
 					output['id'] = output['ocid'] + '-' + $('#releasetaglist').val() + '-' + timestamp;
-					console.log(output)
+					//console.log(output)
 					
 					$('#posttitle').val($('#contract-title').val());
 					
@@ -1303,7 +1358,7 @@ function register_codelist_editor() {
     $codelist_page = add_submenu_page( 
         'edit.php?post_type=open_contract',
         'OpenContractr – Edit Codelists',
-        'Codelists',
+        'Codelist Manager',
         'edit_posts',
         'codelists',
         'codelist_settings_page'
@@ -1331,7 +1386,7 @@ function load_codelist_js() {
 function codelist_settings_page() {
 	if ($_POST['reset-codelists']) {
 		// user has asked to reset the codelist data
-		reset_codelists('update');
+		reset_option('_opencontractr_codelists', 'codelists.json');
 	} elseif ($_POST['save-codelists']) {
 		// store the updated codelist in the database
 		update_option('_opencontractr_codelists', stripslashes($_POST['codelist-data']));
@@ -1451,7 +1506,7 @@ function codelist_settings_page() {
 					$('tr.closed').show();
 					$('tr.open').hide();
 				}
-			})
+			});
 			$('#open-codelist').click();
 		});
 	</script>
@@ -1474,17 +1529,6 @@ function write_codelist_row($codelist, $key1='', $key2='') {
 	<?php
 }
 
-function reset_codelists($action) {
-	$filepath = plugin_dir_path(__FILE__) . 'schema/codelists.json';
-    $fh = fopen($filepath, "r");
-	$content = fread($fh, filesize($filepath));
-	if (!$action) {
-		add_option('_opencontractr_codelists', $content);
-	} elseif ($action=='update') {
-		update_option('_opencontractr_codelists', $content);
-	}
-}
-
 
 
 /*******************
@@ -1496,22 +1540,35 @@ function register_field_manager() {
     $fieldlist_page = add_submenu_page( 
         'edit.php?post_type=open_contract',
         'OpenContractr – Edit OCDS Fields',
-        'Fields',
+        'Fields Manager',
         'edit_posts',
         'fields',
         'fields_settings_page'
     );
 }
 
+if ($_POST['savefield']) {
+	$field_options = get_option( 'field_options' );
+	foreach($_POST['field_options'] as $key => $value) {
+		$field_options[$key] = $value;
+	}
+	update_option( 'field_options', $field_options );
+}
+
+if ($_POST['action'] == 'reset-fields') {
+	reset_option('field_options', [], false);
+}
+
 function fields_settings_page() {
 	global $ocds_sections;
 	
-	if (isset($_POST['action'])) {
-		if ($_POST['action'] == 'save-fields') {
+	if (isset($_POST['action']) && $_POST['action'] == 'save-fields') {
+		if (false == get_option('_opencontractr_frontpage_tabs')) {
+			add_option('_opencontractr_user_selected_fields', $_POST['selected-fields']);
+		} else {
 			update_option('_opencontractr_user_selected_fields', $_POST['selected-fields']);
-			$saved = true;
 		}
-		// get field scheme from [internet] source and reload page	
+		$saved = true;
 	}
 	$fieldschemepath = plugin_dir_url(__FILE__) . 'schema/fieldscheme.json';
 	$selectedfieldspath = '?ocds_data=selected-fields';
@@ -1535,7 +1592,7 @@ function fields_settings_page() {
 		<p style="float:left"><?php echo __('These are the fields according to OCDS specification','opencontractr'); ?></p>
 		<div style="float:right">
 			<form method="POST" name="savefields" id="savefields" action="">
-				<!--<input type="button" id="reload-fields" name="reload-fields" class="button" value="Reload Fields">-->
+				<input type="button" id="reset-fields" name="reset-fields" class="button" value="Reset Fields">
 				<input type="button" id="save-fields" name="save-fields" class="button-primary" value="Save Selected Fields">
 				<input type="hidden" id="action" name="action">
 				<textarea id="selected-fields" name="selected-fields" style="display: none"></textarea>
@@ -1549,7 +1606,7 @@ function fields_settings_page() {
             }
 			echo '<a href="#metadata" id="metadata" class="nav-tab '.( $active_tab == 'metadata' ? 'nav-tab-active' : '' ).'">Metadata</a>';
 			foreach ($ocds_sections as $key => $value) {
-				echo '<a href="#'.$key.'" id="'.$key.'-stage" class="stage nav-tab '.( $active_tab == 'planning' ? 'nav-tab-active' : '' ).'">'.$value[0].'</a>';
+				echo '<a href="#'.$key.'" id="'.$key.'-stage" class="stage nav-tab '.( $active_tab == $key ? 'nav-tab-active' : '' ).'">'.$value[0].'</a>';
 			}
 			echo '<div style="float:right">Field score: <span id="fieldscore"></span>%</div>';
 			?>
@@ -1570,32 +1627,65 @@ function fields_settings_page() {
 				echo '<td><strong><a href="options-general.php?page=opencontractr_settings&tab='.$key.'_field_options">'.join( "/", $keyparts ).'</a></strong></td>';
 				for ($i=0; $i<count($value); $i++) {
 					$option = get_option('field_options')[$key.'_'.$field_keys[$i][0]];
-					echo '<td>';
+					echo '<td id="'.$key.'_'.$field_keys[$i][0].'">';
 					if ( $option ) {
-						if ($field_keys[$i][0] == 'mandatory') {
-							echo ($option == '1') ? 'Yes' : 'No';
-						} else {
-							echo $option;
-						}
+						echo $option;
 					} else {
-						echo $value[$i];
+						echo ($option ? $value[$i] : '');
 					}
 					echo '</td>';
 				}
 				echo '</tr>';
 			}
+			add_thickbox();
 			?>
 		</table>
 		
-		<table class="wp-list-table widefat" id="fieldlist" border=1>
+		<div id="field-edit-box" style="display:none">
+			<form method="post" action="">
+				<input type="hidden" name="option_page" value="tender-description_field_option_group">
+				<input type="hidden" name="action" value="update">
+				<input type="hidden" name="_wp_http_referer" value="/opencontractr/wp-admin/edit.php?post_type=open_contract&amp;page=fields#tender">
+				<h2 class="title">Change field information for <span class="fieldinfo"></span></h2>
+				<span>Fill the form below</span>
+				<div>
+				<table class="field-table form-table">
+					<tbody>
+						<tr>
+							<th scope="row">Mandatory?</th>
+							<td>
+								<select class="fieldval" id="mandatory" name=""><option value="1">Yes</option><option value="0">No</option></select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Label</th>
+							<td>
+								<input type="text" class="fieldval" id="label" name="" class="regular-text" value="">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Description</th>
+							<td>
+								<textarea type="text" class="fieldval" id="description" name=""></textarea>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+				<p class="submit">
+					<input type="submit" name="savefield" id="submit" class="button button-primary" value="Save Changes">
+				</p>            
+			</form>
+		</div>
+		<table class="wp-list-table widefat" id="fieldlist" border="1">
 			<tr class="title">
 				<td><input type="checkbox" id="checkall"></td>
-				<th>Field</th>
-				<th>Basic</th>
-				<th>Intermediate</th>
-				<th>Advanced</th>
-				<th>Description</th>
-				<th>Type</th>
+				<th class="first title">Field</th>
+				<th class="Basic">Basic</th>
+				<th class="Intermediate">Intermediate</th>
+				<th class="Advanced">Advanced</th>
+				<th class="title">Description</th>
+				<th class="Type">Type</th>
 			</tr>			
 		</table>
 	</div>
@@ -1605,7 +1695,16 @@ function fields_settings_page() {
 				qualitycheck.writeoutput( $('#fieldlist'), scheme );
 				$('.field').each(function(i,el) {
 					fieldtab = $(this).html().split('/').join('-');
-					$(this).html('<strong><a href="options-general.php?page=opencontractr_settings&tab='+fieldtab+'_field_options">'+$(this).html()+'</a></strong>');
+					var html = '';
+					//html += '<strong><a href="options-general.php?page=opencontractr_settings&tab='+fieldtab+'_field_options">'+$(this).html()+'</a></strong>';
+					html += '<strong><a href="#TB_inline?width=600&height=550&title=New&inlineId=field-edit-box" class="thickbox fields">'+$(this).html()+'</a></strong>';
+					html += '<br><small class="userdefined '+($('#'+fieldtab+'_mandatory').html() == '1' ? 'mandatory' : '')+'">'+$('#'+fieldtab+'_label').html()+'</small>';
+					$(this).html(html);
+					// description text
+					var deshtml = '';
+					deshtml += $(this).siblings('.Description').html();
+					deshtml += '<br><small class="userdefined '+($('#'+fieldtab+'_mandatory').html() == '1' ? 'mandatory' : '')+'">'+$('#'+fieldtab+'_description').html()+'</small>';
+					$(this).siblings('.Description').html(deshtml);
 				});
 				$.getJSON( "<?php echo $selectedfieldspath ?>", function( selectedfields ) {
 					defaultfields = ['ocid','id','language','date','tag','initiationType','parties/id','buyer/id','tender/id','awards/id','contracts/id']
@@ -1633,10 +1732,24 @@ function fields_settings_page() {
 					})
 					
 					output = qualitycheck.calculatescores(scheme, selectedfields);
-					console.log(output);
-					
-					$('#fieldscore').text( output['fieldscore'].toFixed(2) )
+					//console.log(output);
+					$('#fieldscore').text( output['fieldscore'].toFixed(2) );
 				});
+				
+				// click action for field names
+				$('.wp-list-table').on('click', '.fields', function() {
+					$('.fieldinfo').html($(this).html());
+					var fielditem = $(this).closest('.field').data('field');
+					var fieldtable = $('.field-table');
+					fieldtable.find('tr').show();
+					fieldtable.find('.fieldval').each(function() {
+						var fieldid = $(this).attr('id').split('_')[1] ? fielditem + '_' + $(this).attr('id').split('_')[1] : fielditem + '_' + $(this).attr('id');
+						$(this).attr('id', fieldid);
+						$(this).attr('name', 'field_options['+fieldid+']');
+						$(this).val($('#'+fieldid).html());
+					});
+					fieldtable.find('input').attr('id', );
+				})
 				
 				// tab navigation
 				$('.nav-tab').click(function() {
@@ -1666,8 +1779,16 @@ function fields_settings_page() {
                         }
 					});
 					$('#selected-fields').html(JSON.stringify(selectedfields));
-					$('#savefields #action').val('save-fields')
+					$('#savefields #action').val('save-fields');
 					$('#savefields').submit();
+				});
+				
+				// reset fields
+				$('#reset-fields').click(function() {
+					if ( confirm('Do you really want to reset ALL the fields?') ) {
+						$('#savefields #action').val('reset-fields')
+						$('#savefields').submit();
+					}
 				})
 			});
 		});
@@ -1696,6 +1817,137 @@ $release_tags = array(
         "contractTermination" => array("Contract terminated", "contracts")
     );
 
+
+
+/*******************************
+  FRONTPAGE CREATE TAB MANAGER
+ *******************************/
+
+add_action( 'admin_menu', 'register_create_tabs_manager' );
+function register_create_tabs_manager() {
+    $fieldlist_page = add_submenu_page( 
+        'edit.php?post_type=open_contract',
+        'OpenContractr – Edit Frontpage Tabs',
+        'Frontpage Tabs',
+        'edit_posts',
+        'create_tabs',
+        'create_tabs_settings_page'
+    );
+}
+
+function create_tabs_settings_page() {
+	if (isset($_POST['action']) && $_POST['action'] == 'save-tabs') {
+		if (false == get_option('_opencontractr_frontpage_tabs')) {
+			add_option('_opencontractr_frontpage_tabs', stripslashes($_POST['output']));
+		} else {
+			update_option('_opencontractr_frontpage_tabs', stripslashes($_POST['output']));
+		}
+		$saved = true;
+	}
+	if (isset($_POST['action']) && $_POST['action'] == 'reset-tabs') {
+		reset_option('_opencontractr_frontpage_tabs', 'fieldsmap.json');
+	}
+	?>
+	<div class="wrap frontpage-tabs">
+		<h1>Frontpage Tabs</h1>
+		<?php if ($saved) { ?>
+			<div class="updated notice is-dismissable">
+				<p><?php _e( 'Your tab settings have been saved!', 'opencontractr' ); ?></p>
+			</div>
+		<?php } ?>
+		<p style="float:left"><?php echo __('Change your frontpage settings here','opencontractr'); ?></p>
+		<div style="float:right">
+			<form method="POST" name="savetabs" id="savetabs" action="">
+				<input type="button" id="reset-tabs" name="reset-tabs" class="button" value="Reset to Default">
+				<input type="button" id="save-tabs" name="save-tabs" class="button-primary" value="Save Tabs">
+				<input type="hidden" id="action" name="action">
+				<textarea id="output" name="output" style="display: none"></textarea>
+			</form>
+		</div>
+		<h2 class="nav-tab-wrapper clear" style="margin-bottom: 10px">
+			<?php
+			$data = json_decode(get_option('_opencontractr_frontpage_tabs'), true);
+			if( isset( $_GET[ 'tab' ] ) ) {
+                $active_tab = $_GET[ 'tab' ];
+			}
+			$tabs = 7;
+			for ($i=1; $i<=$tabs; $i++) {
+				echo '<a href="#tab'.$i.'" id="'.$i.'" class="tab nav-tab">'.$data[$i-1]['tab'].'</a>';
+			}
+			?>
+		</h2>
+		<?php
+		for ($i=1; $i<=$tabs; $i++) {
+			echo '<div class="tabs tab'.$i.'">';
+			echo '<div id="editor'.$i.'"></div>';
+			echo '<textarea id="data'.$i.'" class="outputs datacnt">'.json_encode( $data[$i-1] ).'</textarea>';
+			echo '</div>';
+		}
+		// get field list for enumeration in scheme
+		/*$fields = json_decode(stripslashes(get_option('_opencontractr_user_selected_fields')), TRUE);
+		foreach($fields as $key => $value) {
+			$fieldlist[] = $key;
+		}*/
+		?>
+		<textarea id="tabscheme" class="datacnt"><?php echo get_scheme('fieldmap.json') ?></textarea>
+		<textarea id="fieldlist" class="datacnt"><?php echo json_encode($fieldlist) ?></textarea>
+		<textarea id="output" class="datacnt"></textarea>
+	</div>
+	
+	<script>
+		
+		schema = JSON.parse($('#tabscheme').val());
+		//schema.properties.fields.items.properties.field.enum = JSON.parse($('#fieldlist').val());
+
+		$('.nav-tab').click(function() {
+			// unset active tab
+			$('.nav-tab').removeClass('nav-tab-active');
+			// set active tab
+			$(this).addClass('nav-tab-active');
+			var id = $(this).attr('id');
+			$('.tabs').hide();
+			var container = document.getElementById('editor'+id);
+			$(container).empty();
+			var output = document.getElementById('data'+id);
+			jsoneditor = new JSONEditor(container,{
+				schema: schema,
+				startval: JSON.parse(output.value)
+			});
+			jsoneditor.on('change',function() {
+				var json = jsoneditor.getValue();
+				output.value = JSON.stringify(json,null,2);
+			});
+			$('.tab'+id).show();
+		});
+		$('.tab#1').click();
+		
+		var alljson;
+		$('input#save-tabs').click(function() {
+			alljson = [];
+			$('textarea.outputs').each(function(){
+				tabjson = JSON.parse($(this).val());
+				alljson.push( tabjson );
+			});
+			$('#output').val(JSON.stringify(alljson));
+			$('#action').val('save-tabs');
+			$('form#savetabs').submit();
+		});
+		$('input#reset-tabs').click(function() {
+			$('#output').val('');
+			$('#action').val('reset-tabs');
+			$('form#savetabs').submit();
+		});
+				
+	</script>
+	<?php
+}
+
+
+/*******************
+  CHART SNIPPETS
+ *******************/
+
+// See charts/blazing-charts.php
 
 
 /*******************
@@ -1731,6 +1983,8 @@ function include_template_function( $template_path ) {
 		}
 		if ( isset($_REQUEST['id']) || isset($_REQUEST['data']) ) {
 			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'edit.php';
+		} elseif ($_REQUEST['do'] == 'import') {
+			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'import.php';
 		} elseif ($_REQUEST['do'] == 'create') {
 			$template_path = OPENCONTRACTR_FRONTEND_PATH . 'create.php';
 		} elseif ($_REQUEST['do'] == 'search' ) {
@@ -1920,6 +2174,7 @@ function get_publisher_scheme() {
 	return $publisher;
 }
 
+// REPLACE WITH get_scheme(filename)
 function get_import_scheme() {
 	$filepath = plugin_dir_path(__FILE__) . 'schema/importscheme.json';
     $fh = fopen($filepath, "r");

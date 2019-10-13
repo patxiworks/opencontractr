@@ -12,7 +12,6 @@
 /**
  * Enqueue scripts and styles.
  */
-
 function opencontractr_frontend_scripts() {
 	global $wp_styles, $wp_scripts;
 	
@@ -33,8 +32,7 @@ function opencontractr_frontend_scripts() {
 		///// Add opencontractr styles and scripts
 		///// common
 		wp_enqueue_style( 'opencontractr-custom', OPENCONTRACTR_FRONTEND_URL . 'css/font-awesome.min.css' );
-		wp_enqueue_style( 'opencontractr-main', OPENCONTRACTR_FRONTEND_URL . 'css/main.css' );
-		
+		wp_enqueue_style( 'opencontractr-main', OPENCONTRACTR_FRONTEND_URL . 'css/main.css' );		
 		wp_enqueue_script( 'opencontractr-scrollex', OPENCONTRACTR_FRONTEND_URL . 'js/jquery.scrollex.min.js', array( 'jquery' ), '', true);
 		wp_enqueue_script( 'opencontractr-scrolly', OPENCONTRACTR_FRONTEND_URL . 'js/jquery.scrolly.min.js', array( 'jquery' ), '', true);
 		wp_enqueue_script( 'opencontractr-skel', OPENCONTRACTR_FRONTEND_URL . 'js/skel.min.js', array( 'jquery' ), '', true);
@@ -45,24 +43,26 @@ function opencontractr_frontend_scripts() {
 		if ( $_REQUEST['do'] == 'search' ) {
 			///// searchlight styles
 			wp_enqueue_style( 'opencontractr-searchlight', OPENCONTRACTR_FRONTEND_URL . 'css/searchlight/searchlight.css' );
-			//wp_enqueue_style( 'opencontractr-dynatable', OPENCONTRACTR_FRONTEND_URL . 'css/searchlight/jquery.dynatable.css' );
-			wp_enqueue_style( 'opencontractr-datatable', OPENCONTRACTR_FRONTEND_URL . 'css/searchlight/datatables.min.css' );
+			wp_enqueue_style( 'opencontractr-dynatable', OPENCONTRACTR_FRONTEND_URL . 'css/searchlight/jquery.dynatable.css' );
 			
 			///// searchlight scripts
-			//wp_enqueue_script( 'opencontractr-dynatable', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/jquery.dynatable.js', array( 'jquery' ), '', true);
-			wp_enqueue_script( 'opencontractr-datatable', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/datatables.min.js', array( 'jquery' ), '', true);
+			//wp_enqueue_script( 'custom', get_theme_file_uri( 'assets/js/custom.js' ), array( 'jquery' ), '', true);
+			wp_enqueue_script( 'json-query', OPENCONTRACTR_ABS_URL . 'js/common/json_query.js', array( 'jquery' ), '', true);
+			
+			wp_enqueue_script( 'opencontractr-ocdsdata', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/data/ocds.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'opencontractr-services', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/data/services.js', array( 'jquery' ), '', true);
+			wp_enqueue_script( 'opencontractr-dynatable', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/jquery.dynatable.js', array( 'jquery' ), '', true);
 			wp_enqueue_script( 'opencontractr-searchlight', OPENCONTRACTR_FRONTEND_URL . 'js/searchlight/searchlight.js', array( 'jquery' ), '', true);
 		}
 		
 		//if (is_page('editor')) {
-		if ( isset($_REQUEST['id']) || $_REQUEST['do'] == 'create' || $_REQUEST['do'] == 'import' ) {
+		if ( isset($_REQUEST['id']) || $_REQUEST['do'] == 'create' ) {
 			///// editor styles
 			wp_enqueue_style( 'opencontractr-editor', OPENCONTRACTR_FRONTEND_URL . 'css/editor.css' );
 			wp_enqueue_style( 'opencontractr-datetime-picker-standalone', OPENCONTRACTR_FRONTEND_URL . 'css/bootstrap-datetimepicker-standalone.css');
 			wp_enqueue_style( 'opencontractr-datetime-picker', OPENCONTRACTR_FRONTEND_URL . 'css/bootstrap-datetimepicker.css');
 			wp_enqueue_style( 'opencontractr-select2', OPENCONTRACTR_FRONTEND_URL . 'css/select2.min.css');
-			wp_enqueue_style( 'opencontractr-tooltipster', OPENCONTRACTR_FRONTEND_URL . 'css/tooltipster.min.css');
-			
+			wp_enqueue_style( 'opencontractr-tooltipster', OPENCONTRACTR_FRONTEND_URL . 'css/tooltipster.min.css');			
 			///// editor scripts
 			wp_enqueue_script( 'jquery-ui-core' );
 			wp_enqueue_script( 'jquery-ui-autocomplete' ); // Enqueue jQuery UI and autocomplete
@@ -79,17 +79,44 @@ function opencontractr_frontend_scripts() {
 		
 		if ($_REQUEST['do'] == 'create') {
 			wp_enqueue_style( 'opencontractr-createCss', OPENCONTRACTR_FRONTEND_URL . 'css/style.css');
-			
+		
 			wp_enqueue_script( 'opencontractr-slidingform', OPENCONTRACTR_FRONTEND_URL . 'js/sliding.form.js', array( 'jquery' ), '', true);
-		}
-
-		if ($_REQUEST['do'] == 'import') {
-			wp_enqueue_script( 'opencontractr-ocds-convert', OPENCONTRACTR_ABS_URL . 'js/common/ocds_convert.js', '', '', false);
 		}
 	
 	}
-	
+	wp_enqueue_style(
+			'custom-style',OPENCONTRACTR_FRONTEND_URL . 'css/style.css'
+	);		  	
 }
+
+function my_styles_method() {
+	wp_enqueue_style(
+		'custom-style',
+		OPENCONTRACTR_FRONTEND_URL. '/css/style.css'
+	);
+	$backgroundsettings = get_option('background_options');
+	$color =$backgroundsettings['background_color_code'];
+
+	/*foreach ($backgroundcolor as $backgroundcolors) {
+		$color= $backgroundcolor[background_color_code];
+		print($color);
+	}*/
+    $custom_css = "body
+					{background-color: {$color};}";				
+	wp_add_inline_style( 'custom-style', $custom_css );
+}
+add_action( 'wp_enqueue_scripts', 'my_styles_method' );
+
+function changeFooter(){
+
+	$backgroundsettings = get_option('background_options');
+	$footersettings= $backgroundsettings['background_footer'];
+	$footer='<!-- Copyright --> <div id="copyright"> <ul><li>&copy;'+ print_r($footersettings);+'/li></ul></div> </div><!-- #wrapper --></body></html>';
+
+};
+add_action('wp_footer', 'changeFooter');
+
+
 add_action( 'wp_enqueue_scripts', 'opencontractr_frontend_scripts', 100 );
 
 // disable frontend admin toolbar

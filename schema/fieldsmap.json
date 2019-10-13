@@ -1,74 +1,68 @@
-{
-    "what": {
+[
+    {
         "tab": "What?",
         "title": "What is to be procured?",
         "icon": "fa-cart-plus",
         "description": "The procurement or contracting process begins with the identification of a purchasing need. An organisation (or procurement department) must recognize that a product is needed in order to purchase it. That product can be either a brand new item, or one that is being re-ordered. This section helps you to capture that knowledge by asking you to provide the title of the project/contract, its (potential) tender and, optionally, details of the items to be procured.",
-        "fields": {
-            "planning-budget-project":"Name of the project",
-            "tender-title":"Title of the tender",
-            "tender-description":"Description for the tender",
-            "tender-items":"Items of the tender"
-            }
-    },
-    "for-whom": {
+        "fields": [
+            {"field":"planning-budget-project","description":"Name of the project"},
+            {"field":"tender-title","description":"Title of the tender"},
+                {"field":"tender-description","description":"Description for the tender"},
+                    {"field":"tender-items","description":"Items of the tender"}
+        ]
+    },{
         "tab": "For Whom?",
         "title": "Who is purchasing?",
         "icon": "fa-user",
         "description": "This field takes in the buyer and the procuring entity",
-        "fields": {
-            "buyer":"Buyer Information"
-            }
-    },
-    "from-whom": {
+        "fields": [
+            {"field":"buyer","description":"Buyer Information"}
+        ]
+    },{
         "tab": "From Whom?",
         "title": "Who are the potential suppliers?",
         "icon": "fa-users",
         "description": "",
-        "fields": {
-            "tender-tenderers":"Prospective suppliers / bidders"
-            }
-    },
-    "when": {
+        "fields": [
+            {"field":"tender-tenderers","description":"Prospective suppliers / bidders"}
+        ]
+    },{
         "tab": "When?",
         "title": "What are the relevant dates the purchases will take place?",
         "icon": "fa-calendar",
         "description": "",
-        "fields": {
-            "tender-tenderPeriod":"Proposed period for the tender",
-            "tender-awardPeriod":"Proposed period for the contract to be awarded",
-            "tender-contractPeriod":"Proposed period for the contract"
-            }
-    },
-    "why": {
+        "fields": [
+            {"field":"tender-tenderPeriod","description":"Proposed period for the tender"},
+                {"field":"tender-awardPeriod","description":"Proposed period for the contract to be awarded"},
+                    {"field":"tender-contractPeriod","description":"Proposed period for the contract"}
+        ]
+    },{
         "tab": "Why?",
         "title": "Why is this procurement needed?",
         "icon": "fa-question-circle",
         "description": "",
-        "fields": {
-            "planning-rationale":"Reason for the project"
-            }
-    },
-    "how-much": {
+        "fields": [
+            {"field":"planning-rationale","description":"Reason for the project"}
+        ]
+    },{
         "tab": "How much?",
         "title": "How much will the product/service cost?",
         "icon": "fa-money",
         "description": "",
-        "fields": {
-            "planning-budget-amount":"Amount budgeted",
-            "tender-value":"Value of the project",
-            "tender-minValue":"Minimum value of the project"
-            }
-    },
-    "by-whom": {
+        "fields": [
+            {"field":"planning-budget-amount","description":"Amount budgeted"},
+                {"field":"tender-value","description":"Value of the project"},
+                    {"field":"tender-minValue","description":"Minimum value of the project"}
+        ]
+    },{
         "tab": "By Whom?",
         "title": "Who will be paying?",
         "icon": "fa-credit-card",
         "description": "The procuring entity is the appointed public body engaged and responsible for the purchasing and awarding contracts for goods, services and works. The procuring entity may also be the buyer, depending on who is paying for the contract.",
-        "fields": {
-            "tender-procuringEntity":"Procuring entity",
-            "planning-budget-id":"Budget ID",
-            "planning-budget-description":"Budget description"
-            }
+        "fields": [
+            {"field":"tender-procuringEntity","description":"Procuring entity"},
+                {"field":"planning-budget-id","description":"Budget ID"},
+                    {"field":"planning-budget-description","description":"Budget description"}
+        ]
     }
-}
+]

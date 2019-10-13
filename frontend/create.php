@@ -34,7 +34,8 @@ if ( !is_user_logged_in() ){
 	
 	global $prefix, $publisher, $datapath;
 	$ocid = generate_ocid($prefix, $post_id, 8, $publisher);
-	$fieldsjson = file_get_contents(OPENCONTRACTR_SCHEMA_PATH . 'fieldsmap.json');
+	//$fieldsjson = file_get_contents(OPENCONTRACTR_SCHEMA_PATH . 'fieldsmap.json');
+	$fieldsjson = get_option('_opencontractr_frontpage_tabs');
 	$fields = json_decode($fieldsjson, true);
 		
 	//get_header();
@@ -83,7 +84,7 @@ if ( !is_user_logged_in() ){
 						<span class="title"><?php echo $fields[$key]['title'] ?></span>
 					</legend>
 					<p class="description"><?php echo $fields[$key]['description'] ?></p>
-					
+					<div id="item-<?php echo $key ?>"></div>
 				</fieldset>
 					
 				<?php } ?>

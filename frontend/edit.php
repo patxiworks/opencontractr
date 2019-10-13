@@ -154,6 +154,7 @@ if ( !is_user_logged_in() ){
 			foreach($release_tags as $tag => $value) {
 				echo '<option value="'.$tag.'">'.$value[0].'</option>';
 			}
+			echo '<option value="import" style="display:none">Imported</option>';
 			echo '</select>';
 			?>
 		</span>
@@ -168,7 +169,7 @@ if ( !is_user_logged_in() ){
 				<?php
 				foreach ($ocds_sections as $key=>$section) {
 					$sectionkey = strtolower($section[0]);
-					$sectionvalue = get_post_meta( $contract_post_id, $sectionkey, true );
+					$sectionvalue = get_post_meta( $contract_post_id, $sectionkey, TRUE );
 					if ($sectionvalue) {
 						$mergedsections[$sectionkey] = json_decode($sectionvalue, TRUE);
 					}
@@ -176,13 +177,24 @@ if ( !is_user_logged_in() ){
 						echo '<li><a href="#" data-id="'.$key.'" class="scrolly">'.$key.'</a></li>';
 					}
 				}
+				if (!empty(trim($_REQUEST['importsections'])) && !empty(trim($_REQUEST['importedjson']))) {
+					$importedjson = json_decode(stripslashes($_REQUEST['importedjson']), TRUE);
+					$importsections = explode(',',$_REQUEST['importsections']);
+					foreach ($importsections as $importsection) {
+						if (array_key_exists($importsection, $importedjson) && isset($importedjson[$importsection])) {
+							$mergedsections[$importsection] = array_replace_recursive($mergedsections[$importsection], $importedjson[$importsection]);
+						}
+					}
+				}
 				?>
 				<li class="action">
 					<input type="hidden" id="newform" name="newform" value="true">
 					<input type="button" id="getData" style="display: none">
+					<input type="button" id="importData" class="button import" value="Import">
 					<input type="button" id="saveData" class="button save" value="Save">
+					<a href="#TB_inline?width=650&height=550&inlineId=editimport" class="thickbox import" title="Import OCDS Data" width="0"></a>
 				</li>
-				<li class="action"><span class="open icon fa-arrow-down"></span></li>
+				<li class="action"><span class="open icon fa-gear" title="Extra settings"></span></li>
 			</ul>
 		</div>
 	</nav>
@@ -234,10 +246,85 @@ if ( !is_user_logged_in() ){
 		<textarea id="jsoninput" name="jsoninput" style="display:none"><?php echo json_encode($mergedsections); ?></textarea>
 		<?php data_entry_form(); ?>
 		<?php add_organisation_form(); ?>
+		<div id="editimport" style="display:none">
+			<form action="" method="post" name="importform" id="importform" class="edit-import" enctype="multipart/form-data">
+				<div class="open icon fa-upload fa-2x"></div>
+				<h3>Import data from other sources into this project</h3>
+				<span id="section-check">Choose sections to import:
+				<?php
+					foreach ($ocds_sections as $key=>$section) {
+						if ($key != 'parties' && $key != 'buyer') {
+							echo '&nbsp;<input type="checkbox" name="section[]" value="'.$key.'">'.$section[0];
+						}
+					}
+				?>
+				</span>
+				<hr>
+				<div>
+					<input type="file" name="importfile" id="importfile" class="importfile">
+					<label for="importfile">Select a file...</label>
+				</div>
+				<span>–OR–</span>
+				<div class="importbox">
+					<span>Enter a valid URL</span>
+					<input type="text" name="importurl" id="importurl" class="importurl" placeholder="http://">
+				</div>
+				<button name="importaction" id="importbtn" value="Import it" class="edit-importbtn">Import</button>
+				<br><span class="uploaderror"></span>
+			</form>
+		</div>
 	</div><!-- .content-area -->
 	
 	<?php } // end if $invalid_contract ?>
 	
+	<script>
+			jQuery(document).ready(function($) {
+				$('#importbtn').click(function(e) {
+					e.preventDefault();
+					if( $("#importfile").get(0).files.length == 0 && !$("#importurl").val()){
+						$('.uploaderror').html('Oops! No data source provided.');
+						return false;
+					}
+					if ($("#importurl").val()) {
+						if (!validate($("#importurl").val())) {
+							$('.uploaderror').html('Sorry, the URL is invalid.');
+							return false;
+						}
+					}
+					if ($("#section-check :checkbox:checked").length == 0) {
+						$('.uploaderror').html('Please choose at least one section to import.');
+						return false;
+					}
+					var filedata = $('#importfile').prop('files')[0]
+					var formdata = new FormData();
+					formdata.append('file', filedata);
+					formdata.append('url', $("#importurl").val());
+					formdata.append('sections', $("#section-check :checkbox:checked").val());
+					$.ajax({
+						url: '<?php echo plugin_dir_url(__FILE__) ?>../php/import.php',
+						type: 'POST',
+						data: formdata,
+						processData: false,
+						contentType: false,
+						success: function(response) {
+							data = response.split('|||');
+							if (data[0] == 'error') {
+								$('.uploaderror').html(data[1]);
+							} else {
+								var sections = []
+								$.each($("input[name='section[]']:checked"), function() {
+									sections.push($(this).val());
+								})
+								$('#importsections').val(sections);
+								$('#importedjson').text(data[1]);
+								$('#releasetaglist').val('import'); // non-standard release tag
+								$('#saveData').click();
+							}
+						}
+					});
+				});
+			});
+	</script>
 	<div id="copyright">
 		<ul><li>&copy; Centre for Open Data Research</li></ul>
 	</div>
@@ -251,3 +338,6 @@ if ( !is_user_logged_in() ){
 
 wp_footer();
 ?>
+
+	</body>
+</html>

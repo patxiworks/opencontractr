@@ -61,6 +61,7 @@ qualitycheck = {
                 
                 // put object key (or field) in cell
                 cell_title.addClass('field').html(prop);
+                cell_title.attr('data-field', prop.split('/').join('-'));
                 row.append(cell_title);
                 
                 // split value into cells and fill with values

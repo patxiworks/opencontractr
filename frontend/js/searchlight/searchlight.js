@@ -44,9 +44,103 @@ JSON.unflatten = function (data) {
 	return resultholder[""] || resultholder;
 };
 
-
 //(function($){
 jQuery(document).ready(function($) {
+
+	/********* Tab navigation ***********/
+
+	var filtered = [];
+	var filterfields = {
+		"title": [ 
+		  "planning/budget/project",
+		  "tender/title",
+		  "awards/title",
+		  "contracts/title"
+		],
+		"description": [
+		  "planning/budget/description",
+		  "tender/description",
+		  "awards/description",
+		  "contracts/description"
+		],
+		"procuringentity": [
+		  "buyer/name"
+		],
+		"contractor": [
+		  "awards/suppliers/name"
+		],
+		"amount": [
+		  "contracts/value/amount"
+		],
+		"status": [
+		  "contracts/status",
+		  "awards/status",
+		  "tender/status"
+		],
+		"awarddate": [
+		  "awards/date",
+		],
+		"contractdate": [
+		  "contracts/period/startDate",
+		  "contracts/dateSigned"
+		  //"contracts/period/endDate",
+		]
+	};
+	var amountscheme = {
+		'planning-amount': 'planning/budget/value/amount',
+		'awards-amount': 'awards/value/amount',
+		'contracts-amount': 'contracts/value/amount'
+	};
+	var datescheme = {
+		'tender-start': 'tender/tenderPeriod/startDate',
+		'tender-end': 'tender/tenderPeriod/endDate',
+		'awards-date': 'awards/date',
+		'contract-start': 'contracts/period/startDate',
+		'contract-end': 'contracts/period/endDate',
+		'contract-signed': 'contracts/dateSigned'
+	};
+	var supplierscheme = {
+		'supplier-name': 'awards/suppliers/name'
+	};
+	var singlefields = {
+		'tender-title':'tender/title',
+		'tender-status': 'tender/status'
+	}
+
+	$('.links li.tab').click(function() {
+		if ( !$(this).hasClass('action') ){
+			$('.links li.tab').removeClass('active')
+			$(this).addClass('active');
+			id = $(this).find('a').data('page');
+			currpage = $('article#'+id);
+			if (currpage.length) {
+				$('#main article').hide(); // hide all pages
+				currpage.show().fadeIn(); // display current page
+			}
+		}
+		if ($(this).hasClass('charts')) {
+			// prepare chart
+			var amountfields = getfields(amountscheme, filtered);
+			var amountkeys = getKeyArray(amountfields);
+			
+			var datefields = getfields(datescheme, filtered);
+			var datekeys = getKeyArray(datefields);
+			
+			var supplierfields = getfields(supplierscheme, filtered);
+			var supplierkeys = getKeyArray(supplierfields);
+			
+			chartdata = getfieldvalues(amountscheme, filtered, singlefields);
+			//console.log(JSON.stringify(flattened));
+			
+			$('#chartarea div').each(function(index, item) {
+				// run function from string
+				fn = window["drawChart_"+$(item).attr('id')];
+				if(typeof fn === 'function') {
+					fn(chartdata, $(item).attr('id'));
+				}
+			})
+		}
+	});
 	
 	/********* Assign the flattened json to JsonQuery ***********/
 	
@@ -57,7 +151,7 @@ jQuery(document).ready(function($) {
 		flattened = [];
         var searchitem = $('#searchbox').val();
 		var searchkey = $('#searchby select').val();
-		baseurl = location.href.replace(location.search,'')+'?action=search&post_type=open_contract&';
+		baseurl = location.href.replace(location.search,'').replace('#','')+'?action=search&post_type=open_contract&';
 		if (searchkey == 'all') {
             querystrings = $.map($('#searchby > select > option'), function(a) { return a.value+'='+searchitem; }).join('&');
         } else {
@@ -68,8 +162,8 @@ jQuery(document).ready(function($) {
 		
 		$('.loading').find('span').html('Searching '+(searchitem ? 'for "'+searchitem+'"...' : '...'));
 		$('.loading').css('visibility','visible');
-		
-        $.ajax({
+
+        /*$.ajax({
             url: searchurl,
             type: 'POST',
             success: function(response) {
@@ -79,8 +173,8 @@ jQuery(document).ready(function($) {
 					flattened.push(JSON.flatten(item))
 				});
 				//updateChart2(flattened);
-				//console.log(chartData2)
-				$('#contractslist').dynatable({
+				//console.log(flattened)
+				/*$('#contractslist2').dynatable({
 					dataset: {
 					  records: flattened
 					},
@@ -90,7 +184,6 @@ jQuery(document).ready(function($) {
 					writers: { _rowWriter: function(index, record, columns, cellWriter) {
 						row = '<tr>';
 						var count = 0;
-						//console.log(record)
 						title = getKeyVal('title', record);
 						description = getKeyVal('description', record);
 						contractor = getKeyVal('contractor', record);
@@ -128,11 +221,11 @@ jQuery(document).ready(function($) {
 				  count = flattened.length;
 				}
 				
-				var dynatable = $('#contractslist').data('dynatable');
+				var dynatable = $('#contractslist2').data('dynatable');
 				if (!extraCols) {
 					extraCols = {'amount':['amount','Project Cost'],'status':['status','Project Status'],'contractdate':['contractdate','Contract Year'], 'awarddate':['awarddate','Award Year']};
 					$selectCol = $('<select id="colselect" class="colselect"></select>');
-					$selectCol.insertBefore($('#contractslist'));
+					$selectCol.insertBefore($('#contractslist2'));
 					$.each(extraCols, function(index, item) {
 						$selectCol.append('<option value="'+item[0]+'">'+item[1]+'</option>')
 						dynatable.domColumns.add($('<th class="extra '+item[0]+'">'+item[0]+'</th>'), 1);
@@ -164,7 +257,7 @@ jQuery(document).ready(function($) {
 			        'Contracts': 'contracts/value/amount'
 			    }
 			    var amountfields = getfields(amountscheme);
-			    var amountkeys = getKeyArray(amountfields);
+				var amountkeys = getKeyArray(amountfields);
 			    normaliseRecord(amountkeys, flattened);
 			    
 			    var datescheme = {
@@ -212,7 +305,7 @@ jQuery(document).ready(function($) {
 				//showCharts();
 			    
 			    function showCharts() {
-			        var data = flattened;
+					var data = flattened;
 			        // X axis slider
 			        $('.top').show();
 			        drawChart(flattened);
@@ -241,7 +334,7 @@ jQuery(document).ready(function($) {
 
 			            }
 			        }
-			        console.log(datum)
+			        //console.log(datum)
 			        
 			        return datum;
 			    }
@@ -321,9 +414,82 @@ jQuery(document).ready(function($) {
                     });
                 });
 			
-            }
-        });
-    });
+			}
+		});*/
+		var table;
+		$.ajax({
+            url: searchurl,
+            type: 'POST',
+            success: function(response) {
+				$('.loading').css('visibility','hidden');
+				contracts = JSON.parse(response);
+                $.each(contracts['releases'], function(index, item) {
+					flattened.push(JSON.flatten(item))
+				});
+				// update notice
+				var formated_json = JSON.stringify(flattened, undefined, 2);
+				updateResult("Found a total of " + flattened.length +  ' contracts ', formated_json);
+				function isNullOrWhiteSpace(str) {
+					return (!str || str.length === 0 || /^\s*$/.test(str))
+				}
+				table = $('#contractslist').DataTable({
+					destroy: true,
+					data: flattened,
+					columns: [{
+						data: 'main',
+						render: function ( data, type, record ) {
+							title = getKeyVal('title', record);
+							description = getKeyVal('description', record);
+							contractor = getKeyVal('contractor', record);
+							procuringEntity = getKeyVal('procuringentity', record);
+							value = '<a href="'+record['post-url']+'" class="title">'+(!isNullOrWhiteSpace(title[1]) ? title[1] : 'n/a')+'</a>';
+							value += '<table class="insetdata"><tr><td class="main">';
+							value += '<small><span class="label">Description</span>: '+(!isNullOrWhiteSpace(description[1]) ? description[1] : 'n/a')+'</small>';
+							value += '<br><small><span class="label">Procuring Entity</span>: '+(!isNullOrWhiteSpace(procuringEntity[1]) ? procuringEntity[1] : 'n/a')+'</small>';
+							value += '<br><small><span class="label">Contractor</span>: '+(!isNullOrWhiteSpace(contractor[1]) ? contractor[1] : 'n/a')+'</small>';
+							value += '</td><td class="sub">';
+							value += '<small><span class="label">Cost</span>: '+displayVal('amount', record)+'</small>';
+							value += '<br><small><span class="label">Contract Date</span>: '+displayVal('contractdate', record)+'</small>';
+							value += '<br><small><span class="label">Award Date</span>: '+displayVal('awarddate', record)+'</small>';
+							value += '<br><small><span class="label">Status</span>: '+displayVal('status', record)+'</small>';
+							value += '</td></tr></table>';
+							editcontract = isloggedin ? '|<a href="?id='+record['post-id']+'" target="_blank">Edit this contract</a>' : '';
+							value += '<input type="hidden" name="ocid" id="ocid" value="'+record['ocid']+'"><span class="action">Download: <a href="'+record['post-url']+'?action=download&type=csv">CSV</a>|<a href="'+record['post-url']+'?action=download&type=json">JSON</a>'+editcontract+'</span>';
+							return value;
+						}
+					}]
+					
+				}); // end datatable
+
+				$(table.columns(0).header()).html(''); //remove column title
+				
+				table.on('search.dt', function() {
+					//number of filtered rows
+					filteredcount = table.rows( {filter : 'applied'} ).nodes().length;
+					//filtered rows data as arrays
+					allfiltered = table.rows( {filter : 'applied'} ).data();
+					filtered = [];
+					for (i=1; i<filteredcount; i++) {
+						filtered.push(allfiltered[i])
+					}
+					$('#result-sub-title').html('(filtered: '+filtered.length+')')
+				});
+
+				var tableData = filtered.length ? filtered : flattened;
+
+				// datatables error reporting
+				$.fn.dataTable.ext.errMode = 'none';
+				table.on( 'error.dt', function (e, settings, techNote, message) {
+					console.log( 'An error has been reported by DataTables: ', message );
+				});
+				
+				$('#scrollbtn').click();
+				$('#resulthead, #resultwrap, #visualwrap').show(); 
+			}
+			
+		}); // end ajax
+
+	}); // end searchbtn click
 	
 	function getKeyVal(filteritem, record) {
 		var allkeys = [], keyval = [], keyExists = false;
@@ -353,14 +519,14 @@ jQuery(document).ready(function($) {
 					keyroot.push('currency');
 					return record[keyroot.join('/')]+' '+keyval[1];
                 } else {
-					return '[Nil]';
+					return 'n/a';
 				}
 			break;
 			case 'status':
 				if (keyval[1]) {
                     return keyval[1]+' ('+keyval[0].split('/')[0].replace(/\[.*?\]/g,'')+')';
                 } else {
-					return '[None]';
+					return 'n/a';
 				}
 			break;
 			case 'contractdate':
@@ -369,13 +535,71 @@ jQuery(document).ready(function($) {
 				if ( !isNaN(d) ) {
                     return d.getFullYear();
                 } else {
-					return '[No date]';
+					return 'n/a';
 				}
 			break;
 			default:
 				return keyval[1];
         }
-    }
+	}
+	
+	function getfields(scheme, data) {
+		var fields = [];
+		for (var key in scheme) {
+			fields[key] = getQueryFields(scheme[key], data);
+		}
+		//console.log(fields)
+		return fields;
+	}
+
+	function getfieldvalues(scheme, data, others) {
+		var fields = getfields(scheme, data);
+		// loop through values of array
+		var rows = []
+		data.forEach(function(datum, index) {
+			row = {};
+			for (item in fields) {
+				values = [];
+				for (i=0; i<fields[item].length; i++) {
+					// get the value from the full dataset
+					values.push(datum[fields[item][i]]);
+				}
+				sum = values.reduce((partial_sum, a) => !isNaN(a) ? partial_sum + a : partial_sum, 0);
+				row[item] = sum;
+				for (other in others) {
+					row[other] = datum[others[other]] ? datum[others[other]] : '[none]';
+				}
+			}
+			rows.push(row);
+		});
+		return rows;
+	}
+
+	function prepareData(data, fields) {
+		var datum = [];
+		for (var name in fields) {
+			if (fields.hasOwnProperty(name)) {
+				values = [];
+				key = {};
+				key['key'] = name;
+				data.forEach(function(item, index) {
+					// sum the list of possible keys in each object i.e. for example, contracts[0] + contracts[1] etc.
+					var arrsum = fields[name].reduce(function(a, b) {return a+item[b]}, 0);
+					values.push({
+						"x": item['tender/title'],
+						"y": arrsum
+						//"z": supplierkeys.map(function(skey) {return item[skey]})
+					});
+				})
+				key['values'] = values;
+				datum.push(key);
+
+			}
+		}
+		//console.log(datum)
+		
+		return datum;
+	}
 	
 	/********* Utility functions ***********/
     
@@ -462,15 +686,14 @@ jQuery(document).ready(function($) {
 	}
 	
 	
-	function updateResult(title, result, error) {
+	function updateResult(title, inner, result, error) {
 		var $ele = $("#result");
 	  
-		if(!error){
-		  $ele.find('#result-title').text(title);
-		  //$ele.find('pre').text(result);
-		}else{
-		  $ele.find('#result-title').text('');
-		  $ele.find('pre').html("<div class='alert alert-danger'> ERROR:" + error.message + "</div>");
+		if (!error) {
+		  	$ele.find('#result-title').text(title);
+		} else {
+		  	$ele.find('#result-title').text('');
+		  	$ele.find('pre').html("<div class='alert alert-danger'> ERROR:" + error.message + "</div>");
 		}
 	  
 		$ele.fadeOut().fadeIn();
@@ -564,7 +787,7 @@ jQuery(document).ready(function($) {
 	
 	function editOCDS(el) {
         alert($(el).val())
-    }
+	}
 	
 	
 });

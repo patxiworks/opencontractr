@@ -60,7 +60,7 @@
 #resultwrap {
 	padding: 3rem 4rem 4rem 4rem !important;
 }
-#resultwrap, #visualwrap {
+#resultwrap, #visualwrap, #charts {
 	display: none;
 }
 #resultwrap select {
@@ -69,13 +69,15 @@
 }
 #resultwrap select.colselect {
 	float: right;
+	margin-bottom: -40px;
 }
 
 #resultwrap select,
 #resultwrap select.colselect,
 #resultwrap input[type='search'] {
 	border: 1px solid #999;
-    box-shadow: 0 1px 0px rgba(0,0,0,.2);
+	box-shadow: 0 1px 0px rgba(0,0,0,.2);
+	padding: 0px 10px;
 }
 
 #resultwrap .dynatable-pagination-links {
@@ -96,12 +98,13 @@
 	line-height: 25px !important;
 	padding: 30px 10px;
 }
-#contractslist td.main-title {
+#contractslist td.main-title, #contractslist td.sorting_1, {
 	width: 85%;
 }
-#contractslist td.extra {
+#contractslist td.props {
 	font-size: 0.9em;
 	text-align: right;
+	display: none;
 }
 #contractslist a.title {
 	border: none !important;
@@ -117,11 +120,16 @@
 #contractslist small .label {
 	font-weight: bold;
 }
-#dynatable-search-contractslist.dynatable-search {
-	display: block;
+.dataTables_length {
+	/*float: none !important;*/
+}
+#dynatable-search-contractslist.dynatable-search,
+#contractslist_filter.dataTables_filter {
+	/*display: block;
     text-align: center;
 	float: none !important;
 	margin-bottom: -35px;
+	margin-top: -60px;*/
 }
 #dynatable-search-contractslist.dynatable-search input {
 	padding: 0 10px;
@@ -130,6 +138,7 @@
 
 table#contractslist {
 	margin-top: 3rem;
+	width: 100% !important;
 }
 
 table#contractslist  tbody tr:nth-child(2n + 1) {
@@ -137,6 +146,29 @@ table#contractslist  tbody tr:nth-child(2n + 1) {
     border-left: 1px solid #ccc;
     border-bottom: 1px solid #999;
     border-right: 1px solid #ccc;
+}
+
+table#contractslist table.insetdata,
+table#contractslist table.insetdata tbody tr {
+	border: none !important;
+	background-color: transparent !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+table#contractslist table.insetdata td {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+table#contractslist table.insetdata td.main {
+	width: 70%;
+	padding-right: 10px !important;
+}
+
+table#contractslist table.insetdata td.sub {
+	border-left: 1px solid #ccc5c5;
+	padding-left: 10px !important;
 }
 
 form#contract_edit_form {
@@ -156,6 +188,16 @@ span.action a {
 	margin: 0 0.3rem;
 }
 
+span.action a:hover {
+	text-decoration: none !important;
+}
+
+span.action {
+	font-size: 0.8em;
+	font-weight: bold;
+	color: #ff0000;
+}
+
 
 .searchlight #header {
 	padding: 8rem 0 0 0;
@@ -165,4 +207,31 @@ span.action a {
 }
 .searchlight #copyright {
 	margin: 2rem auto 2rem auto !important;
+}
+
+
+/******** Charts *********/
+
+#chartarea div {
+	height: 300px;
+	margin: 20px 0;
+}
+#chartarea #chart1 {
+	
+}
+
+#chartarea #chart2 {
+	width: 50%;
+    text-align: left;
+    float: left;
+}
+
+#chartarea #chart3 {
+	width: 50%;
+    text-align: right;
+    float: right;
+}
+
+#chartarea #chart4 {
+	clear: both;
 }

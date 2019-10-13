@@ -102,7 +102,7 @@ textarea {
 	cursor: pointer;
     position: absolute;
     right: 10px;
-	margin-top: 20px;
+	/*margin-top: 20px;*/
 }
 
 #nav ul.links li.action {
@@ -201,12 +201,20 @@ textarea {
     z-index: 3;
 }
 
-#nav input.button.save {
+#nav input.button.save, #nav input.button.import {
 	position: absolute;
 	right: 30px;
 	background-color: #fff;
 	border: 1px solid #000;
 	margin: 8px 10px 0 0;
+}
+
+#nav input.button.import {
+	right: 140px;
+}
+
+#nav a.thickbox.import {
+	border: none;
 }
 
 /* Form elements */
@@ -302,7 +310,8 @@ form input, form select, form textarea,
 #TB_window input, #TB_window select, #TB_window textarea {
 	border-top: 0px !important;
 	border-radius: 0 0 5px 5px;
-    background: #fff !important;
+	background: #fff !important;
+	resize: vertical;
 }
 
 form table.array td.item-value {
@@ -485,4 +494,131 @@ form .select2-selection.shadow,
 
 #subheader .select2-selection__arrow {
     display: none;
+}
+
+
+/****** Import Page ********/
+
+#importform {
+	display: block;
+	text-align: center;
+	padding: 0 0 30px;
+}
+
+#importform h2, #importform p {
+	text-align: center;
+	margin: 0;
+}
+
+#importform p {
+	margin: 0 0 15px;
+}
+
+#importform hr {
+	margin: 20px;
+    border: 1px dashed #666;
+}
+
+.importfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.importfile + label {
+	padding: 10px;
+    font-size: 1.25em;
+    font-weight: 700;
+    color: #008751;
+    background-color: #fff;
+	display: block;
+	text-transform: none;
+	border: none;
+}
+
+.importfile:focus + label,
+.importfile + label:hover {
+    color: #008751;
+}
+
+.importfile + label {
+	cursor: pointer;
+	letter-spacing: normal;
+}
+
+.importfile + label * {
+	pointer-events: none;
+}
+
+.importfile + label small {
+	color: #cecccc;
+}
+
+input[type="button"].importbtn {
+	margin: 10px 0;
+	border-radius: 5px;
+	background: #000 !important;
+	color: #fff !important;
+}
+
+input[type="button"].importbtn:hover {
+	color: #008751 !important;
+}
+
+.importurlbox {
+	text-align: center;
+	margin: 10px 0;
+}
+
+input.importurl {
+	border: none;
+    border-bottom: 0px solid #867979;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 1em;
+    font-weight: 700;
+    color: #008751;
+}
+
+input.importurl::placeholder {
+	color: #008751 !important;
+	font-weight: bold;
+	opacity: 0.5;
+}
+
+.uploaderror {
+	color: #ff0000;
+}
+
+div.icon.fa-upload {
+	margin: 0.8rem 0 1rem;
+}
+
+form.edit-import .importfile + label {
+	margin: 0 0 20px;
+	padding: 10px;
+    font-size: 1.25em;
+	font-weight: 600;
+}
+
+form.edit-import .importbox {
+	margin: 30px 0 20px;
+}
+
+form.edit-import input.importurl {
+	border-top: 1px solid #000 !important;
+	border: 2px solid #eee !important;
+	box-shadow: 2px 6px 6px -6px #ccc inset;
+	border-radius: 0px !important;
+	text-align: left !important;
+}
+
+form button.edit-importbtn {
+	background-color: #000 !important;
+	color: #fff !important;
+	margin: 20px 0 10px;
+	border-radius: 4px;
 }

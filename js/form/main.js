@@ -95,8 +95,8 @@ function renderSchema(schema) {
             d = new Date();
             n = d.toISOString();
             output['date'] = n
-            console.log(input)
-            console.log(output)
+            //console.log(input)
+            //console.log(output)
             if(!_.isEqual(output, input)) { // _.isEqual function is from lodash.min.js
                 strOutput = JSON.stringify(output)
                 strData = JSON.stringify(input)
@@ -133,7 +133,7 @@ function renderSchema(schema) {
 function updateFile( releaseid, updatedjson, originaljson, ocdsmeta, mda, action ) {
     append_mda = (mda=='') ? '' : mda+"/"
     urlpath = "/"+action+"/"+releaseid+"/"+append_mda;
-    console.log(urlpath)
+    //console.log(urlpath)
     $.ajax({
         type: "POST",
         //contentType: "application/json",
@@ -609,7 +609,7 @@ function checkMandatoryFields(container, section) {
           if (!$(this).val()) {
             $(this).addClass('validation-error')
             error++;
-            console.log($(this).parent().html())
+            //console.log($(this).parent().html())
           }
         })
         inputfield.bind('keyup change', function() {
@@ -622,7 +622,7 @@ function checkMandatoryFields(container, section) {
 function checkInvalidField(container, datapath) {
     if (datapath) {
         inputdiv = $(container).find("div[data-path='"+datapath+"']");
-        console.log(inputdiv.length, datapath, $(container))
+        //console.log(inputdiv.length, datapath, $(container))
         if (inputdiv.length) {
             $('html,body').animate({ scrollTop: inputdiv.offset().top }, 'fast');
             inputdiv.effect('highlight', {}, 2000)
@@ -910,7 +910,7 @@ function saveItem(item, datapath, fieldcount, fieldname) {
 		Title: fieldname,
 		Description: releaseid
 	}
-	console.log(data)
+	//console.log(data)
 	$.ajax({
 		data: JSON.stringify(data),
 		stringifyData: true,

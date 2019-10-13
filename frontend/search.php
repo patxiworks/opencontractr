@@ -32,10 +32,6 @@
 				<?php //if (!is_home()) { ?>
 				<!-- Intro -->
 					<div id="intro">
-						<!--<select id="countrylist">
-							<option value="nigeria">Nigeria</option>
-							<option value="nigeria">Kenya</option>
-						</select>-->
 						<span><?php echo $publisher_options['publisher_name'] ?></span>
 						<h1>OpenContract<span style="color:#008751">r</span></h1>
 						<div id="searcharea">
@@ -80,10 +76,11 @@
 					<header id="resulthead">
 							<nav id="nav">
 								<ul class="links">
-									<li class="active"><a href="#title_header" id="list" class="active scrolly">Search results</a></li>
+									<li class="tab active"><a href="#title_header" data-page="resultwrap" class="active scrolly">Search results</a></li>
+									<li class="tab charts"><a href="#title_header" data-page="charts" class="scrolly">Charts</a></li>
 									<li>
 										<div id="result" class='result'>
-											<span id="result-title"></span>
+											<span id="result-title"></span><span id="result-sub-title"></span>
 										</div>
 									</li>
 									<li>
@@ -94,9 +91,17 @@
 					</header>
 					
 					<div id="main">
-						<article id="resultwrap" class="post featured page" data-page="list">
+						<article id="resultwrap" class="post featured page">
 							
 							<table id="contractslist" class="contractslist">
+							  <thead>
+								<tr>
+								<th>main</th>
+								</tr>
+							  </thead>
+							</table>
+
+							<table id="contractslist2" class="contractslist2">
 							  <thead>
 								<th></th>
 							  </thead>
@@ -104,6 +109,22 @@
 							  </tbody>
 							</table>
 							
+						</article>
+						<article id="charts" class="post featured page">
+							<div id="chartarea">
+								<div id="chart1">
+								<?php blazing_charts_insert(array("charttype" => "d3","source" => "c3-bar-chart", "options" => "c3", "target"=>"chart1")) ?>
+								</div>
+								<div id="chart2">
+								<?php blazing_charts_insert(array("charttype" => "d3","source" => "c3-pie-chart", "options" => "c3", "target"=>"chart2")) ?>
+								</div>
+								<div id="chart3">
+								<?php blazing_charts_insert(array("charttype" => "d3","source" => "c3-pie-chart", "options" => "c3", "target"=>"chart3")) ?>
+								</div>
+								<div id="chart4">
+								<?php blazing_charts_insert(array("charttype" => "d3","source" => "c3-bar-chart", "options" => "c3", "target"=>"chart4")) ?>
+								</div>
+							</div>
 						</article>
 					</div>
 

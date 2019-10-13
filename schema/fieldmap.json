@@ -1,0 +1,60 @@
+{
+    "title": "Tab#1",
+    "type": "object",
+    "properties": {
+      "tab": {
+        "type": "string",
+        "title": "Name of tab"
+      },
+      "title": {
+        "type": "string",
+        "title": "Title of page"
+      },
+      "icon": {
+        "type": "string",
+        "title": "Font-awesome icon for page"
+      },
+      "description": {
+        "type": "string",
+        "title": "Page description"
+      },
+      "fields": {
+        "type": "array",
+        "format": "table",
+        "title": "Fields",
+        "uniqueItems": true,
+        "items": {
+          "type": "object",
+          "title": "Field",
+          "properties": {
+            "field": {
+              "type": "string",
+              "title": "Field name",
+              "enum": [
+                "planning-budget-id",
+                "planning-budget-project",
+                "planning-budget-description",
+                "planning-rationale",
+                "planning-budget-amount",
+                "tender-title",
+                "tender-description",
+                "tender-value",
+                "tender-minValue",
+                "tender-items",
+                "buyer",
+                "tender-procuringEntity",
+                "tender-tenderers",
+                "tender-tenderPeriod",
+                "tender-awardPeriod",
+                "tender-contractPeriod"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "title": "Description"
+            }
+          }
+        }
+      }
+    }
+  }
